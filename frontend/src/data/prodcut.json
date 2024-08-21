@@ -1,0 +1,12 @@
+[
+    { "id": 1, "name": "Breeze Detergent", "price": 18.00 }, 
+    { "id": 2, "name": "Ariel Detergent", "price": 18.00 },
+    { "id": 3, "name": "Surf Detergent", "price": 18.00 },
+    { "id": 4, "name": "Smart Detergent", "price": 18.00 },
+    { "id": 5, "name": "Generic Bottled Detergent", "price": 10.00 }, 
+    { "id": 6, "name": "Small Downy Fabcon", "price": 8.00 },
+    { "id": 7, "name": "Big Downy Fabcon", "price": 12.00 },
+    { "id": 8, "name": "Small Surf Fabcon", "price": 8.00 },
+    { "id": 9, "name": "Big Surf Fabcon", "price": 12.00 },
+    { "id": 10, "name": "Generic Bottled Fabcon", "price": 5.00 }    
+]

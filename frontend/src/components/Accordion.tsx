@@ -6,7 +6,19 @@ import Typography from '@mui/material/Typography';
 // import {ExpandMoreIcon} from '@mui/icons-material';
 import { MdExpandMore } from "react-icons/md";
 import { TypographyStyled } from './Accordion.style';
-import { Box, FormControl, FormControlLabel, FormGroup, Switch, TextField } from '@mui/material';
+import { Box, FormControl, FormControlLabel, FormGroup, MenuItem, Switch, TextField } from '@mui/material';
+import products from '../data/prodcut.json'
+
+
+type ProductType = {
+    id: number;
+    name: string;
+    price: number;
+}
+
+function filterItems(arr: ProductType[], query: string): ProductType[] {
+    return arr.filter((el) => el.name.includes(query));
+}
 
 
 export type SalesTransType = {
@@ -23,20 +35,21 @@ export type SalesTransType = {
     d4: boolean;
     d5: boolean;
     detergent?: {
-        name: string | null;
-        count: number | null;
+        name: string ;
+        count: number ;
     };
     fabCon?: {
-        name: string | null;
-        count: number | null;
+        name: string ;
+        count: number ;
     }
-    extraDry?: number | null;
-    folds?: number | null;
-    spinDry?: number | null;
+    extraDry?: number ;
+    folds?: number ;
+    spinDry?: number;
 }
 
 
 export default function ControlledAccordions() {
+
     const [expanded, setExpanded] = React.useState<string | false>(false);
 
     const [formData, setFormData] = React.useState<SalesTransType>({
@@ -53,25 +66,37 @@ export default function ControlledAccordions() {
         d4: false,
         d5: false,
         detergent: {
-            name: null,
-            count: null,
+            name: '',
+            count: 0,
         },
         fabCon: {
-            name: null,
-            count: null,
+            name: "",
+            count: 0,
         },
-        extraDry: null,
-        folds: null,
-        spinDry: null
+        extraDry: 0,
+        folds: 0,
+        spinDry: 0
     })
 
     const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, extraDry, folds, spinDry } = formData
 
-    
-
     const [chkExtraDry, setChkExtraDry] = React.useState(false)
     const [chkFolds, setChkFolds] = React.useState(false)
     const [chkSpinDry, setChkSpinDry] = React.useState(false)
+
+    const [detergentProducts, setDetergentProducts] = React.useState<ProductType[]>(products)
+    const [fabconProducts, setFabconProducts] = React.useState<ProductType[]>(products)
+
+    React.useEffect(() => {
+        const detergentProducts = filterItems(products, "Detergent")
+        console.log(detergentProducts)
+        setDetergentProducts(detergentProducts)
+        const fabConProducts = filterItems(products, "Fabcon")
+        console.log(fabConProducts)
+        setFabconProducts(fabConProducts)
+    }, [])
+
+
 
     // Accordion
     const handleChange =
@@ -105,9 +130,9 @@ export default function ControlledAccordions() {
     return (
         <div >
 
-            <FormControl component="fieldset" variant="standard" sx={{minWidth:'100%'}}>
+            <FormControl component="fieldset" variant="standard" sx={{ minWidth: '100%' }}>
                 <FormGroup sx={{ paddingBottom: '5rem' }} >
-                    <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                    <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} >
                         <AccordionSummary
                             expandIcon={<MdExpandMore />}
                             aria-controls="panel1bh-content"
@@ -181,6 +206,7 @@ export default function ControlledAccordions() {
                                             <Switch checked={w3} onChange={onChange} name="w3" />
                                         }
                                         label="W3"
+
                                     />
                                 </div>
                                 <div>
@@ -206,6 +232,7 @@ export default function ControlledAccordions() {
                             expandIcon={<MdExpandMore />}
                             aria-controls="panel3bh-content"
                             id="panel3bh-header"
+                            
                         >
                             <TypographyStyled >
                                 Dryers
@@ -222,6 +249,7 @@ export default function ControlledAccordions() {
                                             <Switch checked={d1} onChange={onChange} name="d1" />
                                         }
                                         label="D1"
+
                                     />
                                 </div>
                                 <div>
@@ -230,6 +258,7 @@ export default function ControlledAccordions() {
                                             <Switch checked={d2} onChange={onChange} name="d2" />
                                         }
                                         label="D2"
+                                        
                                     />
                                 </div>
                                 <div>
@@ -238,6 +267,7 @@ export default function ControlledAccordions() {
                                             <Switch checked={d3} onChange={onChange} name="d3" />
                                         }
                                         label="D3"
+                                        
                                     />
                                 </div>
                                 <div>
@@ -246,14 +276,17 @@ export default function ControlledAccordions() {
                                             <Switch checked={d4} onChange={onChange} name="d4" />
                                         }
                                         label="D4"
+                                        
                                     />
                                 </div>
 
                                 <FormControlLabel
+
                                     control={
-                                        <Switch checked={d5} onChange={onChange} name="d5" />
+                                        <Switch checked={d5} onChange={onChange} name="d5"  />
                                     }
                                     label="D5"
+                                    
                                 />
                             </Box>
                         </AccordionDetails>
@@ -269,7 +302,37 @@ export default function ControlledAccordions() {
                         </AccordionSummary>
                         <AccordionDetails>
                             <Box sx={{ mb: '1rem' }}>
-                                
+                                <TextField
+                                    id="detergent"
+                                    select
+                                    label="Detergent"
+                                    defaultValue=""
+                                    helperText="Please select your detergent"
+                                >
+                                    {detergentProducts.map((product) => (
+                                        <MenuItem key={product.id} value={product.name}>
+                                            {product.name}: <span>&#8369;</span>{product.price}.00
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+
+                            </Box>
+
+                            <Box sx={{ mb: '1rem' }}>
+                                <TextField
+                                    id="fabcon"
+                                    select
+                                    label="Fab Con"
+                                    defaultValue=""
+                                    helperText="Please select your fab con"
+                                >
+                                    {fabconProducts.map((product) => (
+                                        <MenuItem key={product.id} value={product.name}>
+                                            {product.name}: <span>&#8369;</span>{product.price}.00
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+
                             </Box>
 
                         </AccordionDetails>
@@ -311,6 +374,7 @@ export default function ControlledAccordions() {
                                         <Switch checked={chkFolds} onChange={onChangeFolds} name="chkFolds" />
                                     }
                                     label="With Folds"
+                                    
                                 />
                                 <TextField
                                     type='number'
@@ -330,6 +394,7 @@ export default function ControlledAccordions() {
                                         <Switch checked={chkSpinDry} onChange={onChangeSpinDry} name="chkFolds" />
                                     }
                                     label="Spin Dry"
+                                    
                                     sx={{ pr: '0.8rem' }}
                                 />
                                 <TextField
