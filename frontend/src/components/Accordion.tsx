@@ -35,15 +35,15 @@ export type SalesTransType = {
     d4: boolean;
     d5: boolean;
     detergent?: {
-        name: string ;
-        count: number ;
+        name: string;
+        count: number;
     };
     fabCon?: {
-        name: string ;
-        count: number ;
+        name: string;
+        count: number;
     }
-    extraDry?: number ;
-    folds?: number ;
+    extraDry?: number;
+    folds?: number;
     spinDry?: number;
 }
 
@@ -78,7 +78,7 @@ export default function ControlledAccordions() {
         spinDry: 0
     })
 
-    const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, extraDry, folds, spinDry } = formData
+    const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry } = formData
 
     const [chkExtraDry, setChkExtraDry] = React.useState(false)
     const [chkFolds, setChkFolds] = React.useState(false)
@@ -87,12 +87,15 @@ export default function ControlledAccordions() {
     const [detergentProducts, setDetergentProducts] = React.useState<ProductType[]>(products)
     const [fabconProducts, setFabconProducts] = React.useState<ProductType[]>(products)
 
+    console.log(formData)
+
     React.useEffect(() => {
+        // filter all detergent products from product.json
         const detergentProducts = filterItems(products, "Detergent")
-        console.log(detergentProducts)
         setDetergentProducts(detergentProducts)
+
+        // filter all fab con products from product.json
         const fabConProducts = filterItems(products, "Fabcon")
-        console.log(fabConProducts)
         setFabconProducts(fabConProducts)
     }, [])
 
@@ -107,9 +110,46 @@ export default function ControlledAccordions() {
     // Form    
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { type, name, checked, value } = e.target
-
+        console.log('value - ', value)
+        console.log('name - ', name)
         setFormData((prevState) => {
             return { ...prevState, [name]: type === 'checkbox' ? checked : value }
+        })
+    }
+
+    const onChangeProdDetName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        // split the name until period and get the next
+        // or just create another function for number
+        setFormData((prevState) => {
+            return { ...prevState, [name]: { ...prevState.detergent, 'name': value } }
+        })
+    }
+
+    const onChangeProdFabconName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        // split the name until period and get the next
+        // or just create another function for number
+        setFormData((prevState) => {
+            return { ...prevState, [name]: { ...prevState.fabCon, 'name': value } }
+        })
+    }
+
+    const onChangeProdDetCount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        // split the name until period and get the next
+        // or just create another function for number
+        setFormData((prevState) => {
+            return { ...prevState, [name]: { ...prevState.detergent, 'count': value } }
+        })
+    }
+
+    const onChangeProdFabconCount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        // split the name until period and get the next
+        // or just create another function for number
+        setFormData((prevState) => {
+            return { ...prevState, [name]: { ...prevState.fabCon, 'count': value } }
         })
     }
 
@@ -232,7 +272,7 @@ export default function ControlledAccordions() {
                             expandIcon={<MdExpandMore />}
                             aria-controls="panel3bh-content"
                             id="panel3bh-header"
-                            
+
                         >
                             <TypographyStyled >
                                 Dryers
@@ -258,7 +298,7 @@ export default function ControlledAccordions() {
                                             <Switch checked={d2} onChange={onChange} name="d2" />
                                         }
                                         label="D2"
-                                        
+
                                     />
                                 </div>
                                 <div>
@@ -267,7 +307,7 @@ export default function ControlledAccordions() {
                                             <Switch checked={d3} onChange={onChange} name="d3" />
                                         }
                                         label="D3"
-                                        
+
                                     />
                                 </div>
                                 <div>
@@ -276,17 +316,17 @@ export default function ControlledAccordions() {
                                             <Switch checked={d4} onChange={onChange} name="d4" />
                                         }
                                         label="D4"
-                                        
+
                                     />
                                 </div>
 
                                 <FormControlLabel
 
                                     control={
-                                        <Switch checked={d5} onChange={onChange} name="d5"  />
+                                        <Switch checked={d5} onChange={onChange} name="d5" />
                                     }
                                     label="D5"
-                                    
+
                                 />
                             </Box>
                         </AccordionDetails>
@@ -301,13 +341,17 @@ export default function ControlledAccordions() {
                             <TypographyStyled>Detergent & Fab Con</TypographyStyled>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Box sx={{ mb: '1rem' }}>
+                            <Box sx={{ mb: '2rem' }}>
                                 <TextField
                                     id="detergent"
                                     select
                                     label="Detergent"
                                     defaultValue=""
                                     helperText="Please select your detergent"
+                                    value={detergent?.name}
+                                    onChange={onChangeProdDetName}
+                                    name='detergent'
+                                    sx={{mb:'0.75rem', mr:'0.5rem'}}
                                 >
                                     {detergentProducts.map((product) => (
                                         <MenuItem key={product.id} value={product.name}>
@@ -315,6 +359,19 @@ export default function ControlledAccordions() {
                                         </MenuItem>
                                     ))}
                                 </TextField>
+
+                                <TextField
+                                    type='number'
+                                    id="countDet"
+                                    label="Detergent Count"
+                                    // defaultValue={detergent?.count}
+                                    value={detergent?.count}
+                                    name='detergent'
+                                    onChange={onChangeProdDetCount}
+                                    disabled={detergent?.name === '' ? false : true}
+                                    sx={{ width: '12rem', }}
+
+                                />
 
                             </Box>
 
@@ -325,6 +382,10 @@ export default function ControlledAccordions() {
                                     label="Fab Con"
                                     defaultValue=""
                                     helperText="Please select your fab con"
+                                    value={fabCon?.name}
+                                    onChange={onChangeProdFabconName}
+                                    name='fabCon'
+                                    sx={{mb: '0.75rem', mr:'0.5rem'}}
                                 >
                                     {fabconProducts.map((product) => (
                                         <MenuItem key={product.id} value={product.name}>
@@ -332,6 +393,19 @@ export default function ControlledAccordions() {
                                         </MenuItem>
                                     ))}
                                 </TextField>
+
+                                <TextField
+                                    type='number'
+                                    id="countFab"
+                                    label="Fab Con Count"
+                                    // defaultValue={detergent?.count}
+                                    value={fabCon?.count}
+                                    name='fabCon'
+                                    onChange={onChangeProdFabconCount}
+                                    disabled={detergent?.name === '' ? false : true}
+                                    sx={{ width: '12rem', }}
+
+                                />
 
                             </Box>
 
@@ -374,7 +448,7 @@ export default function ControlledAccordions() {
                                         <Switch checked={chkFolds} onChange={onChangeFolds} name="chkFolds" />
                                     }
                                     label="With Folds"
-                                    
+
                                 />
                                 <TextField
                                     type='number'
@@ -394,7 +468,7 @@ export default function ControlledAccordions() {
                                         <Switch checked={chkSpinDry} onChange={onChangeSpinDry} name="chkFolds" />
                                     }
                                     label="Spin Dry"
-                                    
+
                                     sx={{ pr: '0.8rem' }}
                                 />
                                 <TextField
