@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 const { generateToken } = require("./utilControllers/generateToken");
+
 // @desc -      registers a user
 // @route -     /api/users
 // @access -    public
@@ -40,8 +41,8 @@ const registerUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } else {
-    res.send(400);
-    throw new Error("Failed to register new user.");
+    res.status(400);
+    throw new Error("Failed to input sales transaction.");
   }
 });
 
@@ -50,7 +51,6 @@ const registerUser = asyncHandler(async (req, res) => {
 // @access -    public
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
   const user = await User.findOne({ email });
 
   if (user && (await bcrypt.compare(password, user.password))) {

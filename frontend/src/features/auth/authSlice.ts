@@ -1,10 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { Action, AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { UserLoginType } from "../../pages/Login"
 import authService from "./authService"
 import { UserType } from "../../pages/Register"
 
 // get user from local storage
-const  user = JSON.parse(localStorage.getItem('user') || '{}')
+export const user = JSON.parse(localStorage.getItem('user') || '{}')
 
 const initialState = {
     user: user ? user : null,
@@ -64,7 +64,7 @@ export const authSlice = createSlice({
                 state.isSuccess = true
                 state.user = action.payload
             })
-            .addCase(register.rejected, (state, action: any) => {
+            .addCase(register.rejected, (state, action: AnyAction) => {
                 state.isLoading = false
                 state.message = action.payload
                 state.user = null
@@ -78,7 +78,7 @@ export const authSlice = createSlice({
                 state.isSuccess = true
                 state.user = action.payload
             })
-            .addCase(login.rejected, (state, action: any) => {
+            .addCase(login.rejected, (state, action: AnyAction) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
