@@ -1,7 +1,9 @@
 import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import salesService from "./salesService";
-import { user } from "../auth/authSlice";
 import { toast } from "react-toastify";
+
+
+
 
 export type SalesType = {
     firstName: string,
@@ -77,13 +79,12 @@ const initialState = {
 // Sales input
 export const inputSales = createAsyncThunk('sales/inputSales', async(sales: SalesType, thunkAPI )  => {
     try {
+        const user = await JSON.parse(localStorage.getItem('user') || '{}')
         sales.userId = user._id
-        console.log('sales, - ', sales)
         return await salesService.inputSales(sales)
     } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         const thunkMessage = thunkAPI.rejectWithValue(message)
-        console.log('error - ', thunkMessage)
         return thunkMessage
     }
 })
@@ -106,7 +107,6 @@ export const salesSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(inputSales.fulfilled, (state: SalesSliceType, action: AnyAction) => {
-                console.log('action payload - ', action.payload)
                 state.isLoading = false
                 state.isSuccess = true
                 state.sales = action.payload

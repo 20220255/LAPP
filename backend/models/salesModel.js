@@ -8,39 +8,39 @@ const salesSchema = new mongoose.Schema({
     lastName: String,
     w1: {
         type: Boolean,
-        require
+        required: true
     },
     w2: {
         type: Boolean,
-        require
+        required: true
     },
     w3: {
         type: Boolean,
-        require
+        required: true
     },
     w4: {
         type: Boolean,
-        require
+        required: true
     },
     w5: {
         type: Boolean,
-        require
+        required: true
     },
     d1: {
         type: Boolean,
-        require
+        required: true
     },
     d2: {
         type: Boolean,
-        require
+        required: true
     },
     d3: {
         type: Boolean,
-        require
+        required: true
     },
     d4: {
         type: Boolean,
-        require
+        required: true
     },
     d5: Boolean,
     detergent: {
@@ -56,7 +56,8 @@ const salesSchema = new mongoose.Schema({
     spinDry: Number,
     totalSales: Number,
     userId: {
-        type: mongoose.Schema.Types.ObjectId, ref: "User"
+        type: mongoose.Schema.Types.ObjectId, ref: "User",
+        required: true
     },
 },{
     timestamps: true

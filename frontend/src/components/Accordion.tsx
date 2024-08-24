@@ -192,7 +192,6 @@ export default function ControlledAccordions() {
         }
 
         getTotalSales(formData)
-        console.log('192 - ', formData)
     }, [d1, d2, d3, d4, d5, detergent.count, detergent.name, extraDry, fabCon.count, fabCon.name, folds, formData, spinDry, w1, w2, w3, w4, w5])
 
 
@@ -260,7 +259,7 @@ export default function ControlledAccordions() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const { isSuccess, sales } = useSelector((state: RootState) => state.sales)
+    useSelector((state: RootState) => state.sales)
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
@@ -270,7 +269,6 @@ export default function ControlledAccordions() {
         dispatch(resetSales())
         setFormData(initializeData)
     }
-
 
     return (
         <div >

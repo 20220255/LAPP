@@ -1,10 +1,10 @@
-import { Action, AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { UserLoginType } from "../../pages/Login"
 import authService from "./authService"
 import { UserType } from "../../pages/Register"
 
 // get user from local storage
-export const user = JSON.parse(localStorage.getItem('user') || '{}')
+const user = JSON.parse(localStorage.getItem('user') || '{}')
 
 const initialState = {
     user: user ? user : null,
