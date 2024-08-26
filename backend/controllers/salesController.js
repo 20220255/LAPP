@@ -80,6 +80,20 @@ const updateSales = asyncHandler(async (req, res) => {
     );
     res.status(200).json(updatedSales);
   } catch (error) {
+    res.status(400)
+    throw new Error(error.message);
+  }
+});
+
+const deleteSales = asyncHandler(async (req, res) => {
+  try {
+    const {_id} =  req.body
+    console.log('delete controller', req.body)
+    const resp = await Sales.findByIdAndDelete(_id);
+    console.log('resp - ', resp)
+    res.status(200).json(resp);
+  } catch (error) {
+    res.status(400)
     throw new Error(error.message);
   }
 });
@@ -102,4 +116,5 @@ module.exports = {
   inputSales,
   getSalesList,
   updateSales,
+  deleteSales,
 };

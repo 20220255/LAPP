@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
-  res.status(201).json({ message: "Welcome to Questionnaire" });
+  res.status(201).json({ message: "Welcome to Laundry Shop Application System" });
 });
 
 // Routes

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import ControlledAccordionsUpdate from "../components/AccordionUpdate"
+import { ControlledAccordionsMaintenance } from "../components/AccordionMaintenance"
 
 
 const TransactionMaintenance = () => {
@@ -8,10 +8,10 @@ const TransactionMaintenance = () => {
 
     return (
         <div>
-          <h1>Customer Sales Update</h1>
-          <ControlledAccordionsUpdate salesId={salesId} />
+            <h1>Customer Sales Update</h1>
+            <ControlledAccordionsMaintenance salesId={salesId} />
         </div>
-      )
+    )
 }
 
 export default TransactionMaintenance

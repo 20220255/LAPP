@@ -38,7 +38,7 @@ const TransactionLists = () => {
         navigate(`/transaction-maintenance/${_id}`)
     }
 
-    if (!isLoading && !salesList) {
+    if (isLoading) {
         return <Spinner />;
     } else {
         return (

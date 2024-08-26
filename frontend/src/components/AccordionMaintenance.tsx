@@ -4,10 +4,10 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { MdExpandMore, MdMiscellaneousServices } from "react-icons/md";
 import { TypographyStyled } from './Accordion.style';
-import { Box, Button, FormControl, FormControlLabel, FormGroup, MenuItem, Modal, Switch, TextField } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormGroup, MenuItem, Modal, Slide, Switch, TextField } from '@mui/material';
 import products from '../data/prodcut.json'
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
-import { resetSales, SalesType, updateSales } from '../features/sales/salesSlice';
+import { deleteSales, resetSales, SalesType, updateSales } from '../features/sales/salesSlice';
 import { FaCircleUser, FaJugDetergent } from "react-icons/fa6";
 import { BiSolidDryer } from "react-icons/bi";
 import { BiSolidWasher } from "react-icons/bi";
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../app/store';
 import { GrDocumentUpdate } from "react-icons/gr";
+import { RiDeleteBin2Line } from "react-icons/ri";
 
 type ProductType = {
     id: number;
@@ -40,7 +41,7 @@ const filterItem = (arr: ProductType[], query: string, field1: Field, count?: nu
     return record[0]['price']
 }
 
-export const ControlledAccordionsUpdate = ({ salesId }: { salesId: string | undefined }) => {
+export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string | undefined }) => {
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -257,6 +258,23 @@ export const ControlledAccordionsUpdate = ({ salesId }: { salesId: string | unde
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
+    const handleClickOpenDeleteDialog = () => {
+        setOpenDeleteDialog(true);
+    };
+
+    const handleCloseDelete = () => {
+        setOpenDeleteDialog(false);
+    };
+
+    const handleDeleteSales = () => {
+        // console.log('id - ', _id)
+        handleClose()
+        dispatch(deleteSales(_id))
+        navigate('/transaction-list')
+    }
+
 
     useSelector((state: RootState) => state.sales)
     const navigate = useNavigate()
@@ -283,7 +301,7 @@ export const ControlledAccordionsUpdate = ({ salesId }: { salesId: string | unde
                             id="panel1bh-header"
                         >
                             <TypographyStyled >
-                                <FaCircleUser /> Customer - {firstName} {lastName}
+                                <FaCircleUser /> Customer: {firstName}
                             </TypographyStyled>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -563,7 +581,12 @@ export const ControlledAccordionsUpdate = ({ salesId }: { salesId: string | unde
                     </Accordion>
 
                     <div>
-                        <Button sx={{ mt: '1rem', width: '100%' }} startIcon={<GrDocumentUpdate />} size='medium' variant='contained' onClick={handleOpen}>Update Data</Button>
+                        <Box>
+                            <Button color='error' sx={{ mt: '1rem', width: '40%', m: '1rem' }} startIcon={<RiDeleteBin2Line />} size='medium' variant='contained' onClick={handleClickOpenDeleteDialog}>Delete</Button>
+
+                            <Button sx={{ mt: '1rem', width: '40%', m: '1rem' }} startIcon={<GrDocumentUpdate />} size='medium' variant='contained' onClick={handleOpen}>Update</Button>
+                        </Box>
+
                         <Modal
                             open={open}
                             onClose={handleClose}
@@ -590,6 +613,29 @@ export const ControlledAccordionsUpdate = ({ salesId }: { salesId: string | unde
                         </Modal>
                     </div>
 
+                    <div>
+
+                        <Dialog
+                            open={openDeleteDialog}
+                            TransitionComponent={Slide}
+                            keepMounted
+                            onClose={handleCloseDelete}
+                            aria-describedby="alert-dialog-slide-description"
+                        >
+                            <DialogTitle color='red'> <div>Customer: {firstName} </div> <div>Total Sales: {totalSales}</div>  </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description">
+                                    This sales transaction item will be deleted. Are your sure?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleCloseDelete}>Cancel</Button>
+                                <Button onClick={handleDeleteSales}>Yes</Button>
+                            </DialogActions>
+                        </Dialog>
+
+                    </div>
+
                 </FormGroup>
             </FormControl>
 
@@ -598,4 +644,4 @@ export const ControlledAccordionsUpdate = ({ salesId }: { salesId: string | unde
 }
 
 
-export default ControlledAccordionsUpdate
+export default ControlledAccordionsMaintenance

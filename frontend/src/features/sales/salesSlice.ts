@@ -1,9 +1,10 @@
 import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import salesService from "./salesService";
 import { toast } from "react-toastify";
+import { AxiosRequestConfig } from "axios";
 
 export type SalesType = {
-    _id?: string,
+    _id?: string | undefined,
     firstName: string | undefined,
     lastName?: string,
     w1: boolean | undefined;
@@ -134,6 +135,18 @@ export const updateSales = createAsyncThunk('sales/updateSales',  async(sales: S
     try {
         return await salesService.updateSales(sales)
     } catch (error: any) {
+        console.log(' - ', error)
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        const thunkMessage = thunkAPI.rejectWithValue(message)
+        return thunkMessage
+    }
+})
+
+// Delete
+export const deleteSales = createAsyncThunk('sales/deleteSales',  async(salesId: any, thunkAPI) => {
+    try {
+        return await salesService.deleteSales(salesId)
+    } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         const thunkMessage = thunkAPI.rejectWithValue(message)
         return thunkMessage
@@ -204,6 +217,23 @@ export const salesSlice = createSlice({
                 state.message = action.payload
                 state.isError = true
                 toast.error(state.message)
+            })
+            .addCase(deleteSales.pending, (state ) => {
+                state.salesList.isLoading = true
+            })
+            .addCase(deleteSales.fulfilled, (state, action: AnyAction) => {
+                state.salesList.isLoading = false
+                state.salesList.isSuccess = true
+                state.salesList.salesList = state.salesList.salesList.filter((item) => {
+                    return item._id !== action.payload
+                })
+                toast.success("Data successfully deleted.")
+            })
+            .addCase(deleteSales.rejected, (state, action: AnyAction) => {
+                state.salesList.isLoading = false
+                state.salesList.message = action.payload
+                state.salesList.isError = true
+                toast.error(state.salesList.message)
             })
             .addCase(getSalesList.pending, (state) => {
                 state.salesList.isLoading = true
