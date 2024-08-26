@@ -181,10 +181,9 @@ export const salesSlice = createSlice({
             .addCase(inputSales.pending, (state: SalesSliceType ) => {
                 state.isLoading = true
             })
-            .addCase(inputSales.fulfilled, (state: SalesSliceType, action: AnyAction) => {
+            .addCase(inputSales.fulfilled, (state: SalesSliceType) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.sales = action.payload
                 toast.success("Data successfully saved.")
             })
             .addCase(inputSales.rejected, (state: SalesSliceType, action: AnyAction) => {

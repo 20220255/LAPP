@@ -8,6 +8,7 @@ import BottomNavigaton from './components/BottomNavigaton';
 import Transaction from './pages/Transaction';
 import TransactionLists from './pages/TransactionLists';
 import TransactionMaintenance from './pages/TransactionMaintenance';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 
@@ -22,8 +23,12 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/transaction' element={<Transaction />} />
-            <Route path='/transaction-list' element={<TransactionLists />} />
+            <Route path="/transaction" element={<ProtectedRoute />}>
+              <Route path='/transaction' element={<Transaction />} />
+            </Route>
+            <Route path="/transaction-list" element={<ProtectedRoute />}>
+              <Route path='/transaction-list' element={<TransactionLists />} />
+            </Route>
             <Route path='/transaction-maintenance/:salesId' element={<TransactionMaintenance />} />
           </Routes>
 
