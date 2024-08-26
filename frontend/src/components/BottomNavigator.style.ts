@@ -5,5 +5,3 @@ export const BottomNavigationActionStyled = styled(BottomNavigationAction)({
     fontSize: '2rem',
     color: '#0398fc'
 })
-
-

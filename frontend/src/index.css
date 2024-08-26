@@ -50,7 +50,7 @@ h3 {
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #e6e6e6;
-  margin-bottom: 40px;
+  margin-bottom: 0.75rem;
   padding-left: 0.25rem;
   padding-right: 0.25rem;
   color: red;
@@ -413,4 +413,8 @@ footer {
 
 .header a {
   color: navy;
+}
+
+.logo:hover {
+  cursor: pointer;
 }

@@ -13,7 +13,8 @@ export const Paragraph = styled.p`
 `;
 
 export const Image = styled.img`
-  height: auto;
-  width: 80%;
+  height: 65%;
+  width: 65%;
   padding-top: 1rem
+  margin: auto, 0
 `

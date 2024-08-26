@@ -4,9 +4,11 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Header from './components/Header';
 import { ToastContainer } from 'react-toastify'
-import Button from '@mui/material/Button'
 import BottomNavigaton from './components/BottomNavigaton';
 import Transaction from './pages/Transaction';
+import TransactionLists from './pages/TransactionLists';
+import TransactionMaintenance from './pages/TransactionMaintenance';
+
 
 
 const App = () => {
@@ -20,7 +22,9 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='transaction' element={<Transaction />} />
+            <Route path='/transaction' element={<Transaction />} />
+            <Route path='/transaction-list' element={<TransactionLists />} />
+            <Route path='/transaction-maintenance/:salesId' element={<TransactionMaintenance />} />
           </Routes>
 
           <BottomNavigaton />

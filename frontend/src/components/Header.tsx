@@ -6,12 +6,14 @@ import { logout, reset } from "../features/auth/authSlice"
 import logoImage from '../asset/result_LasappImage175.png'
 import { MouseEvent, useState } from "react"
 import { Menu, MenuItem } from "@mui/material"
+import { resetSalesList } from "../features/sales/salesSlice"
 
 const Header = () => {
     const dispatch = useDispatch()
     const { user } = useSelector((state: RootState) => state.auth)
     const onLogout = () => {
         dispatch(reset())
+        dispatch(resetSalesList())
         dispatch(logout())
     }
 
@@ -23,8 +25,17 @@ const Header = () => {
     };
     const handleClose = () => {
         setAnchorEl(null);
-        navigate('/')
     };
+
+    const handleClickHome = () => {
+        setAnchorEl(null);
+        navigate('/')
+
+    }
+    const handleClickTransactionList = () => {
+        setAnchorEl(null);
+        navigate('/transaction-list')
+    }
 
     return (
         <header className="header">
@@ -46,9 +57,8 @@ const Header = () => {
                         horizontal: 'left',
                     }}
                 >
-                    <MenuItem onClick={handleClose}>Home</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleClickHome}>Home</MenuItem>
+                    <MenuItem onClick={handleClickTransactionList}>Transaction List</MenuItem>
                 </Menu>
             </div>
             <ul>
