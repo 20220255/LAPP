@@ -45,7 +45,7 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
 
     const dispatch = useDispatch<AppDispatch>()
 
-    const { salesList } = useSelector((state: RootState) => state.sales.salesList)
+    const { salesList } = useSelector((state: RootState) => state.sales)
 
     const salesRecord = salesList.find((obj) => obj._id === salesId)
 

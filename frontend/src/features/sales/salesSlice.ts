@@ -1,10 +1,9 @@
 import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import salesService from "./salesService";
 import { toast } from "react-toastify";
-import { AxiosRequestConfig } from "axios";
 
 export type SalesType = {
-    _id?: string | undefined,
+    _id?: string | undefined | '',
     firstName: string | undefined,
     lastName?: string,
     w1: boolean | undefined;
@@ -31,6 +30,34 @@ export type SalesType = {
     totalSales: number | undefined | null;
     userId: string | undefined;
 }    
+type SalesListType = {
+    _id: string;
+    firstName: string;
+    lastName?: string,
+    w1: boolean;
+    w2: boolean;
+    w3: boolean;
+    w4: boolean;
+    w5: boolean;
+    d1: boolean;
+    d2: boolean;
+    d3: boolean;
+    d4: boolean;
+    d5: boolean;
+    detergent: {
+        name: string;
+        count: number;
+    };
+    fabCon: {
+        name: string;
+        count: number;
+    }
+    extraDry: number;
+    folds: number;
+    spinDry: number;
+    totalSales: number;
+    userId: string;
+}    
 
 export type SalesSliceType = {
     sales: SalesType;
@@ -49,44 +76,12 @@ export type SalesListSliceType = {
 } 
 
 
+
 const initialState = {
-    salesList: {
-        salesList: [{
-            _id:'',
-            firstName: '',
-            lastName: '',
-            w1: false,
-            w2: false,
-            w3: false,
-            w4: false,
-            w5: false,
-            d1: false,
-            d2: false,
-            d3: false,
-            d4: false,
-            d5: false,
-            detergent: {
-                name: '',
-                count: 0,
-            },
-            fabCon: {
-                name: '',
-                count: 0,
-            },
-            extraDry: 0,
-            folds: 0,
-            spinDry: 0,
-            totalSales: 0,
-            userId: ''
-        }],
-        isError: false,
-        isSuccess: false,
-        isLoading: false,
-        message: ''
-    },
-    sales: {
+    salesList: [{
+        _id: '',
         firstName: '',
-        lastName: '',
+        lastName: '' || undefined,
         w1: false,
         w2: false,
         w3: false,
@@ -109,8 +104,9 @@ const initialState = {
         folds: 0,
         spinDry: 0,
         totalSales: 0,
-        userId: ''
-    },
+        userId: '',
+    }] as SalesListType[],
+    sales: {} as SalesType,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -177,14 +173,8 @@ export const salesSlice = createSlice({
             state.isSuccess = false
             state.message = ''
             state.sales = initialState.sales
+            state.salesList = []
         },
-        resetSalesList: (state) => {
-            state.salesList.isError = false
-            state.salesList.isLoading = false
-            state.salesList.isSuccess = false
-            state.salesList.message = ''
-            state.salesList.salesList = []
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -219,39 +209,39 @@ export const salesSlice = createSlice({
                 toast.error(state.message)
             })
             .addCase(deleteSales.pending, (state ) => {
-                state.salesList.isLoading = true
+                state.isLoading = true
             })
             .addCase(deleteSales.fulfilled, (state, action: AnyAction) => {
-                state.salesList.isLoading = false
-                state.salesList.isSuccess = true
-                state.salesList.salesList = state.salesList.salesList.filter((item) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.salesList = state.salesList.filter((item) => {
                     return item._id !== action.payload
                 })
                 toast.success("Data successfully deleted.")
             })
             .addCase(deleteSales.rejected, (state, action: AnyAction) => {
-                state.salesList.isLoading = false
-                state.salesList.message = action.payload
-                state.salesList.isError = true
-                toast.error(state.salesList.message)
+                state.isLoading = false
+                state.message = action.payload
+                state.isError = true
+                toast.error(state.message)
             })
             .addCase(getSalesList.pending, (state) => {
-                state.salesList.isLoading = true
+                state.isLoading = true
             })
             .addCase(getSalesList.fulfilled, (state, action) => {
-                state.salesList.isLoading = false
-                state.salesList.isSuccess = true
-                state.salesList.salesList = action.payload
+                state.isLoading = false
+                state.isSuccess = true
+                state.salesList = action.payload
             })
             .addCase(getSalesList.rejected, (state, action: AnyAction) => {
-                state.salesList.isLoading = false
-                state.salesList.message = action.payload
-                state.salesList.isError = true
-                toast.error(state.salesList.message)
+                state.isLoading = false
+                state.message = action.payload
+                state.isError = true
+                toast.error(state.message)
             })
     },
 })
 
 
-export const {resetSales, resetSalesList} = salesSlice.actions
+export const {resetSales} = salesSlice.actions
 export default salesSlice.reducer

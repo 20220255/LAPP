@@ -21,7 +21,7 @@ const TransactionLists = () => {
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
 
-    const { salesList, isLoading } = useSelector((state: RootState) => state.sales.salesList)
+    const { salesList, isLoading } = useSelector((state: RootState) => state.sales)
 
     useEffect(() => {
 

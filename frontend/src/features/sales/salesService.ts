@@ -5,26 +5,38 @@ const API_URL = '/api/sales'
 
 // input sales
 const inputSales = async(salesData: SalesType) => {
-    const response = await axios.post(API_URL, salesData)
+    const token = JSON.parse(localStorage.getItem('user') || '""').token
+    const response = await axios.post(API_URL, salesData, {
+        headers: {Authorization: `Bearer ${token}`}
+    })
     return await response.data
 }
 
 // update sales
 const updateSales = async(salesData: SalesType) => {
-    const repsonse = await axios.put(API_URL + '/update', salesData)
+    const token = JSON.parse(localStorage.getItem('user') || '""').token
+    const repsonse = await axios.put(API_URL + '/update', salesData, {
+        headers: {Authorization: `Bearer ${token}`}
+    })
     return await repsonse.data
 }
 
 // delete sales
 const deleteSales = async(salesId: AxiosRequestConfig<any>) => {
-    const response = await axios.delete(API_URL + '/delete', {data: {_id: salesId}})
+    const token = JSON.parse(localStorage.getItem('user') || '""').token
+    const response = await axios.delete(API_URL + '/delete', {
+        headers: {Authorization: `Bearer ${token}`},
+        data: {_id: salesId} 
+    })
     console.log('deleted sales - ', response.data)
-    // return await repsonse.data
 }
 
 // get sales list
 const getSalesList = async() => {
-    const response = await axios.get(API_URL)
+    const token = JSON.parse(localStorage.getItem('user') || '""').token
+    const response = await axios.get(API_URL, {
+        headers: {Authorization: `Bearer ${token}`}
+    })
     return await response.data
 }
 

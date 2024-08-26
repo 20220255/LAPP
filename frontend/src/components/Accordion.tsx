@@ -48,7 +48,6 @@ const filterItem = (arr: ProductType[], query: string, field1: Field, count?: nu
 export default function ControlledAccordions() {
 
     const dispatch = useDispatch<AppDispatch>()
-    const navigate = useNavigate()
 
     const [expanded, setExpanded] = useState<string | false>(false);
 
@@ -81,7 +80,7 @@ export default function ControlledAccordions() {
     }
 
 
-    const [formData, setFormData] = useState<SalesType>(initializeData)
+    const [formData, setFormData] = useState(initializeData)
 
     const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, totalSales } = formData
 
@@ -98,7 +97,7 @@ export default function ControlledAccordions() {
         setFabconProducts(fabConProducts)
 
         // Get total sales
-        const getTotalSales = async (data: SalesType) => {
+        const getTotalSales = async (data: any) => {
             // Wash
             const washPrice = filterItem(products, 'Wash', 'name')
             const w1Price = w1 ? washPrice : 0
@@ -260,14 +259,16 @@ export default function ControlledAccordions() {
     const handleClose = () => setOpen(false);
 
     useSelector((state: RootState) => state.sales)
+    const navigate = useNavigate()
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
         const salesInput = { ...formData }
         await dispatch(inputSales(salesInput))
         handleClose()
-        dispatch(resetSales())
-        setFormData(initializeData)
+        navigate('/transaction-list')
+        // dispatch(resetSales())
+        // setFormData(initializeData)
     }
 
     return (

@@ -2,18 +2,17 @@ import { Link, useNavigate } from "react-router-dom"
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../app/store"
-import { logout, reset } from "../features/auth/authSlice"
+import { logout } from "../features/auth/authSlice"
 import logoImage from '../asset/result_LasappImage175.png'
 import { MouseEvent, useState } from "react"
 import { Menu, MenuItem } from "@mui/material"
-import { resetSalesList } from "../features/sales/salesSlice"
+import { resetSales } from "../features/sales/salesSlice"
 
 const Header = () => {
     const dispatch = useDispatch()
     const { user } = useSelector((state: RootState) => state.auth)
     const onLogout = () => {
-        dispatch(reset())
-        dispatch(resetSalesList())
+        dispatch(resetSales())
         dispatch(logout())
     }
 

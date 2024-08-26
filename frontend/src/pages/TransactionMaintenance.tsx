@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom"
 import { ControlledAccordionsMaintenance } from "../components/AccordionMaintenance"
 
-
 const TransactionMaintenance = () => {
 
     const { salesId } = useParams()
