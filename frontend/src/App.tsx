@@ -9,6 +9,7 @@ import Transaction from './pages/Transaction';
 import TransactionLists from './pages/TransactionLists';
 import TransactionMaintenance from './pages/TransactionMaintenance';
 import ProtectedRoute from './components/ProtectedRoute';
+import Error from './pages/Error';
 
 
 
@@ -30,10 +31,16 @@ const App = () => {
               <Route path='/transaction-list' element={<TransactionLists />} />
             </Route>
             <Route path='/transaction-maintenance/:salesId' element={<TransactionMaintenance />} />
+            <Route
+              path="*"
+              element={
+                <Error
+                  errMsg={{ statusText: "Page not found", status: "404" }}
+                />
+              }
+            />
           </Routes>
-
           <BottomNavigaton />
-
         </div>
       </Router>
 
