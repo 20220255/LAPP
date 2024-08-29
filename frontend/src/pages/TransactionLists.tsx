@@ -18,6 +18,14 @@ const columns: GridColDef[] = [
     // { field: 'lastName', headerName: 'Last Name', width: 150 },
     { field: 'totalSales', headerName: 'Total Sales', width: 75 },
     { field: 'dateEntered', headerName: 'Date Entered', width: 200 },
+];
+
+const columnsAdmin: GridColDef[] = [
+    // { field: '_id', headerName: 'Sales ID', width: 150 },
+    { field: 'firstName', headerName: 'Customer', width: 125 },
+    // { field: 'lastName', headerName: 'Last Name', width: 150 },
+    { field: 'totalSales', headerName: 'Total Sales', width: 75 },
+    { field: 'dateEntered', headerName: 'Date Entered', width: 200 },
     { field: 'userId', headerName: 'Entered by', width: 200 },
 ];
 
@@ -72,7 +80,7 @@ const TransactionLists = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dateValue])
 
-    /** Get the Total Sales computation function */ 
+    /** Get the Total Sales computation function */
     const getTotalSales = (salesList: SalesListType[]): number => {
         return salesList.reduce((accumulator, currentValue) => accumulator + currentValue.totalSales, 0)
     }
@@ -85,10 +93,10 @@ const TransactionLists = () => {
         setTotalSalesList(totalSales)
     }
 
-    /** Get sales transaction based on user id that's logged in and date filtered from the date picker */ 
+    /** Get sales transaction based on user id that's logged in and date filtered from the date picker */
     const getMySalesList = async (user: any, startDate: string, endDate: string) => {
         const allSalesList = await dispatch(getSalesList())
-        
+
         /** filter sales list based on user id */
         const mySalesList = await allSalesList.payload.filter((sales: SalesType) => sales.userId === user) as SalesListType[]
 
@@ -140,7 +148,7 @@ const TransactionLists = () => {
                     <div style={{ marginTop: '0.15rem' }}>
                         <StripedDataGrid
                             rows={user.isAdmin ? allSalesList : mySalesList}
-                            columns={columns}
+                            columns={user.isAdmin ? columnsAdmin : columns}
                             density='standard'
                             slots={{
                                 toolbar: CustomToolbar,
@@ -151,6 +159,11 @@ const TransactionLists = () => {
                             getRowClassName={(params) => params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                             }
                             autoHeight
+                            initialState={{
+                                pagination: {
+                                    paginationModel: { pageSize: 5, page: 0 },
+                                },
+                            }}
                         />
                     </div>
                 </DataGridStyle>
