@@ -24,11 +24,10 @@ const updateSales = async(salesData: SalesType) => {
 // delete sales
 const deleteSales = async(salesId: AxiosRequestConfig<any>) => {
     const token = JSON.parse(localStorage.getItem('user') || '""').token
-    const response = await axios.delete(API_URL + '/delete', {
+    await axios.delete(API_URL + '/delete', {
         headers: {Authorization: `Bearer ${token}`},
         data: {_id: salesId} 
     })
-    console.log('deleted sales - ', response.data)
 }
 
 // get sales list

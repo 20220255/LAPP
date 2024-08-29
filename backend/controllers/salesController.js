@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Sales = require("../models/salesModel");
-const { now } = require("mongoose");
+require("mongoose");
+const { getLocaleDate } = require("./utilControllers/getDateLocale");
 
 // Input Sales
 const inputSales = asyncHandler(async (req, res) => {
@@ -16,13 +17,9 @@ const inputSales = asyncHandler(async (req, res) => {
       throw new Error("Sales cannot be 0");
     }
 
-    /** Added locale date and time entered to input sales */
-    const d = new Date()
-    /** add 1 to get the correct month number */ 
-    const date = d.getMonth() + 1
     const sales = await Sales.create({
       ...req.body,
-      dateEntered: d.getFullYear() + '-' + date + '-' + d.getDate(),
+      dateEntered: getLocaleDate(new Date()),
       timeEntered: new Date().toLocaleTimeString(),
     });
 
@@ -98,9 +95,7 @@ const updateSales = asyncHandler(async (req, res) => {
 const deleteSales = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.body;
-    console.log("delete controller", req.body);
     const resp = await Sales.findByIdAndDelete(_id);
-    console.log("resp - ", resp);
     res.status(200).json(resp);
   } catch (error) {
     res.status(400);

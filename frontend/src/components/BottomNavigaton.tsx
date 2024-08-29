@@ -19,6 +19,11 @@ const BottomNavigaton = () => {
         navigate('/transaction-list')
     }
 
+    const handleFolds = () => {
+        navigate('/folds-list')
+    }
+
+    
 
     return (
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={5}>
@@ -28,7 +33,7 @@ const BottomNavigaton = () => {
                 <BottomNavigationActionStyled onClick={handleMyTransaction} label="Sales" icon={<FaRegMoneyBillAlt />} />
                 <BottomNavigationActionStyled onClick={handleClick} label="Transaction" icon={<BiSolidWasher />} />
                 <BottomNavigationActionStyled sx={{ color: 'red' }} label="Expense" icon={<MdPayments />} />
-                <BottomNavigationActionStyled label="My Folds" icon={<GiClothes />} />
+                <BottomNavigationActionStyled onClick={handleFolds} label="My Folds" icon={<GiClothes />} />
             </BottomNavigation>
         </Paper>
     )

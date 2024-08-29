@@ -269,7 +269,6 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
     };
 
     const handleDeleteSales = () => {
-        // console.log('id - ', _id)
         handleClose()
         dispatch(deleteSales(_id))
         navigate('/transaction-list')

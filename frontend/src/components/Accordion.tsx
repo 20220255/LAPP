@@ -6,8 +6,8 @@ import { MdExpandMore, MdMiscellaneousServices } from "react-icons/md";
 import { TypographyStyled } from './Accordion.style';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, MenuItem, Modal, Switch, TextField } from '@mui/material';
 import products from '../data/prodcut.json'
-import { ChangeEvent, FormEvent, SyntheticEvent, useEffect, useState } from 'react';
-import { inputSales, resetSales, SalesType } from '../features/sales/salesSlice';
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { inputSales } from '../features/sales/salesSlice';
 import { FaCircleUser, FaJugDetergent } from "react-icons/fa6";
 import { BiSolidDryer } from "react-icons/bi";
 import { BiSolidWasher } from "react-icons/bi";
@@ -16,7 +16,6 @@ import { IoMdSend } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../app/store';
-import { reset } from '../features/auth/authSlice';
 
 type ProductType = {
     id: number;
@@ -74,6 +73,7 @@ export default function ControlledAccordions() {
         },
         extraDry: 0,
         folds: 0,
+        foldsShare: 0,
         spinDry: 0,
         totalSales: 0,
         userId: ''
@@ -86,6 +86,8 @@ export default function ControlledAccordions() {
 
     const [detergentProducts, setDetergentProducts] = useState<ProductType[]>(products)
     const [fabconProducts, setFabconProducts] = useState<ProductType[]>(products)
+
+    const [foldsSharePrice, setFoldsSharePrice] = useState<Number>()
 
     useEffect(() => {
         // filter all detergent products from product.json from mounting
@@ -121,6 +123,10 @@ export default function ControlledAccordions() {
             // Folds
             const foldsPrice = filterItem(products, 'Folds', 'name')
             const foldsPriceSales = foldsPrice * folds
+            /** Folds share by employee */
+            const foldsShare = foldsPriceSales / 2
+            setFoldsSharePrice(foldsShare)
+
 
             // Spin Dry
             // const spinDryPrice = products.filter((prod) => prod.name === 'Spin Dry')
@@ -263,12 +269,10 @@ export default function ControlledAccordions() {
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
-        const salesInput = { ...formData }
+        const salesInput = { ...formData, foldsShare: foldsSharePrice}
         await dispatch(inputSales(salesInput))
         handleClose()
         navigate('/transaction-list')
-        // dispatch(resetSales())
-        // setFormData(initializeData)
     }
 
     return (

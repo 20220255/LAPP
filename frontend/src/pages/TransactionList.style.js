@@ -1,6 +1,6 @@
 // import styled from 'styled-components'
 import { alpha } from '@mui/material';
-import { blue, red,orange,purple, lightBlue } from '@mui/material/colors';
+import { lightBlue } from '@mui/material/colors';
 import styled from '@mui/material/styles/styled'
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 

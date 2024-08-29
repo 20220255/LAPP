@@ -54,6 +54,7 @@ export type SalesListType = {
     }
     extraDry: number;
     folds: number;
+    foldsShare: number;
     spinDry: number;
     totalSales: number;
     userId: string;
@@ -134,7 +135,6 @@ export const updateSales = createAsyncThunk('sales/updateSales',  async(sales: S
     try {
         return await salesService.updateSales(sales)
     } catch (error: any) {
-        console.log(' - ', error)
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         const thunkMessage = thunkAPI.rejectWithValue(message)
         return thunkMessage

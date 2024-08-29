@@ -10,6 +10,7 @@ import TransactionLists from './pages/TransactionLists';
 import TransactionMaintenance from './pages/TransactionMaintenance';
 import ProtectedRoute from './components/ProtectedRoute';
 import Error from './pages/Error';
+import FoldsList from './pages/FoldsList';
 
 
 
@@ -22,15 +23,27 @@ const App = () => {
           <Header />
           <Routes>
             <Route path='/' element={<Home />} />
+
             <Route path='/login' element={<Login />} />
+
             <Route path='/register' element={<Register />} />
+
             <Route path="/transaction" element={<ProtectedRoute />}>
               <Route path='/transaction' element={<Transaction />} />
             </Route>
+
             <Route path="/transaction-list" element={<ProtectedRoute />}>
               <Route path='/transaction-list' element={<TransactionLists />} />
             </Route>
-            <Route path='/transaction-maintenance/:salesId' element={<TransactionMaintenance />} />
+
+            <Route path="/transaction-maintenance/:salesId" element={<ProtectedRoute />}>
+              <Route path='/transaction-maintenance/:salesId' element={<TransactionMaintenance />} />
+            </Route>
+
+            <Route path="/folds-list" element={<ProtectedRoute />}>
+              <Route path='/folds-list' element={<FoldsList />} />
+            </Route>
+
             <Route
               path="*"
               element={
