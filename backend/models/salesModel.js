@@ -59,6 +59,14 @@ const salesSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: "User",
         required: true
     },
+    dateEntered: {
+        type: String,
+        required: true
+    },
+    timeEntered: {
+        required: true,
+        type: String
+    },
 },{
     timestamps: true
 })

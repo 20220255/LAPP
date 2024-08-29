@@ -30,7 +30,7 @@ export type SalesType = {
     totalSales: number | undefined | null;
     userId: string | undefined;
 }    
-type SalesListType = {
+export type SalesListType = {
     _id: string;
     firstName: string;
     lastName?: string,
@@ -57,6 +57,8 @@ type SalesListType = {
     spinDry: number;
     totalSales: number;
     userId: string;
+    createdAt: string;
+    dateEntered: string
 }    
 
 export type SalesSliceType = {
@@ -77,7 +79,7 @@ export type SalesListSliceType = {
 
 
 
-const initialState = {
+export const initialState = {
     salesList: [{
         _id: '',
         firstName: '',
@@ -105,6 +107,7 @@ const initialState = {
         spinDry: 0,
         totalSales: 0,
         userId: '',
+        createdAt: ''
     }] as SalesListType[],
     sales: {} as SalesType,
     isError: false,
