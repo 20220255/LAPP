@@ -32,7 +32,8 @@ export type SalesType = {
     userId: {
         _id: string;
         firstName: string;
-    } 
+    };
+    comment: string;
 }    
 export type SalesListType = {
     _id: string;
@@ -66,7 +67,8 @@ export type SalesListType = {
         firstName: string;
     };
     createdAt: string;
-    dateEntered: string
+    dateEntered: string;
+    comment: string;
 }    
 
 export type SalesSliceType = {
@@ -118,7 +120,8 @@ export const initialState = {
             _id: '',
             firstName: ''
         },
-        createdAt: ''
+        createdAt: '',
+        comment: '',
     }] as SalesListType[],
     sales: {} as SalesType,
     isError: false,

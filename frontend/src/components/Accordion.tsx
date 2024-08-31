@@ -3,7 +3,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { MdExpandMore, MdMiscellaneousServices } from "react-icons/md";
-import { TypographyStyled } from './Accordion.style';
+import { Textarea, TypographyStyled } from './Accordion.style';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, MenuItem, Modal, Switch, TextField } from '@mui/material';
 import products from '../data/prodcut.json'
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
@@ -11,12 +11,11 @@ import { inputSales, resetSales } from '../features/sales/salesSlice';
 import { FaCircleUser, FaJugDetergent } from "react-icons/fa6";
 import { BiSolidDryer } from "react-icons/bi";
 import { BiSolidWasher } from "react-icons/bi";
+import { BiSolidCommentDetail } from "react-icons/bi";
 import { ImEnter } from "react-icons/im";
 import { IoMdSend } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../app/store';
-import { getAllUsers } from '../features/users/userSlice';
 
 type ProductType = {
     id: number;
@@ -77,13 +76,14 @@ export default function ControlledAccordions() {
         userId: {
             _id: '',
             firstName: '',
-        }
+        },
+        comment: '',
     }
 
 
     const [formData, setFormData] = useState(initializeData)
 
-    const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, totalSales } = formData
+    const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, totalSales, comment } = formData
 
     const [detergentProducts, setDetergentProducts] = useState<ProductType[]>(products)
     const [fabconProducts, setFabconProducts] = useState<ProductType[]>(products)
@@ -208,10 +208,10 @@ export default function ControlledAccordions() {
         };
 
     // Form    
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e: ChangeEvent<any>) => {
         const { type, name, checked, value } = e.target
         setFormData((prevState) => {
-            return { ...prevState, [name]: type === 'checkbox' ? checked : name === 'firstName' || name === 'lastName' ? value : parseInt(value) }
+            return { ...prevState, [name]: type === 'checkbox' ? checked : name === 'firstName' || name === 'lastName' || 'comment' ? value : parseInt(value) }
         })
     }
 
@@ -566,6 +566,21 @@ export default function ControlledAccordions() {
                                 />
                             </Box>
 
+                        </AccordionDetails>
+                    </Accordion>
+
+                    <Accordion expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
+                        <AccordionSummary
+                            expandIcon={<MdExpandMore />}
+                            aria-controls="panel6bh-content"
+                            id="panel6bh-header"
+                        >
+                            <TypographyStyled> <BiSolidCommentDetail /> Comment</TypographyStyled>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Box sx={{ mb: '1rem' }}>
+                                <Textarea id='comment' value={comment} name='comment' onChange={onChange} aria-label="minimum height" minRows={3} placeholder="Place your comment here" />
+                            </Box>
                         </AccordionDetails>
                     </Accordion>
 

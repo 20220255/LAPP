@@ -16,14 +16,14 @@ import { getAllUsers } from '../features/users/userSlice';
 
 const columns: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 125 },
-    { field: 'totalSales', headerName: 'Total Sales', width: 150 },
+    { field: 'totalSales', headerName: 'Total Sales', valueFormatter: (foldsValue: number) => foldsValue + '.00', width: 150 },
     { field: 'dateEntered', headerName: 'Date Entered', width: 200 },
 ];
 
 /** Take note of tha valueFormatter function for nested object fields */
 const columnsAdmin: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 125 },
-    { field: 'totalSales', headerName: 'Total Sales', width: 150 },
+    { field: 'totalSales', headerName: 'Total Sales', valueFormatter: (foldsValue: number) => foldsValue + '.00', width: 150 },
     { field: 'dateEntered', headerName: 'Date Entered', width: 200 },
     { field: 'userId', headerName: 'Entered by', valueFormatter: (value: SalesType) => value.firstName, width: 200 },
 ];

@@ -70,6 +70,7 @@ const salesSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
+    comment: String,
   },
   {
     timestamps: true,

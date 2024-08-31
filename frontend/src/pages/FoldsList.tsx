@@ -13,15 +13,15 @@ import { getAllUsers } from "../features/users/userSlice";
 const columns: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 100 },
     { field: 'folds', headerName: 'Folds', width: 50 },
-    { field: 'foldsShare', headerName: 'Share', width: 50 },
+    { field: 'foldsShare', headerName: 'Share', valueFormatter: (foldsValue: number) => foldsValue + '.00', width: 80 },
     { field: 'dateEntered', headerName: 'Date Entered', width: 125 },
 
 ];
 
 const columnsAdmin: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 135 },
-    { field: 'folds', headerName: 'Folds', width: 50 },
-    { field: 'foldsShare', headerName: 'Share', width: 50 },
+    { field: 'folds', headerName: 'Folds', valueFormatter: (foldsValue: number) => foldsValue + '.00', width: 50 },
+    { field: 'foldsShare', headerName: 'Share', valueFormatter: (foldsValue: number) => foldsValue + '.00', width: 80 },
     { field: 'dateEntered', headerName: 'Date Entered', width: 125 },
     { field: 'userId', headerName: 'Entered by', valueFormatter: (value: SalesType) => value.firstName, width: 200 },
 ];
@@ -38,10 +38,10 @@ const FoldsList = () => {
     const { user } = useSelector((state: RootState) => state.auth)
 
     /** Gets the users list state auth*/
-    const { users } = useSelector((state: RootState) => state.user)
+    const { users, isUserLoading, isUserSuccess } = useSelector((state: RootState) => state.user)
 
     /** Gets all the sales list from sales state */
-    const { isLoading, salesList } = useSelector((state: RootState) => state.sales)
+    const { isLoading, salesList, isSuccess } = useSelector((state: RootState) => state.sales)
 
     type ValuePiece = Date | null | string;
     type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -51,12 +51,6 @@ const FoldsList = () => {
 
     const dispatch = useDispatch<AppDispatch>()
 
-    /** Used to get the list or array of user first name for the  Autocomplete text component*/
-    const selectedValues = useMemo(() => users.map((user) => user.firstName), [users])
-
-    /** This will get states fronm db and it uses useMemo for performance improvement to retrieve (dispatch) states. Does not execute on re render if values for users and sales list were not changed */
-    useMemo(() => dispatch(getAllUsers()), [dispatch])
-    useMemo(() => dispatch(getSalesList()), [dispatch])
 
     useEffect(() => {
         /** This will trigger if the dates for the date picker has changed - dateValue */
@@ -87,12 +81,22 @@ const FoldsList = () => {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dateValue, userValue])
+    }, [dateValue, userValue, salesList])
+
+
 
     /** Get the Total Folds computation function */
     const getTotalFolds = (salesList: SalesListType[]): number => {
         return salesList.reduce((accumulator, currentValue) => accumulator + currentValue.foldsShare, 0)
     }
+
+    /** Used to get the list or array of user first name for the  Autocomplete text component*/
+    const selectedValues = useMemo(() => users.map((user) => user.firstName), [users])
+
+
+    /** This will get states fronm db and it uses useMemo for performance improvement to retrieve (dispatch) states. Does not execute on re render if values for users and sales list were not changed */
+    useMemo(() => dispatch(getAllUsers()), [dispatch])
+    useMemo(() => dispatch(getSalesList()), [dispatch])
 
     const getMyFoldsList = async (userId: any, startDate: string, endDate: string, isAdmin: boolean) => {
 
@@ -119,7 +123,7 @@ const FoldsList = () => {
             return Date.parse(new Date(sales.dateEntered).toLocaleDateString()) > Date.parse(startDate.toString()) && Date.parse(new Date(sales.dateEntered).toLocaleDateString()) < Date.parse(endDate.toString())
         })
 
-        /** Filter sales with that has folds */
+        /** Filter sales that has folds only */
         const filterWithFoldsOnly = myFilteredFoldsSalesList.filter((sales: SalesListType) => sales.folds > 0)
 
         setMySalesList(filterWithFoldsOnly)
@@ -173,7 +177,7 @@ const FoldsList = () => {
         )
     }
 
-    if (isLoading) {
+    if (isLoading || isUserLoading || !isSuccess || !isUserSuccess) {
         return <Spinner />;
     } else {
         return (

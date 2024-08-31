@@ -92,7 +92,6 @@ const getAllUsers = asyncHandler(async (req, res) => {
   try {
     const users = await User.find({});
     if (users) {
-      console.log('user backend')
       res.status(200).json(users);
     }
 

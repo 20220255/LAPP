@@ -56,6 +56,7 @@ const updateSales = asyncHandler(async (req, res) => {
       foldsShare,
       spinDry,
       totalSales,
+      comment,
     } = req.body;
 
     const updatedSales = await Sales.findOneAndUpdate(
@@ -82,6 +83,7 @@ const updateSales = asyncHandler(async (req, res) => {
         foldsShare,
         spinDry,
         totalSales,
+        comment
       },
       {
         new: true,

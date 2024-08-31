@@ -12,7 +12,7 @@ export type UserType = {
 type UserSliceType = {
     users: UserType[],
     isError: boolean,
-    isSuccess: boolean,
+    isUserSuccess: boolean,
     isUserLoading: boolean,
     message: string
 }
@@ -25,7 +25,7 @@ export const initialUserState = {
         email: '',
     }] as UserType[],
     isError: false,
-    isSuccess: false,
+    isUserSuccess: false,
     isUserLoading: false,
     message: ''
 }
@@ -86,7 +86,7 @@ export const userSlice = createSlice({
         resetUsers: (state) => {
         state.isError = false
         state.isUserLoading = false
-        state.isSuccess = false
+        state.isUserSuccess = false
         state.message = ''
         state.users = initialUserState.users
     },},
@@ -97,7 +97,7 @@ export const userSlice = createSlice({
             })
             .addCase(getAllUsers.fulfilled, (state, action) => {
                 state.isUserLoading = false
-                state.isSuccess = true
+                state.isUserSuccess = true
                 state.users = action.payload
             })
             .addCase(getAllUsers.rejected, (state, action: AnyAction) => {
