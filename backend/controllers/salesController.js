@@ -53,6 +53,7 @@ const updateSales = asyncHandler(async (req, res) => {
       d5,
       extraDry,
       folds,
+      foldsShare,
       spinDry,
       totalSales,
     } = req.body;
@@ -78,6 +79,7 @@ const updateSales = asyncHandler(async (req, res) => {
         d5,
         extraDry,
         folds,
+        foldsShare,
         spinDry,
         totalSales,
       },

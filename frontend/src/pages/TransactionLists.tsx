@@ -25,7 +25,7 @@ const columnsAdmin: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 125 },
     { field: 'totalSales', headerName: 'Total Sales', width: 150 },
     { field: 'dateEntered', headerName: 'Date Entered', width: 200 },
-    { field: 'userId', headerName: 'Entered by', valueFormatter: (value: SalesType) => value.firstName,  width: 200 },
+    { field: 'userId', headerName: 'Entered by', valueFormatter: (value: SalesType) => value.firstName, width: 200 },
 ];
 
 
@@ -93,14 +93,14 @@ const TransactionLists = () => {
 
     /** Used to get the list or array of user first name for the  Autocomplete text component*/
     const selectedValues = useMemo(() => users.map((user) => user.firstName), [users])
-    
-    /** Uses useMemo for performance improvement to retrieve (dispatch) states. Does not execute on re render if values for users and sales list were not changed */
-    useMemo(() => dispatch(getAllUsers()),[dispatch])
-    useMemo(() => dispatch(getSalesList()),[dispatch])
+
+    /** This will get states fronm db and it uses useMemo for performance improvement to retrieve (dispatch) states. Does not execute on re render if values for users and sales list were not changed */
+    useMemo(() => dispatch(getAllUsers()), [dispatch])
+    useMemo(() => dispatch(getSalesList()), [dispatch])
 
     /** Get sales transaction based on user id that's logged in and date filtered from the date picker  as well filter users from Autocomplete component*/
     const getMySalesList = async (user: any, startDate: string, endDate: string, isAdmin: boolean) => {
-        
+
         let mySalesList = []
 
         /** Filter sales list based on user id and if user is not admin*/
@@ -138,20 +138,11 @@ const TransactionLists = () => {
 
     const CustomToolbar = () => {
         return (
-            <GridToolbarContainer style={{marginTop:'0.5rem'}}>
-                <div style={{ flexWrap: 'wrap', flexDirection: 'row', display: 'flex', alignContent: 'center', columnGap: '23rem' }}>
-                    <div style={{ margin: 'auto' }} >
-                        <GridToolbarColumnsButton />
-                        <GridToolbarFilterButton />
-                        <GridToolbarExport />
-                    </div>
-                </div>
-                <div style={{ marginLeft: 'auto', justifySelf: 'end', flexDirection: 'row', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', flexShrink: 'inherit' }}>
+            <GridToolbarContainer style={{ marginTop: '0.5rem' }}>
+                <div style={{ marginRight: 'auto', justifySelf: 'end', flexDirection: 'row', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', flexShrink: 'inherit' }}>
 
                     {user.isAdmin ? (
                         <>
-                            <DateRangePicker onChange={onChange} value={dateValue}
-                            />
                             <Autocomplete
                                 value={userValue}
                                 onChange={(event: any, newValue: string | null) => {
@@ -163,6 +154,9 @@ const TransactionLists = () => {
                                 renderInput={(params) => <TextField {...params} label="User" />}
                                 isOptionEqualToValue={(option, value) => option.valueOf === value.valueOf}
                             />
+                            <DateRangePicker onChange={onChange} value={dateValue}
+                            />
+
                         </>
                     ) : (
                         <>
@@ -171,6 +165,14 @@ const TransactionLists = () => {
                         </>
                     )
                     }
+                </div>
+
+                <div style={{ flexWrap: 'wrap', flexDirection: 'row', display: 'flex', alignContent: 'center', columnGap: '23rem' }}>
+                    <div style={{ margin: 'auto' }} >
+                        <GridToolbarColumnsButton />
+                        <GridToolbarFilterButton />
+                        <GridToolbarExport />
+                    </div>
                 </div>
             </GridToolbarContainer>
         )

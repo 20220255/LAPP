@@ -26,6 +26,7 @@ export type SalesType = {
     }
     extraDry: number | 0;
     folds: number | 0;
+    foldsShare?: number | 0;
     spinDry: number | 0;
     totalSales: number | undefined | null;
     userId: {

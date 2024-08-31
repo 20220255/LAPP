@@ -75,6 +75,7 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
         },
         extraDry: salesRecord?.extraDry || 0,
         folds: salesRecord?.folds || 0,
+        foldsShare: salesRecord?.foldsShare || 0,
         spinDry: salesRecord?.spinDry || 0,
         totalSales: null,
         userId: {
@@ -86,7 +87,7 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
 
     const [formData, setFormData] = useState<SalesType>(initializeData)
 
-    const { _id, firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, totalSales } = formData
+    const { _id, firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, foldsShare, spinDry, totalSales } = formData
 
     const [detergentProducts, setDetergentProducts] = useState<ProductType[]>(products)
     const [fabconProducts, setFabconProducts] = useState<ProductType[]>(products)
@@ -216,7 +217,7 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
         const { name, value } = e.target
         // split the name until period and get the next
         // or just create another function for number
-        setFormData((prevState) => {
+        setFormData((prevState: SalesType) => {
             return { ...prevState, [name]: { ...prevState.detergent, 'name': value } }
         })
     }
@@ -283,7 +284,11 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
-        const salesInput = { ...formData }
+
+        /** Update folds share */    
+        const foldsPrice = filterItem(products, 'Folds', 'name')
+        const foldsShare = (folds * foldsPrice) / 2
+        const salesInput = { ...formData, foldsShare }
         await dispatch(updateSales(salesInput))
         handleClose()
         dispatch(resetSales())
