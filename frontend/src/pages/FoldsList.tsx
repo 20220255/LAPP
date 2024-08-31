@@ -118,6 +118,11 @@ const FoldsList = () => {
                         <GridToolbarExport />
                     </div>
                 </div>
+                <div style={{ marginLeft: 'auto', justifySelf: 'end' }}>
+                    <DateRangePicker onChange={onChange} value={dateValue}
+                    />
+                </div>
+
             </GridToolbarContainer>
         )
     }
@@ -131,10 +136,6 @@ const FoldsList = () => {
                     <div style={{ flexWrap: 'wrap', flexDirection: 'row', display: 'flex', alignContent: 'center' }}>
                         <div style={{ margin: 'auto', color: 'green', marginBottom: '0.25rem', textAlign: 'center', fontSize: '1.5rem' }}>
                             {`Total Folds Share: `} <span style={{ paddingLeft: '0.25rem' }}> &#8369;{` ${totalFoldsNum}`}.00</span>
-                        </div>
-                        <div style={{ margin: 'auto', justifySelf: 'end' }}>
-                            <DateRangePicker onChange={onChange} value={dateValue}
-                            />
                         </div>
                     </div>
 

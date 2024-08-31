@@ -16,7 +16,8 @@ export const useAuthStatus = () => {
         setCheckingStatus(false)
     },[user])
 
-    return {loggedIn, checkingStatus}
+    /** Added user information to be retrieved from the hook */
+    return {loggedIn, checkingStatus, user}
 }
 
 

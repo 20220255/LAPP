@@ -2,7 +2,7 @@ import { GridColDef, GridEventListener, GridToolbarColumnsButton, GridToolbarCon
 import { DataGridStyle, StripedDataGrid } from './TransactionList.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getSalesList, SalesListType, SalesType } from '../features/sales/salesSlice';
 import Spinner from '../components/Spinner';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,8 @@ import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs'
+import { Autocomplete, TextField } from '@mui/material';
+import { getAllUsers } from '../features/users/userSlice';
 
 const columns: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 125 },
@@ -18,11 +20,12 @@ const columns: GridColDef[] = [
     { field: 'dateEntered', headerName: 'Date Entered', width: 200 },
 ];
 
+/** Take note of tha valueFormatter function for nested object fields */
 const columnsAdmin: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 125 },
     { field: 'totalSales', headerName: 'Total Sales', width: 150 },
     { field: 'dateEntered', headerName: 'Date Entered', width: 200 },
-    { field: 'userId', headerName: 'Entered by', width: 200 },
+    { field: 'userId', headerName: 'Entered by', valueFormatter: (value: SalesType) => value.firstName,  width: 200 },
 ];
 
 
@@ -33,11 +36,17 @@ const TransactionLists = () => {
 
     /** Gets the current user logged in with the auth state */
     const { user } = useSelector((state: RootState) => state.auth)
-    // const { salesList, isLoading } = useSelector((state: RootState) => state.sales)
-    const { isLoading } = useSelector((state: RootState) => state.sales)
-    const [totlSalesList, setTotalSalesList] = useState() as [number, (p: number) => void]
 
+    /** Gets the users list state auth*/
+    const { users, isUserLoading } = useSelector((state: RootState) => state.user)
+
+    /** Gets all the sales list from sales state */
+    const { isLoading, salesList, isSuccess } = useSelector((state: RootState) => state.sales)
+
+    const [totlSalesList, setTotalSalesList] = useState() as [number, (p: number) => void]
     const [mySalesList, setMySalesList] = useState(initialState.salesList) as [SalesListType[], (p: object) => void]
+
+    const [userValue, setUserValue] = useState<string | null>('');
 
     type ValuePiece = Date | null | string;
     type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -65,7 +74,7 @@ const TransactionLists = () => {
                 const dayjsStartDate = dayjs(minus1StartDate).format('YYYY-MM-DD')
                 const dayjsEndDate = dayjs(plus1EndDate).format('YYYY-MM-DD')
 
-                /** If user is admin, all sales will be displayed otherwise, Only the sales entered by the user will be displayed */
+                /** If user is admin, all sales will be displayed otherwise, Only the sales entered by the user will be displayed hence the isAdmin parameter*/
                 const getUser = async () => {
                     await getMySalesList(user._id, dayjsStartDate, dayjsEndDate, user.isAdmin)
                 }
@@ -74,27 +83,38 @@ const TransactionLists = () => {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dateValue])
+    }, [dateValue, userValue, salesList])
+
 
     /** Get the Total Sales computation function */
     const getTotalSales = (salesList: SalesListType[]): number => {
         return salesList.reduce((accumulator, currentValue) => accumulator + currentValue.totalSales, 0)
     }
 
-    /** Get sales transaction based on user id that's logged in and date filtered from the date picker */
+    /** Used to get the list or array of user first name for the  Autocomplete text component*/
+    const selectedValues = useMemo(() => users.map((user) => user.firstName), [users])
+    
+    /** Uses useMemo for performance improvement to retrieve (dispatch) states. Does not execute on re render if values for users and sales list were not changed */
+    useMemo(() => dispatch(getAllUsers()),[dispatch])
+    useMemo(() => dispatch(getSalesList()),[dispatch])
+
+    /** Get sales transaction based on user id that's logged in and date filtered from the date picker  as well filter users from Autocomplete component*/
     const getMySalesList = async (user: any, startDate: string, endDate: string, isAdmin: boolean) => {
         
         let mySalesList = []
 
         /** Filter sales list based on user id and if user is not admin*/
         if (!isAdmin) {
-            const allSalesList = await (await dispatch(getSalesList())).payload
-            // await dispatch(getSalesList())
-            mySalesList = allSalesList.filter((sales: SalesType) => sales.userId === user) as SalesListType[]
+            // const allSalesList =   await (await dispatch(getSalesList())).payload
+            // mySalesList = allSalesList.filter((sales: SalesType) => sales.userId._id === user) as SalesListType[]
+            mySalesList = salesList.filter((sales: SalesType) => sales.userId._id === user) as SalesListType[]
         } else {
-            const allSalesList = await (await dispatch(getSalesList())).payload
-            // await dispatch(getSalesList())
-            mySalesList = allSalesList
+            /** If no user was entered in ther filter box, all sales will be displayed */
+            if (!userValue || userValue === '') {
+                mySalesList = salesList
+            } else {
+                mySalesList = salesList.filter((sales: SalesType) => sales.userId.firstName === userValue)
+            }
         }
 
         /** Filter sales based on the start and end date entered on the date picker */
@@ -115,9 +135,10 @@ const TransactionLists = () => {
         navigate(`/transaction-maintenance/${_id}`)
     }
 
+
     const CustomToolbar = () => {
         return (
-            <GridToolbarContainer>
+            <GridToolbarContainer style={{marginTop:'0.5rem'}}>
                 <div style={{ flexWrap: 'wrap', flexDirection: 'row', display: 'flex', alignContent: 'center', columnGap: '23rem' }}>
                     <div style={{ margin: 'auto' }} >
                         <GridToolbarColumnsButton />
@@ -125,11 +146,37 @@ const TransactionLists = () => {
                         <GridToolbarExport />
                     </div>
                 </div>
+                <div style={{ marginLeft: 'auto', justifySelf: 'end', flexDirection: 'row', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', flexShrink: 'inherit' }}>
+
+                    {user.isAdmin ? (
+                        <>
+                            <DateRangePicker onChange={onChange} value={dateValue}
+                            />
+                            <Autocomplete
+                                value={userValue}
+                                onChange={(event: any, newValue: string | null) => {
+                                    setUserValue(newValue);
+                                }}
+                                id="controllable-states-demo"
+                                options={selectedValues}
+                                sx={{ width: 300, mr: 1, ml: 1 }}
+                                renderInput={(params) => <TextField {...params} label="User" />}
+                                isOptionEqualToValue={(option, value) => option.valueOf === value.valueOf}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <DateRangePicker onChange={onChange} value={dateValue}
+                            />
+                        </>
+                    )
+                    }
+                </div>
             </GridToolbarContainer>
         )
     }
 
-    if (isLoading) {
+    if (isLoading || isUserLoading || !isSuccess || salesList.length <= 0) {
         return <Spinner />;
     } else {
         return (
@@ -139,13 +186,11 @@ const TransactionLists = () => {
                         <div style={{ margin: 'auto', color: 'green', marginBottom: '0.25rem', textAlign: 'center', fontSize: '1.5rem' }}>
                             Total Sales: <span style={{ paddingLeft: '0.25rem' }}>&#8369; {`${totlSalesList}.00`}</span>
                         </div>
-                        <div style={{ margin: 'auto', justifySelf: 'end' }}>
-                            <DateRangePicker onChange={onChange} value={dateValue}
-                            />
-                        </div>
+
                     </div>
 
                     <div style={{ marginTop: '0.15rem' }}>
+
                         <StripedDataGrid
                             rows={mySalesList}
                             columns={user.isAdmin ? columnsAdmin : columns}
@@ -158,7 +203,7 @@ const TransactionLists = () => {
                             getRowId={(row) => row._id}
                             getRowClassName={(params) => params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                             }
-                            autoHeight
+                            sx={{ height: '28rem' }}
                             initialState={{
                                 pagination: {
                                     paginationModel: { pageSize: 5, page: 0 },

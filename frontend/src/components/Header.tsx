@@ -7,6 +7,7 @@ import logoImage from '../asset/result_LasappImage175.png'
 import { MouseEvent, useState } from "react"
 import { Menu, MenuItem } from "@mui/material"
 import { resetSales } from "../features/sales/salesSlice"
+import { resetUsers } from "../features/users/userSlice"
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -14,6 +15,8 @@ const Header = () => {
     const onLogout = () => {
         dispatch(resetSales())
         dispatch(logout())
+        /** Resets the users state after logging out */
+        dispatch(resetUsers())
     }
 
     const navigate = useNavigate()

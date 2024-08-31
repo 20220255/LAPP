@@ -77,7 +77,10 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
         folds: salesRecord?.folds || 0,
         spinDry: salesRecord?.spinDry || 0,
         totalSales: null,
-        userId: salesRecord?.userId
+        userId: {
+            _id: salesRecord?._id || '',
+            firstName: salesRecord?.firstName || '',
+        }
     }
 
 

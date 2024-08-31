@@ -7,7 +7,7 @@ import { TypographyStyled } from './Accordion.style';
 import { Box, Button, FormControl, FormControlLabel, FormGroup, MenuItem, Modal, Switch, TextField } from '@mui/material';
 import products from '../data/prodcut.json'
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
-import { inputSales } from '../features/sales/salesSlice';
+import { inputSales, resetSales } from '../features/sales/salesSlice';
 import { FaCircleUser, FaJugDetergent } from "react-icons/fa6";
 import { BiSolidDryer } from "react-icons/bi";
 import { BiSolidWasher } from "react-icons/bi";
@@ -16,6 +16,7 @@ import { IoMdSend } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../app/store';
+import { getAllUsers } from '../features/users/userSlice';
 
 type ProductType = {
     id: number;
@@ -40,9 +41,6 @@ const filterItem = (arr: ProductType[], query: string, field1: Field, count?: nu
     const record = arr.filter((el: ProductType) => el[field1] === query);
     return record[0]['price']
 }
-
-
-
 
 export default function ControlledAccordions() {
 
@@ -76,7 +74,10 @@ export default function ControlledAccordions() {
         foldsShare: 0,
         spinDry: 0,
         totalSales: 0,
-        userId: ''
+        userId: {
+            _id: '',
+            firstName: '',
+        }
     }
 
 
@@ -265,14 +266,16 @@ export default function ControlledAccordions() {
     const handleClose = () => setOpen(false);
 
     useSelector((state: RootState) => state.sales)
-    const navigate = useNavigate()
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
-        const salesInput = { ...formData, foldsShare: foldsSharePrice}
-        await dispatch(inputSales(salesInput))
+        const salesInput = { ...formData, foldsShare: foldsSharePrice }
+        dispatch(inputSales(salesInput))
         handleClose()
-        navigate('/transaction-list')
+        /** resets the sale state to blank */
+        dispatch(resetSales())
+        /** Initializes the transaction form to blank afte entry */
+        setFormData(initializeData)
     }
 
     return (

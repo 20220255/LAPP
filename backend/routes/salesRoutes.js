@@ -11,6 +11,6 @@ const {
 router.post("/", protect, inputSales);
 router.put("/update", protect, updateSales);
 router.delete("/delete", protect, deleteSales);
-router.get("/",protect , getSalesList);
+router.get("/", protect , getSalesList);
 
 module.exports = router;

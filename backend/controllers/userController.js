@@ -84,8 +84,27 @@ const getMe = asyncHandler(async (req, res) => {
   // res.send("me");
 });
 
+// @desc Get list of users
+// @route /api/user/allUsers
+// @access private
+
+const getAllUsers = asyncHandler(async (req, res) => {
+  try {
+    const users = await User.find({});
+    if (users) {
+      console.log('user backend')
+      res.status(200).json(users);
+    }
+
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
   getMe,
+  getAllUsers,
 };

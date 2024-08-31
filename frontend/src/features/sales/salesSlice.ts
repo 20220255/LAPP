@@ -28,7 +28,10 @@ export type SalesType = {
     folds: number | 0;
     spinDry: number | 0;
     totalSales: number | undefined | null;
-    userId: string | undefined;
+    userId: {
+        _id: string;
+        firstName: string;
+    } 
 }    
 export type SalesListType = {
     _id: string;
@@ -57,7 +60,10 @@ export type SalesListType = {
     foldsShare: number;
     spinDry: number;
     totalSales: number;
-    userId: string;
+    userId: {
+        _id: string;
+        firstName: string;
+    };
     createdAt: string;
     dateEntered: string
 }    
@@ -107,7 +113,10 @@ export const initialState = {
         folds: 0,
         spinDry: 0,
         totalSales: 0,
-        userId: '',
+        userId: {
+            _id: '',
+            firstName: ''
+        },
         createdAt: ''
     }] as SalesListType[],
     sales: {} as SalesType,
