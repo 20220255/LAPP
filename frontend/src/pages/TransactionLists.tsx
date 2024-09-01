@@ -178,7 +178,7 @@ const TransactionLists = () => {
         )
     }
 
-    if (isLoading || isUserLoading || !isSuccess || salesList.length <= 0) {
+    if (isLoading || isUserLoading || !isSuccess ) {
         return <Spinner />;
     } else {
         return (
