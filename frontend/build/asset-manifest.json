@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9c82c961.css",
+    "main.js": "/static/js/main.b8e13549.js",
+    "static/media/LasappImage169_2.png": "/static/media/LasappImage169_2.360260dba1f091427bd5.png",
+    "service-worker.js": "/service-worker.js",
+    "index.html": "/index.html",
+    "main.9c82c961.css.map": "/static/css/main.9c82c961.css.map",
+    "main.b8e13549.js.map": "/static/js/main.b8e13549.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9c82c961.css",
+    "static/js/main.b8e13549.js"
+  ]
+}
