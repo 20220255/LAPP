@@ -39,6 +39,8 @@ const Header = () => {
         navigate('/transaction-list')
     }
 
+    console.log('user - ', user)
+
     return (
         <header className="header">
             <div className="logo">
@@ -64,7 +66,7 @@ const Header = () => {
                 </Menu>
             </div>
             <ul>
-                {user ? (<li>
+                {!user ? (<li>
                     <Link to='/' onClick={onLogout} > <FaSignOutAlt /> Logout </Link>
                 </li>) : (
                     <>
