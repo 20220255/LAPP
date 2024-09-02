@@ -13,7 +13,7 @@
   { "id": 12, "name": "No Fabcon", "price": 0.00, "type": "fabcon" },
   { "id": 13, "name": "Wash", "price": 75.00, "type": "wash" },
   { "id": 14, "name": "Dry", "price": 75.00, "type": "dry" },
-  { "id": 15, "name": "Spin Dry", "price": 25.00, "type": "additional" },
-  { "id": 16, "name": "Extra Dry", "price": 10.00, "type": "additional" },
+  { "id": 15, "name": "Spin Dry", "price": 15.00, "type": "additional" },
+  { "id": 16, "name": "Extra Dry", "price": 15.00, "type": "additional" },
   { "id": 17, "name": "Folds", "price": 20.00, "type": "additional" }
 ]
