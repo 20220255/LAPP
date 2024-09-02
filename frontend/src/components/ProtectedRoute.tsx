@@ -4,11 +4,11 @@ import Spinner from "./Spinner";
 
 
 const ProtectedRoute = () => {
-    const {loggedIn, checkingStatus} = useAuthStatus()
+    const {loggedIn, checkingStatus, user} = useAuthStatus()
     if (checkingStatus) {
         return <Spinner />
     }
-    return loggedIn ? <Outlet /> : <Navigate to='/login' />
+    return loggedIn && (JSON.stringify( user) !== '{}' || !user)  ? <Outlet /> : <Navigate to='/login' />
 };
 
 export default ProtectedRoute;
