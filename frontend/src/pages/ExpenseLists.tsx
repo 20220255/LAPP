@@ -1,5 +1,5 @@
 import { GridColDef, GridEventListener, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@mui/x-data-grid'
-import { DataGridStyle, StripedDataGrid } from './TransactionList.style';
+import { DataGridStyle, StripedDataGrid, StripedDataGridExpense } from './TransactionList.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { useEffect, useMemo, useState } from 'react';
@@ -187,7 +187,7 @@ const ExpenseLists = () => {
             <>
                 <DataGridStyle>
                     <div style={{ flexWrap: 'wrap', flexDirection: 'row', display: 'flex', alignContent: 'center' }}>
-                        <div style={{ margin: 'auto', color: 'green', marginBottom: '0.25rem', textAlign: 'center', fontSize: '1.5rem' }}>
+                        <div style={{ margin: 'auto', color: 'red', marginBottom: '0.25rem', textAlign: 'center', fontSize: '1.5rem' }}>
                             Total Expense: <span style={{ paddingLeft: '0.25rem' }}>&#8369; {`${totalAmountList}.00`}</span>
                         </div>
 
@@ -195,7 +195,7 @@ const ExpenseLists = () => {
 
                     <div style={{ marginTop: '0.15rem' }}>
 
-                        <StripedDataGrid
+                        <StripedDataGridExpense
                             rows={myExpenseList}
                             columns={user.isAdmin ? columnsAdmin : columns}
                             density='standard'

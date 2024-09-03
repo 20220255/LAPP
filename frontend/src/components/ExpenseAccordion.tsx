@@ -97,7 +97,7 @@ export default function ExpenseAccordion() {
 
     return (
         <div >
-            <h2 style={{ color: 'green' }}> &#8369; {amount}.00 </h2>
+            <h2 style={{ color: 'red' }}> &#8369; {amount}.00 </h2>
             <FormControl component="fieldset" variant="standard" sx={{ minWidth: '100%' }}>
                 <FormGroup sx={{ paddingBottom: '5rem' }} >
 
