@@ -2,11 +2,16 @@
   { "id": 1, "name": "Meralco", "type": "utility" },
   { "id": 2, "name": "Maynilad", "type": "utility" },
   { "id": 3, "name": "Laundry Supplies", "type": "supplies" },
-  { "id": 4, "name": "Accounting Expense", "price": 18.00, "type": "accounting" },
+  { "id": 4, "name": "Accounting Expense", "price": 18.00, "type": "professional fee" },
   { "id": 5, "name": "Plastic", "type": "others" },
   { "id": 6, "name": "Water", "type": "others" },
   { "id": 7, "name": "Washer Maintenance", "type": "maintenance" },
   { "id": 8, "name": "Dryer Maintenance", "type": "maintenance" },
   { "id": 9, "name": "Others", "type": "others" },
-  { "id": 10, "name": "Rent", "type": "rent" }
+  { "id": 10, "name": "Rent", "type": "rent" },
+  { "id": 11, "name": "Salary", "type": "salary" },
+  { "id": 12, "name": "Prepaid Load", "type": "communications" },
+  { "id": 13, "name": "Incentive", "type": "incentives" },
+  { "id": 14, "name": "Free Wash", "type": "marketing and promotions" },
+  { "id": 15, "name": "LPG", "type": "gas" }
 ]

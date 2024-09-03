@@ -41,7 +41,7 @@ const filterItem = (arr: ProductType[], query: string, field1: Field, count?: nu
     return record[0]['price']
 }
 
-export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string | undefined }) => {
+export const SalesAccordionsMaintenance = ({ salesId }: { salesId: string | undefined }) => {
 
     const dispatch = useDispatch<AppDispatch>()
 
@@ -667,4 +667,4 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
 }
 
 
-export default ControlledAccordionsMaintenance
+export default SalesAccordionsMaintenance

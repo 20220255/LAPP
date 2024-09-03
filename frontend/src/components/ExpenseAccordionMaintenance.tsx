@@ -4,40 +4,46 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { MdExpandMore } from "react-icons/md";
 import { Textarea, TypographyStyled } from './SalesAccordion.style';
-import { Box, Button, FormControl, FormGroup, MenuItem, Modal, TextField } from '@mui/material';
-import expense from '../data/expense.json'
-import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormGroup, MenuItem, Modal, Slide, TextField } from '@mui/material';
+import { ChangeEvent, SyntheticEvent, useState } from 'react';
 import { BiSolidCommentDetail } from "react-icons/bi";
-import { ImEnter } from "react-icons/im";
-import { IoMdSend } from "react-icons/io";
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../app/store';
-import { inputExpense, resetExpense } from '../features/expenses/expenseSlice';
-import { BsCashCoin } from "react-icons/bs";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../app/store';
+import { GrDocumentUpdate } from "react-icons/gr";
+import { RiDeleteBin2Line } from "react-icons/ri";
+import { deleteExpense, ExpenseType, resetExpense, updateExpense } from '../features/expenses/expenseSlice';
+import expense from '../data/expense.json'
 import { toast } from 'react-toastify';
+import { BsCashCoin } from 'react-icons/bs';
 
-export default function ExpenseAccordion() {
+export const ExpenseAccordionsMaintenance = ({ expenseId }: { expenseId: string | undefined }) => {
 
     const dispatch = useDispatch<AppDispatch>()
 
+    const { expenseList } = useSelector((state: RootState) => state.expense)
+
+    const expenseRecord = expenseList.find((obj) => obj._id === expenseId)
+
     const [expanded, setExpanded] = useState<string | false>(false);
 
-    const initializeData = {
-        name: '',
-        amount: 0,
-        type: '',
-        comment: '',
+    const initializeExpenseData = {
+        _id: expenseRecord?._id || '',
+        name: expenseRecord?.name || '',
+        type: expenseRecord?.type || '',
+        amount: expenseRecord?.amount || 0,
+        comment: expenseRecord?.comment || '',
+        userId: {
+            _id: expenseRecord?.userId?._id || '',
+            firstName: expenseRecord?.userId?.firstName || '',
+        },
+        dateEntered: expenseRecord?.dateEntered || '',
     }
 
 
-    const [formData, setFormData] = useState(initializeData)
+    const [formData, setFormData] = useState<ExpenseType>(initializeExpenseData)
 
-    const { name, amount, comment } = formData
-
-    useEffect(() => {
-
-    }, [])
-
+    const { _id, name, amount, comment, } = formData
 
     // Accordion
     const handleChange =
@@ -68,32 +74,47 @@ export default function ExpenseAccordion() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const navigate = useNavigate()
 
-    // useSelector((state: RootState) => state.sales)
+    const handleClickOpenDeleteDialog = () => {
+        setOpenDeleteDialog(true);
+    };
+
+    const handleCloseDelete = () => {
+        setOpenDeleteDialog(false);
+    };
+
+    const handleDeleteSales = () => {
+        handleClose()
+        dispatch(deleteExpense(_id))
+        navigate('/expense-list')
+    }
+
+
+    useSelector((state: RootState) => state.sales)
+    // const navigate = useNavigate()
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
 
         /** Get the type of expense */
         const filteredExpense = expense.filter((item) => item.name === name)
-        
+
         if (filteredExpense.length === 0) {
             toast.error('Please enter expense')
             return
         }
+        const expenseInput = { ...formData, type: filteredExpense[0].type }
 
-
-        const expenseInput = { ...formData, type: filteredExpense[0].type}
-
-        dispatch(inputExpense(expenseInput))
+        dispatch(updateExpense(expenseInput))
         handleClose()
         /** resets the sale state to blank */
         dispatch(resetExpense())
         /** Initializes the transaction form to blank after entry */
-        setFormData(initializeData)
+        setFormData(initializeExpenseData)
+        navigate('/expense-list')
     }
-
-
 
     return (
         <div >
@@ -160,7 +181,12 @@ export default function ExpenseAccordion() {
                     </Accordion>
 
                     <div>
-                        <Button sx={{ mt: '1rem', width: '100%' }} startIcon={<ImEnter />} size='medium' variant='contained' onClick={handleOpen}>Enter Data</Button>
+                        <Box>
+                            <Button color='error' sx={{ mt: '1rem', width: '40%', m: '1rem' }} startIcon={<RiDeleteBin2Line />} size='medium' variant='contained' onClick={handleClickOpenDeleteDialog}>Delete</Button>
+
+                            <Button sx={{ mt: '1rem', width: '40%', m: '1rem' }} startIcon={<GrDocumentUpdate />} size='medium' variant='contained' onClick={handleOpen}>Update</Button>
+                        </Box>
+
                         <Modal
                             open={open}
                             onClose={handleClose}
@@ -169,15 +195,38 @@ export default function ExpenseAccordion() {
                         >
                             <Box sx={style}>
                                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                                    Total Amount: &#8369; {amount}.00
+                                    Total Sales: &#8369; {amount}.00
                                 </Typography>
                                 <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                                     <div>Expense: {name}</div>
                                     <div>Amount: {amount}</div>
                                 </Typography>
-                                <Button onClick={onSubmit} variant='contained' endIcon={<IoMdSend />} sx={{ width: '100%' }}>Submit</Button>
+                                <Button onClick={onSubmit} variant='contained' endIcon={<GrDocumentUpdate />} sx={{ width: '100%' }}>Submit</Button>
                             </Box>
                         </Modal>
+                    </div>
+
+                    <div>
+
+                        <Dialog
+                            open={openDeleteDialog}
+                            TransitionComponent={Slide}
+                            keepMounted
+                            onClose={handleCloseDelete}
+                            aria-describedby="alert-dialog-slide-description"
+                        >
+                            <DialogTitle color='red'> <div>Customer: {name} </div> <div>Expense Amount: {amount}</div>  </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description">
+                                    This sales transaction item will be deleted. Are your sure?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleCloseDelete}>Cancel</Button>
+                                <Button onClick={handleDeleteSales}>Yes</Button>
+                            </DialogActions>
+                        </Dialog>
+
                     </div>
 
                 </FormGroup>
@@ -186,3 +235,6 @@ export default function ExpenseAccordion() {
         </div>
     );
 }
+
+
+export default ExpenseAccordionsMaintenance

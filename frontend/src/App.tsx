@@ -12,6 +12,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Error from './pages/Error';
 import FoldsList from './pages/FoldsList';
 import ExpenseTransaction from './pages/ExpenseTransaction';
+import ExpenseMaintenance from './pages/ExpenseMaintenance';
+import ExpenseLists from './pages/ExpenseLists';
 
 
 
@@ -43,6 +45,14 @@ const App = () => {
 
             <Route path="/expense" element={<ProtectedRoute />}>
               <Route path='/expense' element={<ExpenseTransaction />} />
+            </Route>
+
+            <Route path="/expense-maintenance/:expenseId" element={<ProtectedRoute />}>
+              <Route path='/expense-maintenance/:expenseId' element={<ExpenseMaintenance />} />
+            </Route>
+
+            <Route path="/expense-list" element={<ProtectedRoute />}>
+              <Route path='/expense-list' element={<ExpenseLists />} />
             </Route>
 
             <Route path="/folds-list" element={<ProtectedRoute />}>

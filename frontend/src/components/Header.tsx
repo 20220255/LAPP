@@ -39,6 +39,11 @@ const Header = () => {
         navigate('/transaction-list')
     }
 
+    const handleClickExpenseList = () => {
+        setAnchorEl(null);
+        navigate('/expense-list')
+    }
+
     return (
         <header className="header">
             <div className="logo">
@@ -61,6 +66,7 @@ const Header = () => {
                 >
                     <MenuItem onClick={handleClickHome}>Home</MenuItem>
                     <MenuItem onClick={handleClickTransactionList}>Transaction List</MenuItem>
+                    <MenuItem onClick={handleClickExpenseList}>Expense List</MenuItem>
                 </Menu>
             </div>
             <ul>

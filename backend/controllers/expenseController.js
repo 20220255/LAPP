@@ -3,31 +3,57 @@ const Expense = require("../models/expenseModel");
 require("mongoose");
 const { getLocaleDate } = require("./utilControllers/getDateLocale");
 
-
 // Input Expense
 const inputExpense = asyncHandler(async (req, res) => {
-    try {
+  try {
+    // input sales
+    const { userId, amount } = req.body;
 
-      // input sales
-      const { userId, amount } = req.body;
-  
-      if (!userId) {
-        throw new Error('"You must be logged in first');
-      }
-  
-      if (amount <= 0) {
-        throw new Error("Sales cannot be 0");
-      }
-  
-      const expense = await Expense.create({
-        ...req.body,
-        dateEntered: getLocaleDate(new Date()),
-        timeEntered: new Date().toLocaleTimeString(),
-      });
-  
-      if (expense) {
-        res.status(201).json(expense);
-      }
+    if (!userId) {
+      throw new Error('"You must be logged in first');
+    }
+
+    if (amount <= 0) {
+      throw new Error("Sales cannot be 0");
+    }
+
+    const expense = await Expense.create({
+      ...req.body,
+      dateEntered: getLocaleDate(new Date()),
+      timeEntered: new Date().toLocaleTimeString(),
+    });
+
+    if (expense) {
+      res.status(201).json(expense);
+    }
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+// Update expense transaction
+const updateExpense = asyncHandler(async (req, res) => {
+  try {
+    const { _id, name, amount, type, comment } = req.body;
+
+    const updatedExpense = await Expense.findOneAndUpdate(
+      { _id },
+      { name, amount, type, comment },
+      { new: true }
+    );
+    res.status(200).json(updatedExpense);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+const deleteExpense = asyncHandler(async (req, res) => {
+    try {
+      const { _id } = req.body;
+      const resp = await Expense.findByIdAndDelete(_id);
+      res.status(200).json(resp);
     } catch (error) {
       res.status(400);
       throw new Error(error.message);
@@ -35,6 +61,23 @@ const inputExpense = asyncHandler(async (req, res) => {
   });
 
 
-  module.exports = {
-    inputExpense,
-  };
+// Get the expense list
+const getExpenseList = asyncHandler(async (req, res) => {
+    try {
+      const expenseList = await Expense.find({}).populate('userId', 'firstName');
+  
+      if (expenseList) {
+        res.status(200).json(expenseList);
+      }
+    } catch (error) {
+      res.status(400);
+      throw new Error(error.message);
+    }
+  });
+
+module.exports = {
+  inputExpense,
+  updateExpense,
+  deleteExpense,
+  getExpenseList,
+};
