@@ -72,8 +72,6 @@ export default function ExpenseAccordion() {
     // Form    
     const onChange = (e: ChangeEvent<any>) => {
         const { name, value } = e.target
-        console.log('name - ', name)
-        console.log('value - ', value)
         setFormData((prevState) => {
             return { ...prevState, [name]: name === 'amount' ? parseInt(value) : value }
         })
@@ -103,8 +101,6 @@ export default function ExpenseAccordion() {
         /** Get the type of expense */
         const filteredExpense = expense.filter((item) => item.name === name)
         
-        console.log('filter ', filteredExpense)
-
         if (filteredExpense.length === 0) {
             toast.error('Please enter expense')
             return

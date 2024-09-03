@@ -8,7 +8,6 @@ const { getLocaleDate } = require("./utilControllers/getDateLocale");
 const inputExpense = asyncHandler(async (req, res) => {
     try {
 
-      console.log('input expense - ', req.body)  
       // input sales
       const { userId, amount } = req.body;
   
