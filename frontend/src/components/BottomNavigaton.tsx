@@ -1,4 +1,4 @@
-import { BottomNavigation, BottomNavigationAction, Paper, } from "@mui/material";
+import { BottomNavigation, Paper, } from "@mui/material";
 import { BiSolidWasher } from "react-icons/bi";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { GiClothes } from "react-icons/gi";
@@ -23,6 +23,10 @@ const BottomNavigaton = () => {
         navigate('/folds-list')
     }
 
+    const handleExpense = () => {
+        navigate('/expense')
+    }
+
     
 
     return (
@@ -32,7 +36,7 @@ const BottomNavigaton = () => {
             >
                 <BottomNavigationActionStyled onClick={handleMyTransaction} label="Sales" icon={<FaRegMoneyBillAlt />} />
                 <BottomNavigationActionStyled onClick={handleClick} label="Transaction" icon={<BiSolidWasher />} />
-                <BottomNavigationActionStyled sx={{ color: 'red' }} label="Expense" icon={<MdPayments />} />
+                <BottomNavigationActionStyled onClick={handleExpense} sx={{ color: 'red' }} label="Expense" icon={<MdPayments />} />
                 <BottomNavigationActionStyled onClick={handleFolds} label="My Folds" icon={<GiClothes />} />
             </BottomNavigation>
         </Paper>

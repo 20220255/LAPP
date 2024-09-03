@@ -1,10 +1,10 @@
-import ControlledAccordions from "../components/Accordion"
+import SalesAccordion from "../components/SalesAccordion"
 
 const Transaction = () => {
   return (
     <div>
       <h1>Customer Sales Transaction</h1>
-      <ControlledAccordions />
+      <SalesAccordion />
     </div>
   )
 }

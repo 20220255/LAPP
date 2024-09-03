@@ -7,7 +7,7 @@ const Home = () => {
     return (
         <>
             <section >
-                <Title>LaSapp</Title>
+                <Title>Snap</Title>
                 <Paragraph>Your Laudromat Sales Application</Paragraph>
                 <Image src={LassapImage} alt="Lasapp" />
 

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { ControlledAccordionsMaintenance } from "../components/AccordionMaintenance"
+import { ControlledAccordionsMaintenance } from "../components/SalesAccordionMaintenance"
 
 const TransactionMaintenance = () => {
 

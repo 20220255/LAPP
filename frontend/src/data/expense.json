@@ -1,0 +1,12 @@
+[
+  { "id": 1, "name": "Meralco", "type": "utility" },
+  { "id": 2, "name": "Maynilad", "type": "utility" },
+  { "id": 3, "name": "Laundry Supplies", "type": "supplies" },
+  { "id": 4, "name": "Accounting Expense", "price": 18.00, "type": "accounting" },
+  { "id": 5, "name": "Plastic", "type": "others" },
+  { "id": 6, "name": "Water", "type": "others" },
+  { "id": 7, "name": "Washer Maintenance", "type": "maintenance" },
+  { "id": 8, "name": "Dryer Maintenance", "type": "maintenance" },
+  { "id": 9, "name": "Others", "type": "others" },
+  { "id": 10, "name": "Rent", "type": "rent" }
+]

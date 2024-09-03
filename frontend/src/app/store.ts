@@ -2,17 +2,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import authReducer from '../features/auth/authSlice';
 import salesReducer from '../features/sales/salesSlice';
 import userReducer from '../features/users/userSlice';
-// import salesListReducer from '../features/sales/salesSlice'
-
+import expenseReducer from '../features/expenses/expenseSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    // sales: salesSlice.reducer,
     sales: salesReducer,
     user: userReducer,
-    // salesList: salesListSlice.reducer
-    // salesList: salesListReducer,
+    expense: expenseReducer,
   },
 });
 

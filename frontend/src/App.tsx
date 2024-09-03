@@ -11,6 +11,7 @@ import TransactionMaintenance from './pages/TransactionMaintenance';
 import ProtectedRoute from './components/ProtectedRoute';
 import Error from './pages/Error';
 import FoldsList from './pages/FoldsList';
+import ExpenseTransaction from './pages/ExpenseTransaction';
 
 
 
@@ -38,6 +39,10 @@ const App = () => {
 
             <Route path="/transaction-maintenance/:salesId" element={<ProtectedRoute />}>
               <Route path='/transaction-maintenance/:salesId' element={<TransactionMaintenance />} />
+            </Route>
+
+            <Route path="/expense" element={<ProtectedRoute />}>
+              <Route path='/expense' element={<ExpenseTransaction />} />
             </Route>
 
             <Route path="/folds-list" element={<ProtectedRoute />}>

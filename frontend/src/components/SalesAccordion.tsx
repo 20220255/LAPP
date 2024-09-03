@@ -3,19 +3,19 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { MdExpandMore, MdMiscellaneousServices } from "react-icons/md";
-import { Textarea, TypographyStyled } from './Accordion.style';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormGroup, MenuItem, Modal, Slide, Switch, TextField } from '@mui/material';
+import { Textarea, TypographyStyled } from './SalesAccordion.style';
+import { Box, Button, FormControl, FormControlLabel, FormGroup, MenuItem, Modal, Switch, TextField } from '@mui/material';
 import products from '../data/prodcut.json'
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
-import { deleteSales, resetSales, SalesType, updateSales } from '../features/sales/salesSlice';
+import { inputSales, resetSales } from '../features/sales/salesSlice';
 import { FaCircleUser, FaJugDetergent } from "react-icons/fa6";
-import { BiSolidCommentDetail, BiSolidDryer } from "react-icons/bi";
+import { BiSolidDryer } from "react-icons/bi";
 import { BiSolidWasher } from "react-icons/bi";
+import { BiSolidCommentDetail } from "react-icons/bi";
+import { ImEnter } from "react-icons/im";
+import { IoMdSend } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../app/store';
-import { GrDocumentUpdate } from "react-icons/gr";
-import { RiDeleteBin2Line } from "react-icons/ri";
 
 type ProductType = {
     id: number;
@@ -41,57 +41,54 @@ const filterItem = (arr: ProductType[], query: string, field1: Field, count?: nu
     return record[0]['price']
 }
 
-export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string | undefined }) => {
+export default function SalesAccordion() {
 
     const dispatch = useDispatch<AppDispatch>()
-
-    const { salesList } = useSelector((state: RootState) => state.sales)
-
-    const salesRecord = salesList.find((obj) => obj._id === salesId)
 
     const [expanded, setExpanded] = useState<string | false>(false);
 
     const initializeData = {
-        _id: salesRecord?._id || '',
-        firstName: salesRecord?.firstName || '',
-        lastName: salesRecord?.lastName,
-        w1: salesRecord?.w1,
-        w2: salesRecord?.w2,
-        w3: salesRecord?.w3,
-        w4: salesRecord?.w4,
-        w5: salesRecord?.w5,
-        d1: salesRecord?.d1,
-        d2: salesRecord?.d2,
-        d3: salesRecord?.d3,
-        d4: salesRecord?.d4,
-        d5: salesRecord?.d5,
+        firstName: '',
+        lastName: '',
+        w1: false,
+        w2: false,
+        w3: false,
+        w4: false,
+        w5: false,
+        d1: false,
+        d2: false,
+        d3: false,
+        d4: false,
+        d5: false,
         detergent: {
-            name: salesRecord?.detergent.name,
-            count: salesRecord?.detergent.count || 0,
+            name: '',
+            count: 0,
         },
         fabCon: {
-            name: salesRecord?.fabCon.name,
-            count: salesRecord?.fabCon.count || 0,
+            name: '',
+            count: 0,
         },
-        extraDry: salesRecord?.extraDry || 0,
-        folds: salesRecord?.folds || 0,
-        foldsShare: salesRecord?.foldsShare || 0,
-        spinDry: salesRecord?.spinDry || 0,
-        totalSales: null,
+        extraDry: 0,
+        folds: 0,
+        foldsShare: 0,
+        spinDry: 0,
+        totalSales: 0,
         userId: {
-            _id: salesRecord?._id || '',
-            firstName: salesRecord?.firstName || '',
+            _id: '',
+            firstName: '',
         },
-        comment: salesRecord?.comment || '',
+        comment: '',
     }
 
 
-    const [formData, setFormData] = useState<SalesType>(initializeData)
+    const [formData, setFormData] = useState(initializeData)
 
-    const { _id, firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, totalSales, comment } = formData
+    const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, totalSales, comment } = formData
 
     const [detergentProducts, setDetergentProducts] = useState<ProductType[]>(products)
     const [fabconProducts, setFabconProducts] = useState<ProductType[]>(products)
+
+    const [foldsSharePrice, setFoldsSharePrice] = useState(0)
 
     useEffect(() => {
         // filter all detergent products from product.json from mounting
@@ -103,7 +100,7 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
         setFabconProducts(fabConProducts)
 
         // Get total sales
-        const getTotalSales = async (data: SalesType) => {
+        const getTotalSales = async (data: any) => {
             // Wash
             const washPrice = filterItem(products, 'Wash', 'name')
             const w1Price = w1 ? washPrice : 0
@@ -127,6 +124,10 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
             // Folds
             const foldsPrice = filterItem(products, 'Folds', 'name')
             const foldsPriceSales = foldsPrice * folds
+            /** Folds share by employee */
+            const foldsShare = foldsPriceSales / 2
+            setFoldsSharePrice(foldsShare)
+
 
             // Spin Dry
             // const spinDryPrice = products.filter((prod) => prod.name === 'Spin Dry')
@@ -218,7 +219,7 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
         const { name, value } = e.target
         // split the name until period and get the next
         // or just create another function for number
-        setFormData((prevState: SalesType) => {
+        setFormData((prevState) => {
             return { ...prevState, [name]: { ...prevState.detergent, 'name': value } }
         })
     }
@@ -263,38 +264,18 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-
-    const handleClickOpenDeleteDialog = () => {
-        setOpenDeleteDialog(true);
-    };
-
-    const handleCloseDelete = () => {
-        setOpenDeleteDialog(false);
-    };
-
-    const handleDeleteSales = () => {
-        handleClose()
-        dispatch(deleteSales(_id))
-        navigate('/transaction-list')
-    }
-
 
     useSelector((state: RootState) => state.sales)
-    const navigate = useNavigate()
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
-
-        /** Update folds share */    
-        const foldsPrice = filterItem(products, 'Folds', 'name')
-        const foldsShare = (folds * foldsPrice) / 2
-        const salesInput = { ...formData, foldsShare }
-        await dispatch(updateSales(salesInput))
+        const salesInput = { ...formData, foldsShare: foldsSharePrice }
+        dispatch(inputSales(salesInput))
         handleClose()
+        /** resets the sale state to blank */
         dispatch(resetSales())
+        /** Initializes the transaction form to blank afte entry */
         setFormData(initializeData)
-        navigate('/transaction-list')
     }
 
     return (
@@ -309,7 +290,7 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
                             id="panel1bh-header"
                         >
                             <TypographyStyled >
-                                <FaCircleUser /> Customer: {firstName}
+                                <FaCircleUser /> Customer
                             </TypographyStyled>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -604,12 +585,7 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
                     </Accordion>
 
                     <div>
-                        <Box>
-                            <Button color='error' sx={{ mt: '1rem', width: '40%', m: '1rem' }} startIcon={<RiDeleteBin2Line />} size='medium' variant='contained' onClick={handleClickOpenDeleteDialog}>Delete</Button>
-
-                            <Button sx={{ mt: '1rem', width: '40%', m: '1rem' }} startIcon={<GrDocumentUpdate />} size='medium' variant='contained' onClick={handleOpen}>Update</Button>
-                        </Box>
-
+                        <Button sx={{ mt: '1rem', width: '100%' }} startIcon={<ImEnter />} size='medium' variant='contained' onClick={handleOpen}>Enter Data</Button>
                         <Modal
                             open={open}
                             onClose={handleClose}
@@ -631,32 +607,9 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
                                     <div style={{ marginLeft: '10px' }}> {extraDry > 0 ? `Extra Dry ${extraDry} times` : null} </div>
                                     <div style={{ marginLeft: '10px' }}> {folds > 0 ? `Folds ${folds} times` : null} </div>
                                 </Typography>
-                                <Button onClick={onSubmit} variant='contained' endIcon={<GrDocumentUpdate />} sx={{ width: '100%' }}>Submit</Button>
+                                <Button onClick={onSubmit} variant='contained' endIcon={<IoMdSend />} sx={{ width: '100%' }}>Submit</Button>
                             </Box>
                         </Modal>
-                    </div>
-
-                    <div>
-
-                        <Dialog
-                            open={openDeleteDialog}
-                            TransitionComponent={Slide}
-                            keepMounted
-                            onClose={handleCloseDelete}
-                            aria-describedby="alert-dialog-slide-description"
-                        >
-                            <DialogTitle color='red'> <div>Customer: {firstName} </div> <div>Total Sales: {totalSales}</div>  </DialogTitle>
-                            <DialogContent>
-                                <DialogContentText id="alert-dialog-slide-description">
-                                    This sales transaction item will be deleted. Are your sure?
-                                </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleCloseDelete}>Cancel</Button>
-                                <Button onClick={handleDeleteSales}>Yes</Button>
-                            </DialogActions>
-                        </Dialog>
-
                     </div>
 
                 </FormGroup>
@@ -665,6 +618,3 @@ export const ControlledAccordionsMaintenance = ({ salesId }: { salesId: string |
         </div>
     );
 }
-
-
-export default ControlledAccordionsMaintenance
