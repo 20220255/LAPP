@@ -23,7 +23,7 @@ const inputSales = asyncHandler(async (req, res) => {
       return date;
     }
     /** add 8 hrs */
-    const datePlus8Utc = addHours(new Date(), 8);
+    const datePlus8Utc = await addHours(new Date(), 8);
 
     console.log(req.body)
     const sales = await Sales.create({
