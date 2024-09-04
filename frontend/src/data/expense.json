@@ -13,5 +13,6 @@
   { "id": 12, "name": "Prepaid Load", "type": "communications" },
   { "id": 13, "name": "Incentive", "type": "incentives" },
   { "id": 14, "name": "Free Wash", "type": "marketing and promotions" },
-  { "id": 15, "name": "LPG", "type": "gas" }
+  { "id": 15, "name": "LPG", "type": "gas" },
+  { "id": 16, "name": "Folds", "type": "salary" }
 ]
