@@ -7,7 +7,6 @@ const API_URL = '/api/sales'
 
 // input sales
 const inputSales = async(salesData: SalesListType) => {
-    salesData.dateEntered = new Date().toLocaleDateString()
     const user = await getUserAuth()
     // const token = JSON.parse(localStorage.getItem('user') || '""').token
     const response = await axios.post(API_URL, salesData, {
