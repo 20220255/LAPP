@@ -36,7 +36,7 @@ export type SalesType = {
     comment: string;
 }    
 export type SalesListType = {
-    _id: string;
+    _id?: string;
     firstName: string;
     lastName?: string,
     w1: boolean;
@@ -66,8 +66,8 @@ export type SalesListType = {
         _id: string;
         firstName: string;
     };
-    createdAt: string;
-    dateEntered: string;
+    createdAt?: string;
+    dateEntered?: string;
     comment: string;
 }    
 
@@ -132,7 +132,7 @@ export const initialState = {
 }
 
 // Sales input
-export const inputSales = createAsyncThunk('sales/inputSales', async(sales: SalesType, thunkAPI )  => {
+export const inputSales = createAsyncThunk('sales/inputSales', async(sales: SalesListType, thunkAPI )  => {
     try {
         const user = await JSON.parse(localStorage.getItem('user') || '{}')
         sales.userId = user._id

@@ -28,8 +28,8 @@ export default function BasicBars() {
 
     /** Get sales data per day */
     const groupedByDate = salesList.reduce((acc: any, item) => {
-        const color = item.dateEntered;
-        (acc[color] = acc[color] || []).push(item.totalSales);
+        const dateEntered = item.dateEntered!;
+        (acc[dateEntered] = acc[dateEntered] || []).push(item.totalSales);
         return acc;
     }, {});
 

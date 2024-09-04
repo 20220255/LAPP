@@ -1,12 +1,13 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import { SalesType } from './salesSlice'
+import { SalesListType, SalesType } from './salesSlice'
 import getUserAuth from '../../utils/getUserAuth'
 
 const API_URL = '/api/sales'
 
 
 // input sales
-const inputSales = async(salesData: SalesType) => {
+const inputSales = async(salesData: SalesListType) => {
+    salesData.dateEntered = new Date().toLocaleDateString()
     const user = await getUserAuth()
     // const token = JSON.parse(localStorage.getItem('user') || '""').token
     const response = await axios.post(API_URL, salesData, {

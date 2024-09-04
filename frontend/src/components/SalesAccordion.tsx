@@ -78,6 +78,7 @@ export default function SalesAccordion() {
             firstName: '',
         },
         comment: '',
+        dateEntered: '',
     }
 
 

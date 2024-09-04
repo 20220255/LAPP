@@ -16,9 +16,10 @@ const inputSales = asyncHandler(async (req, res) => {
     if (totalSales <= 0) {
       throw new Error("Sales cannot be 0");
     }
+
+    console.log(req.body)
     const sales = await Sales.create({
       ...req.body,
-      dateEntered: getLocaleDate(new Date().toLocaleDateString()),
       timeEntered: new Date().toLocaleTimeString(),
     });
 

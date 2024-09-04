@@ -120,7 +120,7 @@ const TransactionLists = () => {
         /** Filter sales based on the start and end date entered on the date picker */
         /** Parse date value into string as is in UTC format and convert it into locale date */
         const myFilteredDateSalesList = mySalesList.filter((sales: SalesListType) => {
-            return new Date(sales.dateEntered) > new Date(startDate) && new Date(sales.dateEntered) < new Date(endDate) 
+            return new Date(sales.dateEntered!) > new Date(startDate) && new Date(sales.dateEntered!) < new Date(endDate) 
         })
 
         setMySalesList(myFilteredDateSalesList)
