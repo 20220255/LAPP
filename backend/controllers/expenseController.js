@@ -17,9 +17,18 @@ const inputExpense = asyncHandler(async (req, res) => {
       throw new Error("Sales cannot be 0");
     }
 
+    function addHours(date, hours) {
+        const hoursToAdd = hours * 60 * 60 * 1000;
+        date.setTime(date.getTime() + hoursToAdd);
+        return date;
+      }
+      /** add 8 hrs */
+      const datePlus8Utc = addHours(new Date(), 8);
+
+
     const expense = await Expense.create({
       ...req.body,
-      dateEntered: getLocaleDate(new Date().toLocaleDateString()),
+      dateEntered: datePlus8Utc.toLocaleDateString(),
       timeEntered: new Date().toLocaleTimeString(),
     });
 
