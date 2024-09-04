@@ -122,7 +122,7 @@ const ExpenseLists = () => {
         /** Filter expense based on the start and end date entered on the date picker */
         /** Parse date value into string as is in UTC format and convert it into locale date */
         const myFilteredDateExepenseList = myExpenseList.filter((item: ExpenseType) => {
-            return Date.parse(new Date(item.dateEntered!).toLocaleDateString()) > Date.parse(startDate.toString()) && Date.parse(new Date(item.dateEntered!).toLocaleDateString()) < Date.parse(endDate.toString())
+            return new Date(item.dateEntered!) > new Date(startDate) && new Date(item.dateEntered!) < new Date(endDate)
         })
 
         setMyExpenseList(myFilteredDateExepenseList)

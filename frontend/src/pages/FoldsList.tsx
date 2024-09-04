@@ -20,7 +20,7 @@ const columns: GridColDef[] = [
 
 const columnsAdmin: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 135 },
-    { field: 'folds', headerName: 'Folds', valueFormatter: (foldsValue: number) => foldsValue + '.00', width: 50 },
+    { field: 'folds', headerName: 'Folds' },
     { field: 'foldsShare', headerName: 'Share', valueFormatter: (foldsValue: number) => foldsValue + '.00', width: 80 },
     { field: 'dateEntered', headerName: 'Date Entered', width: 125 },
     { field: 'userId', headerName: 'Entered by', valueFormatter: (value: SalesType) => value.firstName, width: 200 },
@@ -120,7 +120,7 @@ const FoldsList = () => {
         /** Filter sales based on the start and end date entered on the date picker */
         /** Parse date value into string as is in UTC format and convert it into locale date */
         const myFilteredFoldsSalesList = myFoldsList.filter((sales: SalesListType) => {
-            return Date.parse(new Date(sales.dateEntered).toLocaleDateString()) > Date.parse(startDate.toString()) && Date.parse(new Date(sales.dateEntered).toLocaleDateString()) < Date.parse(endDate.toString())
+            return new Date(sales.dateEntered) > new Date(startDate) && new Date(sales.dateEntered) < new Date(endDate)
         })
 
         /** Filter sales that has folds only */
