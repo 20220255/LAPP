@@ -80,9 +80,9 @@ export default function BasicBars() {
                     { data: expense, label: 'Expense', id: 'expenseId' },
                     { data: netIncome, label: 'Net Income', id: 'netIncomeId' },
                 ]}
-                xAxis={[{ 
-                    data: uniqueDates, 
-                    scaleType: 'band', 
+                xAxis={[{
+                    data: uniqueDates,
+                    scaleType: 'band',
                 }]}
                 colors={['green', 'red', 'blue']}
             />
