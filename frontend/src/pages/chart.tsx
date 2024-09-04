@@ -16,8 +16,12 @@ export default function BasicBars() {
 
     useEffect(() => {
 
-        dispatch(getSalesList())
-        dispatch(getExpenseList())
+        const dipatchExpenseAndSales = async() => {
+            await dispatch(getSalesList())
+            await dispatch(getExpenseList())
+        }
+
+        dipatchExpenseAndSales();
 
     }, [dispatch])
 
