@@ -19,7 +19,7 @@ const inputExpense = asyncHandler(async (req, res) => {
 
     const expense = await Expense.create({
       ...req.body,
-      dateEntered: getLocaleDate(new Date()),
+      dateEntered: getLocaleDate(new Date().toLocaleDateString()),
       timeEntered: new Date().toLocaleTimeString(),
     });
 

@@ -16,10 +16,9 @@ const inputSales = asyncHandler(async (req, res) => {
     if (totalSales <= 0) {
       throw new Error("Sales cannot be 0");
     }
-
     const sales = await Sales.create({
       ...req.body,
-      dateEntered: getLocaleDate(new Date()),
+      dateEntered: getLocaleDate(new Date().toLocaleDateString()),
       timeEntered: new Date().toLocaleTimeString(),
     });
 
@@ -83,7 +82,7 @@ const updateSales = asyncHandler(async (req, res) => {
         foldsShare,
         spinDry,
         totalSales,
-        comment
+        comment,
       },
       {
         new: true,
@@ -110,7 +109,7 @@ const deleteSales = asyncHandler(async (req, res) => {
 // Get the transaction sales list
 const getSalesList = asyncHandler(async (req, res) => {
   try {
-    const salesList = await Sales.find({}).populate('userId', 'firstName');
+    const salesList = await Sales.find({}).populate("userId", "firstName");
 
     if (salesList) {
       res.status(200).json(salesList);
