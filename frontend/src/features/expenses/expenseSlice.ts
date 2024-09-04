@@ -18,17 +18,17 @@ export type ExpenseType = {
 
 export type ExpenseSliceType = {
     expense: ExpenseType;
-    isError: boolean;
-    isSuccess: boolean;
-    isLoading: boolean;
+    isErrorExp: boolean;
+    isSuccessExp: boolean;
+    isLoadingExp: boolean;
     message: string;
 } 
 
 export type ExpenseListSliceType = {
     expenseList: ExpenseSliceType[];
-    isError: boolean;
-    isSuccess: boolean;
-    isLoading: boolean;
+    isErrorExp: boolean;
+    isSuccessExp: boolean;
+    isLoadingExp: boolean;
     message: string;
 } 
 
@@ -48,9 +48,9 @@ export const initialExpenseState = {
         dateEntered: '',
     }] as ExpenseType[],
     expense: {} as ExpenseType,
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
+    isErrorExp: false,
+    isSuccessExp: false,
+    isLoadingExp: false,
     message: ''
 }
 
@@ -108,9 +108,9 @@ export const expenseSlice = createSlice({
     initialState: initialExpenseState,
     reducers: {
         resetExpense: (state) => {
-            state.isError = false
-            state.isLoading = false
-            state.isSuccess = false
+            state.isErrorExp = false
+            state.isLoadingExp = false
+            state.isSuccessExp = false
             state.message = ''
             state.expense = initialExpenseState.expense
             state.expenseList = []
@@ -118,64 +118,64 @@ export const expenseSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase( inputExpense.pending, (state: ExpenseSliceType) => {
-                state.isLoading = true
+            .addCase(inputExpense.pending, (state: ExpenseSliceType) => {
+                state.isLoadingExp = true
             })
             .addCase(inputExpense.fulfilled, (state: ExpenseSliceType) => {
-                state.isLoading = false
-                state.isSuccess = true
+                state.isLoadingExp = false
+                state.isSuccessExp = true
                 toast.success("Data successfully saved.")
             })
             .addCase(inputExpense.rejected, (state: ExpenseSliceType, action: AnyAction) => {
-                state.isLoading = false
+                state.isLoadingExp = false
                 state.message = action.payload
-                state.isError = true
+                state.isErrorExp = true
                 toast.error(state.message)
             })
             .addCase(updateExpense.pending, (state: ExpenseSliceType ) => {
-                state.isLoading = true
+                state.isLoadingExp = true
             })
             .addCase(updateExpense.fulfilled, (state: ExpenseSliceType, action: AnyAction) => {
-                state.isLoading = false
-                state.isSuccess = true
+                state.isLoadingExp = false
+                state.isSuccessExp = true
                 state.expense = action.payload
                 toast.success("Data successfully updated.")
             })
             .addCase(updateExpense.rejected, (state: ExpenseSliceType, action: AnyAction) => {
-                state.isLoading = false
+                state.isLoadingExp = false
                 state.message = action.payload
-                state.isError = true
+                state.isErrorExp = true
                 toast.error(state.message)
             })
             .addCase(deleteExpense.pending, (state ) => {
-                state.isLoading = true
+                state.isLoadingExp = true
             })
             .addCase(deleteExpense.fulfilled, (state, action: AnyAction) => {
-                state.isLoading = false
-                state.isSuccess = true
+                state.isLoadingExp = false
+                state.isSuccessExp = true
                 state.expenseList = state.expenseList!.filter((item) => {
                     return item._id !== action.payload
                 })
                 toast.success("Data successfully deleted.")
             })
             .addCase(deleteExpense.rejected, (state, action: AnyAction) => {
-                state.isLoading = false
+                state.isLoadingExp = false
                 state.message = action.payload
-                state.isError = true
+                state.isErrorExp = true
                 toast.error(state.message)
             })
             .addCase(getExpenseList.pending, (state) => {
-                state.isLoading = true
+                state.isLoadingExp = true
             })
             .addCase(getExpenseList.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
+                state.isLoadingExp = false
+                state.isSuccessExp = true
                 state.expenseList = action.payload
             })
             .addCase(getExpenseList.rejected, (state, action: AnyAction) => {
-                state.isLoading = false
+                state.isLoadingExp = false
                 state.message = action.payload
-                state.isError = true
+                state.isErrorExp = true
                 toast.error(state.message)
             })
     },

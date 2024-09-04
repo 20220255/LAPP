@@ -14,6 +14,7 @@ import FoldsList from './pages/FoldsList';
 import ExpenseTransaction from './pages/ExpenseTransaction';
 import ExpenseMaintenance from './pages/ExpenseMaintenance';
 import ExpenseLists from './pages/ExpenseLists';
+import BasicBars from './pages/chart';
 
 
 
@@ -58,6 +59,11 @@ const App = () => {
             <Route path="/folds-list" element={<ProtectedRoute />}>
               <Route path='/folds-list' element={<FoldsList />} />
             </Route>
+
+            <Route path='/chart' element={<ProtectedRoute />} >
+              <Route path='/chart' element={<BasicBars />} />
+            </Route>
+
 
             <Route
               path="*"

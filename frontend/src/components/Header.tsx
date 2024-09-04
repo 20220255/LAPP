@@ -44,6 +44,11 @@ const Header = () => {
         navigate('/expense-list')
     }
 
+    const handleClickChart = () => {
+        setAnchorEl(null);
+        navigate('/chart')
+    }
+
     return (
         <header className="header">
             <div className="logo">
@@ -67,6 +72,7 @@ const Header = () => {
                     <MenuItem onClick={handleClickHome}>Home</MenuItem>
                     <MenuItem onClick={handleClickTransactionList}>Transaction List</MenuItem>
                     <MenuItem onClick={handleClickExpenseList}>Expense List</MenuItem>
+                    <MenuItem onClick={handleClickChart}>Chart</MenuItem>
                 </Menu>
             </div>
             <ul>

@@ -1,5 +1,5 @@
 import { GridColDef, GridEventListener, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from '@mui/x-data-grid'
-import { DataGridStyle, StripedDataGrid, StripedDataGridExpense } from './TransactionList.style';
+import { DataGridStyle, StripedDataGridExpense } from './TransactionList.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { useEffect, useMemo, useState } from 'react';
@@ -44,7 +44,7 @@ const ExpenseLists = () => {
     const { users, isUserLoading } = useSelector((state: RootState) => state.user)
 
     /** Gets all the expense list from expense state */
-    const { isLoading, expenseList, isSuccess } = useSelector((state: RootState) => state.expense)
+    const { isLoadingExp, expenseList, isSuccessExp } = useSelector((state: RootState) => state.expense)
 
     const [totalAmountList, setTotalAmountList] = useState() as [number, (p: number) => void]
     const [myExpenseList, setMyExpenseList] = useState(initialExpenseState.expenseList) as [ExpenseType[], (p: object) => void]
@@ -180,7 +180,7 @@ const ExpenseLists = () => {
         )
     }
 
-    if (isLoading || isUserLoading || !isSuccess) {
+    if (isLoadingExp || isUserLoading || !isSuccessExp) {
         return <Spinner />;
     } else {
         return (

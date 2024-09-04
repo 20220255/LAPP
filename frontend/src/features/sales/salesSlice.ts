@@ -121,6 +121,7 @@ export const initialState = {
             firstName: ''
         },
         createdAt: '',
+        dateEntered: '',
         comment: '',
     }] as SalesListType[],
     sales: {} as SalesType,
