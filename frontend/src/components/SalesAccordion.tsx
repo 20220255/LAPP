@@ -4,7 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { MdExpandMore, MdMiscellaneousServices } from "react-icons/md";
 import { Textarea, TypographyStyled } from './SalesAccordion.style';
-import { Box, Button, FormControl, FormControlLabel, FormGroup, MenuItem, Modal, Switch, TextField } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, FormControl, FormControlLabel, FormGroup, MenuItem, Slide, Switch, TextField } from '@mui/material';
 import products from '../data/prodcut.json'
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { inputSales, resetSales } from '../features/sales/salesSlice';
@@ -12,6 +12,7 @@ import { FaCircleUser, FaJugDetergent } from "react-icons/fa6";
 import { BiSolidDryer } from "react-icons/bi";
 import { BiSolidWasher } from "react-icons/bi";
 import { BiSolidCommentDetail } from "react-icons/bi";
+import { TiCancel } from "react-icons/ti";
 import { ImEnter } from "react-icons/im";
 import { IoMdSend } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
@@ -247,20 +248,6 @@ export default function SalesAccordion() {
             return { ...prevState, [name]: { ...prevState.fabCon, 'count': parseInt(value) } }
         })
     }
-
-
-
-    const style = {
-        position: 'absolute' as 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -587,30 +574,38 @@ export default function SalesAccordion() {
 
                     <div>
                         <Button sx={{ mt: '1rem', width: '100%' }} startIcon={<ImEnter />} size='medium' variant='contained' onClick={handleOpen}>Enter Data</Button>
-                        <Modal
+                        <Dialog
                             open={open}
+                            TransitionComponent={Slide}
+                            keepMounted
                             onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
+                            aria-describedby="alert-dialog-slide-description"
                         >
-                            <Box sx={style}>
-                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                    Total Sales: &#8369; {totalSales}.00
-                                </Typography>
-                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                    <div>Customer: {firstName}</div>
-                                    <div>Washer: {w1 && 'W1'} {w2 && 'W2'} {w3 && 'W3'} {w4 && 'W4'} {w5 && 'W5'} </div>
-                                    <div>Dryer: {d1 && 'D1'} {d2 && 'D2'} {d3 && 'D3'} {d4 && 'D4'} {d5 && 'D5'} </div>
-                                    <div>Detergent: {detergent.name} {detergent.count} pcs </div>
-                                    <div>Fabcon: {fabCon.name} {fabCon.count} pcs </div>
-                                    <div>Additional Services: </div>
-                                    <div style={{ marginLeft: '10px' }} > {spinDry > 0 ? `Spin Dry ${spinDry} times` : null} </div>
-                                    <div style={{ marginLeft: '10px' }}> {extraDry > 0 ? `Extra Dry ${extraDry} times` : null} </div>
-                                    <div style={{ marginLeft: '10px' }}> {folds > 0 ? `Folds ${folds} times` : null} </div>
-                                </Typography>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description" component='span' >
+                                    <Box component='span'>
+                                        <Typography sx={{ color: 'green' }} id="modal-modal-title" variant="h5" component="span">
+                                            Total Sales: &#8369;{totalSales}.00
+                                        </Typography>
+                                        <Typography id="modal-modal-description" sx={{ mt: 2 }} component='span' >
+                                            <div>Customer: {firstName}</div>
+                                            <div>Washer: {w1 && 'W1'} {w2 && 'W2'} {w3 && 'W3'} {w4 && 'W4'} {w5 && 'W5'} </div>
+                                            <div>Dryer: {d1 && 'D1'} {d2 && 'D2'} {d3 && 'D3'} {d4 && 'D4'} {d5 && 'D5'} </div>
+                                            <div>Detergent: {detergent.name} {detergent.count} pcs </div>
+                                            <div>Fabcon: {fabCon.name} {fabCon.count} pcs </div>
+                                            <div>Additional Services: </div>
+                                            <div style={{ marginLeft: '10px' }} > {spinDry > 0 ? `Spin Dry ${spinDry} times` : null} </div>
+                                            <div style={{ marginLeft: '10px' }}> {extraDry > 0 ? `Extra Dry ${extraDry} times` : null} </div>
+                                            <div style={{ marginLeft: '10px' }}> {folds > 0 ? `Folds ${folds} times` : null} </div>
+                                        </Typography>
+                                    </Box>
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose} variant='contained' endIcon={<TiCancel />} sx={{ width: '100%' }}>Cancel</Button>
                                 <Button onClick={onSubmit} variant='contained' endIcon={<IoMdSend />} sx={{ width: '100%' }}>Submit</Button>
-                            </Box>
-                        </Modal>
+                            </DialogActions>
+                        </Dialog>
                     </div>
 
                 </FormGroup>

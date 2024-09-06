@@ -4,7 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { MdExpandMore } from "react-icons/md";
 import { Textarea, TypographyStyled } from './SalesAccordion.style';
-import { Box, Button, FormControl, FormGroup, MenuItem, Modal, TextField } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, FormControl, FormGroup, MenuItem, Slide, TextField } from '@mui/material';
 import expense from '../data/expense.json'
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { BiSolidCommentDetail } from "react-icons/bi";
@@ -15,6 +15,7 @@ import { AppDispatch } from '../app/store';
 import { inputExpense, resetExpense } from '../features/expenses/expenseSlice';
 import { BsCashCoin } from "react-icons/bs";
 import { toast } from 'react-toastify';
+import { TiCancel } from 'react-icons/ti';
 
 export default function ExpenseAccordion() {
 
@@ -53,18 +54,6 @@ export default function ExpenseAccordion() {
         })
     }
 
-    const style = {
-        position: 'absolute' as 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
-
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -76,14 +65,14 @@ export default function ExpenseAccordion() {
 
         /** Get the type of expense */
         const filteredExpense = expense.filter((item) => item.name === name)
-        
+
         if (filteredExpense.length === 0) {
             toast.error('Please enter expense')
             return
         }
 
 
-        const expenseInput = { ...formData, type: filteredExpense[0].type}
+        const expenseInput = { ...formData, type: filteredExpense[0].type }
 
         dispatch(inputExpense(expenseInput))
         handleClose()
@@ -161,25 +150,32 @@ export default function ExpenseAccordion() {
 
                     <div>
                         <Button sx={{ mt: '1rem', width: '100%' }} startIcon={<ImEnter />} size='medium' variant='contained' onClick={handleOpen}>Enter Data</Button>
-                        <Modal
+                        <Dialog
                             open={open}
+                            TransitionComponent={Slide}
+                            keepMounted
                             onClose={handleClose}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
+                            aria-describedby="alert-dialog-slide-description"
                         >
-                            <Box sx={style}>
-                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                    Total Amount: &#8369; {amount}.00
-                                </Typography>
-                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                    <div>Expense: {name}</div>
-                                    <div>Amount: {amount}</div>
-                                </Typography>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-slide-description" component='span' >
+                                    <Box component='span'>
+                                        <Typography sx={{ color: 'red' }} id="modal-modal-title" variant="h5" component="span">
+                                            Total Amount: &#8369; {amount}.00
+                                        </Typography>
+                                        <Typography id="modal-modal-description" sx={{ mt: 2 }} component='span' >
+                                            <div>Expense: {name}</div>
+                                            <div>Comment: {comment}</div>
+                                        </Typography>
+                                    </Box>
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose} variant='contained' endIcon={<TiCancel />} sx={{ width: '100%' }}>Cancel</Button>
                                 <Button onClick={onSubmit} variant='contained' endIcon={<IoMdSend />} sx={{ width: '100%' }}>Submit</Button>
-                            </Box>
-                        </Modal>
+                            </DialogActions>
+                        </Dialog>
                     </div>
-
                 </FormGroup>
             </FormControl>
 
