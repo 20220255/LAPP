@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Expense = require("../models/expenseModel");
 require("mongoose");
-const { getLocaleDate } = require("./utilControllers/getDateLocale");
 
 // Input Expense
 const inputExpense = asyncHandler(async (req, res) => {

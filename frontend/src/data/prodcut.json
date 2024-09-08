@@ -15,5 +15,5 @@
   { "id": 14, "name": "Dry", "price": 75.00, "type": "dry" },
   { "id": 15, "name": "Spin Dry", "price": 15.00, "type": "additional" },
   { "id": 16, "name": "Extra Dry", "price": 15.00, "type": "additional" },
-  { "id": 17, "name": "Folds", "price": 20.00, "type": "additional" }
+  { "id": 17, "name": "Folds", "price": 30.00, "type": "additional" }
 ]
