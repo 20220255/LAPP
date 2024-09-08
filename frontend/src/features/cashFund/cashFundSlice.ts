@@ -48,7 +48,18 @@ export const initialCashFundState = {
         comment: '',
         expenseId: '',
         dateEntered: ''}] as CashFundType[],
-    cashFund: {} as CashFundType,
+    cashFund: {
+        _id: '',
+        amount: 0,
+        amountAdded: 0,
+        userId: {
+            _id: '',
+            firstName: '',
+        },
+        comment: '',
+        expenseId: '',
+        dateEntered: ''
+    } as CashFundType,
     isErrorCf: false,
     isSuccessCf: false,
     isLoadingCf: false,
@@ -61,6 +72,18 @@ export const addCashFund = createAsyncThunk('cashFund/addCashFund', async(cashFu
         const user = await JSON.parse(localStorage.getItem('user') || '{}')
         cashFund.userId = user._id
         return await cashFundService.addCashFund(cashFund)
+    } catch (error: any) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        const thunkMessage = thunkAPI.rejectWithValue(message)
+        return thunkMessage
+    }
+})
+
+export const getLastCF = createAsyncThunk('cashFund/getLastCF', async(_, thunkAPI) => {
+    try {
+        
+        const lastDocCF =  await cashFundService.getLastCF()
+        return lastDocCF
     } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         const thunkMessage = thunkAPI.rejectWithValue(message)
@@ -116,6 +139,7 @@ export const cashFundSlice = createSlice({
             state.cashFund = initialCashFundState.cashFund
             state.cashFundList = []
         },
+
     },
     extraReducers: (builder) => {
         builder
@@ -128,6 +152,20 @@ export const cashFundSlice = createSlice({
                 toast.success("Data successfully saved.")
             })
             .addCase(addCashFund.rejected, (state: CashFundSliceType, action: AnyAction) => {
+                state.isLoadingCf = false
+                state.message = action.payload
+                state.isErrorCf = true
+                toast.error(state.message)
+            })
+            .addCase(getLastCF.pending, (state: CashFundSliceType) => {
+              state.isLoadingCf = true  
+            })
+            .addCase(getLastCF.fulfilled, (state: CashFundSliceType, action: AnyAction) => {
+                state.isLoadingCf = false
+                state.isSuccessCf = true
+                state.cashFund = action.payload
+            })
+            .addCase(getLastCF.rejected, (state: CashFundSliceType, action: AnyAction) => {
                 state.isLoadingCf = false
                 state.message = action.payload
                 state.isErrorCf = true

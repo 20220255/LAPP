@@ -17,7 +17,6 @@ require("mongoose");
 //       throw new Error("Unable to continue. Cash fund will be below 0.");
 //     }
 
-
 //     const datePlus8Utc = await addHours(new Date(), 8);
 
 //     const expense = await Expense.create({
@@ -34,6 +33,17 @@ require("mongoose");
 //     throw new Error(error.message);
 //   }
 // });
+
+/** Get the last document of the Cash Fund */
+const getLastCF = asyncHandler(async (req, res) => {
+  try {
+    const lastDocCF = await CashFund.findOne().sort({ createdAt: -1 }).limit(1);
+    res.status(200).json(lastDocCF);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
 
 // Add to cash fund
 const addCashFund = asyncHandler(async (req, res) => {
@@ -82,5 +92,5 @@ const addCashFund = asyncHandler(async (req, res) => {
 // });
 
 module.exports = {
-  addCashFund,
+  addCashFund, getLastCF
 };

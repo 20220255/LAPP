@@ -25,7 +25,6 @@ const inputSales = asyncHandler(async (req, res) => {
     /** add 8 hrs */
     const datePlus8Utc = await addHours(new Date(), 8);
 
-    console.log(req.body)
     const sales = await Sales.create({
       ...req.body,
       dateEntered: datePlus8Utc.toLocaleDateString(),
