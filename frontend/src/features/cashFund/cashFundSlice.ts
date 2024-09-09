@@ -6,8 +6,8 @@ import cashFundService from "./cashFundService";
 
 export type CashFundType = {
     _id?: string ;
-    amount: number;
-    amountAdded: 0;
+    amount?: number;
+    amountAdded: number;
     userId: {
         _id: string;
         firstName: string;

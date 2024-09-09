@@ -6,7 +6,6 @@ import { MdExpandMore } from "react-icons/md";
 import { Textarea, TypographyStyled } from './SalesAccordion.style';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, FormControl, FormGroup, Slide, TextField } from '@mui/material';
 import { ChangeEvent, SyntheticEvent, useMemo, useState } from 'react';
-import { FaCircleUser } from "react-icons/fa6";
 import { BiSolidCommentDetail } from "react-icons/bi";
 import { TiCancel } from "react-icons/ti";
 import { IoMdSend } from "react-icons/io";
@@ -55,14 +54,14 @@ export default function CashFundAccordion() {
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
         setOpen(true)
-        setNewAmount(amount + amountAdded!)
+        setNewAmount(amount! + amountAdded!)
     };
     const handleClose = () => setOpen(false);
 
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
-        setNewAmount(amount + amountAdded!)
+        setNewAmount(amount! + amountAdded!)
         const addedCashFund = { ...formData, amountAdded, amount: newAmount }
         await dispatch(addCashFund(addedCashFund))
         dispatch(getLastCF())
@@ -73,7 +72,7 @@ export default function CashFundAccordion() {
 
     return (
         <div >
-            <h2 style={{ color: 'green' }}> &#8369; {amount}.00 </h2>
+            <h1 style={{ color: 'green' }}> &#8369; {amount}.00 </h1>
             <FormControl component="fieldset" variant="standard" sx={{ minWidth: '100%' }}>
                 <FormGroup sx={{ paddingBottom: '5rem' }} >
                     <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} >
@@ -83,7 +82,7 @@ export default function CashFundAccordion() {
                             id="panel1bh-header"
                         >
                             <TypographyStyled >
-                                <FaCircleUser /> Add to Cash Fund
+                                <TbCashRegister /> Add to Cash Fund
                             </TypographyStyled>
                         </AccordionSummary>
                         <AccordionDetails>
