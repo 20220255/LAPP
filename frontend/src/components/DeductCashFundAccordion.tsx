@@ -56,14 +56,12 @@ export default function DeductCashFundAccordion() {
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
-        console.log('expense name - ', expenseName)
         if (amountDeducted! > amount!) {
             return toast.error('Insufficient Cash Fund')
         }
         if (!expenseName || expenseName === '') {
             return toast.error('Expense name cannot be blank')
         }
-        console.log('expense name - ', expenseName)
         setOpen(true)
         setNewAmount(amount! - amountDeducted!)
     };

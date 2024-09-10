@@ -86,7 +86,6 @@ export const deductCashFund = createAsyncThunk('cashFund/deductCashFund', async(
     try {
         const user = await JSON.parse(localStorage.getItem('user') || '{}')
         cashFund.userId = user._id
-        console.log('cash fund record', cashFund)
         return await cashFundService.deductCashFund(cashFund)
     } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
