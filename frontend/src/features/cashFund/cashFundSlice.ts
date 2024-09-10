@@ -3,17 +3,17 @@ import { toast } from "react-toastify";
 import cashFundService from "./cashFundService";
 
 
-
 export type CashFundType = {
     _id?: string ;
     amount?: number;
-    amountAdded: number;
+    amountAdded?: number;
+    amountDeducted?: number;
     userId: {
         _id: string;
         firstName: string;
     };
     comment?: string;
-    expenseId?: string,
+    expenseName?: string,
     dateEntered: string;
 }    
    
@@ -46,7 +46,7 @@ export const initialCashFundState = {
             firstName: '',
         },
         comment: '',
-        expenseId: '',
+        expenseName: '',
         dateEntered: ''}] as CashFundType[],
     cashFund: {
         _id: '',
@@ -66,6 +66,8 @@ export const initialCashFundState = {
     message: ''
 }
 
+
+
 // Add cash fund
 export const addCashFund = createAsyncThunk('cashFund/addCashFund', async(cashFund: CashFundType, thunkAPI )  => {
     try {
@@ -79,9 +81,24 @@ export const addCashFund = createAsyncThunk('cashFund/addCashFund', async(cashFu
     }
 })
 
+// Deduct from cash fund
+export const deductCashFund = createAsyncThunk('cashFund/deductCashFund', async(cashFund: CashFundType, thunkAPI )  => {
+    try {
+        const user = await JSON.parse(localStorage.getItem('user') || '{}')
+        cashFund.userId = user._id
+        console.log('cash fund record', cashFund)
+        return await cashFundService.deductCashFund(cashFund)
+    } catch (error: any) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        const thunkMessage = thunkAPI.rejectWithValue(message)
+        return thunkMessage
+    }
+})
+
+
+/** Get last cash fund doc */
 export const getLastCF = createAsyncThunk('cashFund/getLastCF', async(_, thunkAPI) => {
     try {
-        
         const lastDocCF =  await cashFundService.getLastCF()
         return lastDocCF
     } catch (error: any) {
@@ -152,6 +169,20 @@ export const cashFundSlice = createSlice({
                 toast.success("Data successfully saved.")
             })
             .addCase(addCashFund.rejected, (state: CashFundSliceType, action: AnyAction) => {
+                state.isLoadingCf = false
+                state.message = action.payload
+                state.isErrorCf = true
+                toast.error(state.message)
+            })
+            .addCase(deductCashFund.pending, (state: CashFundSliceType) => {
+                state.isLoadingCf = true
+            })
+            .addCase(deductCashFund.fulfilled, (state: CashFundSliceType) => {
+                state.isLoadingCf = false
+                state.isSuccessCf = true
+                toast.success("Cash fund was successfully deducted")
+            })
+            .addCase(deductCashFund.rejected, (state: CashFundSliceType, action: AnyAction) => {
                 state.isLoadingCf = false
                 state.message = action.payload
                 state.isErrorCf = true

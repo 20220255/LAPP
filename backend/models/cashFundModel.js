@@ -12,9 +12,8 @@ const cashFundSchema = new mongoose.Schema(
     amountDeducted: {
       type: Number,
     },
-    expenseId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Expense",
+    expenseName: {
+      type: String
     },
     dateEntered: {
       type: String,

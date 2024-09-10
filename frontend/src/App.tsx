@@ -15,7 +15,8 @@ import ExpenseTransaction from './pages/ExpenseTransaction';
 import ExpenseMaintenance from './pages/ExpenseMaintenance';
 import ExpenseLists from './pages/ExpenseLists';
 import BasicBars from './pages/chart';
-import CashFundTransaction from './pages/CashFundTransaction';
+import AddCashFund from './pages/AddCashFund';
+import DeductCashFund from './pages/DeductCashFund';
 
 
 
@@ -65,8 +66,12 @@ const App = () => {
               <Route path='/chart' element={<BasicBars />} />
             </Route>
 
-            <Route path='/cashFund' element={<ProtectedRoute />} >
-              <Route path='/cashFund' element={<CashFundTransaction />} />
+            <Route path='/deductCashFund' element={<ProtectedRoute />} >
+              <Route path='/deductCashFund' element={<DeductCashFund />} />
+            </Route>
+
+            <Route path='/addCashFund' element={<ProtectedRoute />} >
+              <Route path='/addCashFund' element={<AddCashFund />} />
             </Route>
 
 

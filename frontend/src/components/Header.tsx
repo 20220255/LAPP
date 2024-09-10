@@ -8,6 +8,7 @@ import { MouseEvent, useState } from "react"
 import { Menu, MenuItem } from "@mui/material"
 import { resetSales } from "../features/sales/salesSlice"
 import { resetUsers } from "../features/users/userSlice"
+import { NestedMenuItem } from 'mui-nested-menu'
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -46,8 +47,14 @@ const Header = () => {
 
     const handleAddToCashFund = () => {
         setAnchorEl(null);
-        navigate('/cashFund')
+        navigate('/addCashFund')
     }
+
+    const handleDeductFromCashFund = () => {
+        setAnchorEl(null);
+        navigate('/deductCashFund')
+    }
+
 
     return (
         <header className="header">
@@ -72,7 +79,19 @@ const Header = () => {
                     <MenuItem onClick={handleClickHome}>Home</MenuItem>
                     <MenuItem onClick={handleClickExpenseList}>Expense List</MenuItem>
                     <MenuItem onClick={handleClickChart}>Chart</MenuItem>
-                    <MenuItem onClick={handleAddToCashFund}>Add Cash Fund</MenuItem>
+                    <NestedMenuItem
+                        label="Cash Fund"
+                        parentMenuOpen={open}
+                    >
+                        <MenuItem
+                            onClick={handleAddToCashFund}
+                        >
+                            Add Cash Fund
+                        </MenuItem>
+                        <MenuItem onClick={handleDeductFromCashFund} >
+                            Deduct Cash Fund
+                        </MenuItem>
+                    </NestedMenuItem>
                 </Menu>
             </div>
             <ul>

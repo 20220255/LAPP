@@ -124,7 +124,7 @@ export const expenseSlice = createSlice({
             .addCase(inputExpense.fulfilled, (state: ExpenseSliceType) => {
                 state.isLoadingExp = false
                 state.isSuccessExp = true
-                toast.success("Data successfully saved.")
+                toast.success("Expense successfully saved.")
             })
             .addCase(inputExpense.rejected, (state: ExpenseSliceType, action: AnyAction) => {
                 state.isLoadingExp = false

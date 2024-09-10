@@ -1,6 +1,6 @@
 import AddCashFundAccordion from "../components/AddCashFundAccordion"
 
-const CashFundTransaction = () => {
+const AddCashFund = () => {
   return (
     <div>
       <h1>Cash Fund</h1>
@@ -9,4 +9,4 @@ const CashFundTransaction = () => {
   )
 }
 
-export default CashFundTransaction
+export default AddCashFund

@@ -3,37 +3,6 @@ const CashFund = require("../models/cashFundModel");
 const { addHours } = require("./utilControllers/addHours");
 require("mongoose");
 
-// // Deduct Cashfund
-// const deductCashFund = asyncHandler(async (req, res) => {
-//   try {
-//     // input cash fund
-//     const { userId, amount } = req.body;
-
-//     if (!userId) {
-//       throw new Error('"You must be logged in first');
-//     }
-
-//     if (amount < 0) {
-//       throw new Error("Unable to continue. Cash fund will be below 0.");
-//     }
-
-//     const datePlus8Utc = await addHours(new Date(), 8);
-
-//     const expense = await Expense.create({
-//       ...req.body,
-//       dateEntered: datePlus8Utc.toLocaleDateString(),
-//       timeEntered: new Date().toLocaleTimeString(),
-//     });
-
-//     if (expense) {
-//       res.status(201).json(expense);
-//     }
-//   } catch (error) {
-//     res.status(400);
-//     throw new Error(error.message);
-//   }
-// });
-
 /** Get the last document of the Cash Fund */
 const getLastCF = asyncHandler(async (req, res) => {
   try {
@@ -66,16 +35,24 @@ const addCashFund = asyncHandler(async (req, res) => {
   }
 });
 
-// const deleteExpense = asyncHandler(async (req, res) => {
-//   try {
-//     const { _id } = req.body;
-//     const resp = await Expense.findByIdAndDelete(_id);
-//     res.status(200).json(resp);
-//   } catch (error) {
-//     res.status(400);
-//     throw new Error(error.message);
-//   }
-// });
+/** Deduct from cash fund */
+const deductCashFund = asyncHandler(async (req, res) => {
+  try {
+    /** add 8 hrs */
+    const datePlus8Utc = await addHours(new Date(), 8);
+
+    const cashFund = await CashFund.create({
+      ...req.body,
+      dateEntered: datePlus8Utc.toLocaleDateString(),
+      timeEntered: new Date().toLocaleTimeString(),
+    })
+
+    res.status(200).json(cashFund);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
 
 // // Get the expense list
 // const getExpenseList = asyncHandler(async (req, res) => {
@@ -92,5 +69,5 @@ const addCashFund = asyncHandler(async (req, res) => {
 // });
 
 module.exports = {
-  addCashFund, getLastCF
+  addCashFund, getLastCF, deductCashFund
 };

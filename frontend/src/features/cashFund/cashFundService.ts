@@ -14,6 +14,14 @@ const addCashFund = async(addCashData: CashFundType) => {
     return await response.data
 }
 
+const deductCashFund = async(addCashData: CashFundType) => {
+    const user = await getUserAuth()
+    const response = await axios.post(API_URL + '/add', addCashData, {
+        headers: {Authorization: `Bearer ${user.token}`}
+    })
+    return await response.data
+}
+
 const getLastCF = async() => {
     const user = await getUserAuth()
     const response = await axios.get(API_URL + '/getLastCF', {
@@ -24,7 +32,7 @@ const getLastCF = async() => {
 
 
 const cashFundService = {
-    addCashFund, getLastCF
+    addCashFund, getLastCF, deductCashFund
 }
 
 export default cashFundService

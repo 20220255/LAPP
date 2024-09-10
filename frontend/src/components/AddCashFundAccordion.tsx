@@ -14,7 +14,7 @@ import { AppDispatch, RootState } from '../app/store';
 import { addCashFund, CashFundType, getLastCF } from '../features/cashFund/cashFundSlice';
 import { TbCashRegister } from "react-icons/tb";
 
-export default function CashFundAccordion() {
+export default function AddCashFundAccordion() {
 
     const dispatch = useDispatch<AppDispatch>()
 
