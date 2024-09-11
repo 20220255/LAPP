@@ -30,9 +30,17 @@ const getLastCF = async() => {
     return await response.data
 }
 
+const getLast20CF = async(): Promise<CashFundType[]> => {
+    const user = await getUserAuth()
+    const response = await axios.get(API_URL + '/getLast20CF', {
+        headers: {Authorization: `Bearer ${user.token}`}
+    })
+    return await response.data
+}
+
 
 const cashFundService = {
-    addCashFund, getLastCF, deductCashFund
+    addCashFund, getLastCF, deductCashFund, getLast20CF
 }
 
 export default cashFundService

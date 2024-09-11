@@ -45,7 +45,7 @@ const deductCashFund = asyncHandler(async (req, res) => {
       ...req.body,
       dateEntered: datePlus8Utc.toLocaleDateString(),
       timeEntered: new Date().toLocaleTimeString(),
-    })
+    });
 
     res.status(200).json(cashFund);
   } catch (error) {
@@ -54,20 +54,24 @@ const deductCashFund = asyncHandler(async (req, res) => {
   }
 });
 
-// // Get the expense list
-// const getExpenseList = asyncHandler(async (req, res) => {
-//   try {
-//     const expenseList = await Expense.find({}).populate("userId", "firstName");
-
-//     if (expenseList) {
-//       res.status(200).json(expenseList);
-//     }
-//   } catch (error) {
-//     res.status(400);
-//     throw new Error(error.message);
-//   }
-// });
+/** Get the last 20 transactions */
+const getLast20CF = asyncHandler(async (req, res) => {
+  try {
+    const last20DocCF = await CashFund.find({})
+      .sort({ createdAt: -1 })
+      .limit(20)
+      .select("amount amountAdded amountDeducted expenseName dateEntered comment")
+      .populate("userId", "firstName");
+    res.status(200).json(last20DocCF);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
 
 module.exports = {
-  addCashFund, getLastCF, deductCashFund
+  addCashFund,
+  getLastCF,
+  deductCashFund,
+  getLast20CF,
 };

@@ -55,6 +55,11 @@ const Header = () => {
         navigate('/deductCashFund')
     }
 
+    const handleViewCashFund = () => {
+        setAnchorEl(null);
+        navigate('/cashfund-list')
+    }
+
 
     return (
         <header className="header">
@@ -83,13 +88,14 @@ const Header = () => {
                         label="Cash Fund"
                         parentMenuOpen={open}
                     >
-                        <MenuItem
-                            onClick={handleAddToCashFund}
-                        >
+                        <MenuItem onClick={handleAddToCashFund}                       >
                             Add Cash Fund
                         </MenuItem>
                         <MenuItem onClick={handleDeductFromCashFund} >
                             Deduct Cash Fund
+                        </MenuItem>
+                        <MenuItem onClick={handleViewCashFund} >
+                            View Cash Fund Transactions 
                         </MenuItem>
                     </NestedMenuItem>
                 </Menu>

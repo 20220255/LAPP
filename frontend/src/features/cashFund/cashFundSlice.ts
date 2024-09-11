@@ -26,8 +26,8 @@ export type CashFundSliceType = {
     message: string;
 } 
 
-export type ExpenseListSliceType = {
-    cashFundList: CashFundSliceType[];
+export type CashFundListSliceType = {
+    cashFundList: CashFundType[];
     isErrorCf: boolean;
     isSuccessCf: boolean;
     isLoadingCf: boolean;
@@ -107,40 +107,17 @@ export const getLastCF = createAsyncThunk('cashFund/getLastCF', async(_, thunkAP
     }
 })
 
-// // Update Expense
-// export const updateExpense = createAsyncThunk('expense/updateExpense',  async(expense: ExpenseType, thunkAPI) => {
-//     try {
-//         return await  expenseService.updateExpense(expense)
-//     } catch (error: any) {
-//         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-//         const thunkMessage = thunkAPI.rejectWithValue(message)
-//         return thunkMessage
-//     }
-// })
-
-// // Delete
-// export const deleteExpense = createAsyncThunk('expense/deleteExpense',  async(expenseId: any, thunkAPI) => {
-//     try {
-//         return await expenseService.deleteExpense(expenseId)
-//     } catch (error: any) {
-//         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-//         const thunkMessage = thunkAPI.rejectWithValue(message)
-//         return thunkMessage
-//     }
-// })
-
-// // get sales list
-// export const getExpenseList = createAsyncThunk('expense/getExpenseList', async(_, thunkAPI) => {
-//     try {
-//         const expenseList =  await expenseService.getExpenseList()
-//         return expenseList
-        
-//     } catch (error: any) {
-//         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-//         const thunkMessage = thunkAPI.rejectWithValue(message)
-//         return thunkMessage
-//     }
-// })
+/** Get last 20 cash fund doc */
+export const getLast20CF = createAsyncThunk('cashFund/getLast20CF', async(_, thunkAPI) => {
+    try {
+        const last20DocCF =  await cashFundService.getLast20CF()
+        return last20DocCF
+    } catch (error: any) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        const thunkMessage = thunkAPI.rejectWithValue(message)
+        return thunkMessage
+    }
+})
 
 
 export const cashFundSlice = createSlice({
@@ -201,52 +178,20 @@ export const cashFundSlice = createSlice({
                 state.isErrorCf = true
                 toast.error(state.message)
             })
-            // .addCase(updateExpense.pending, (state: ExpenseSliceType ) => {
-            //     state.isLoadingExp = true
-            // })
-            // .addCase(updateExpense.fulfilled, (state: ExpenseSliceType, action: AnyAction) => {
-            //     state.isLoadingExp = false
-            //     state.isSuccessExp = true
-            //     state.expense = action.payload
-            //     toast.success("Data successfully updated.")
-            // })
-            // .addCase(updateExpense.rejected, (state: ExpenseSliceType, action: AnyAction) => {
-            //     state.isLoadingExp = false
-            //     state.message = action.payload
-            //     state.isErrorExp = true
-            //     toast.error(state.message)
-            // })
-            // .addCase(deleteExpense.pending, (state ) => {
-            //     state.isLoadingExp = true
-            // })
-            // .addCase(deleteExpense.fulfilled, (state, action: AnyAction) => {
-            //     state.isLoadingExp = false
-            //     state.isSuccessExp = true
-            //     state.expenseList = state.expenseList!.filter((item) => {
-            //         return item._id !== action.payload
-            //     })
-            //     toast.success("Data successfully deleted.")
-            // })
-            // .addCase(deleteExpense.rejected, (state, action: AnyAction) => {
-            //     state.isLoadingExp = false
-            //     state.message = action.payload
-            //     state.isErrorExp = true
-            //     toast.error(state.message)
-            // })
-            // .addCase(getExpenseList.pending, (state) => {
-            //     state.isLoadingExp = true
-            // })
-            // .addCase(getExpenseList.fulfilled, (state, action) => {
-            //     state.isLoadingExp = false
-            //     state.isSuccessExp = true
-            //     state.expenseList = action.payload
-            // })
-            // .addCase(getExpenseList.rejected, (state, action: AnyAction) => {
-            //     state.isLoadingExp = false
-            //     state.message = action.payload
-            //     state.isErrorExp = true
-            //     toast.error(state.message)
-            // })
+            .addCase(getLast20CF.pending, (state: CashFundListSliceType) => {
+              state.isLoadingCf = true  
+            })
+            .addCase(getLast20CF.fulfilled, (state: CashFundListSliceType, action) => {
+                state.isLoadingCf = false
+                state.isSuccessCf = true
+                state.cashFundList = action.payload
+            })
+            .addCase(getLast20CF.rejected, (state: CashFundListSliceType, action: AnyAction) => {
+                state.isLoadingCf = false
+                state.message = action.payload
+                state.isErrorCf = true
+                toast.error(state.message)
+            })
     },
 })
 

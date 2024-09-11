@@ -17,6 +17,7 @@ import ExpenseLists from './pages/ExpenseLists';
 import BasicBars from './pages/chart';
 import AddCashFund from './pages/AddCashFund';
 import DeductCashFund from './pages/DeductCashFund';
+import CashFundLists from './pages/CashFundLists';
 
 
 
@@ -56,6 +57,10 @@ const App = () => {
 
             <Route path="/expense-list" element={<ProtectedRoute />}>
               <Route path='/expense-list' element={<ExpenseLists />} />
+            </Route>
+
+            <Route path="/cashfund-list" element={<ProtectedRoute />}>
+              <Route path='/cashfund-list' element={<CashFundLists />} />
             </Route>
 
             <Route path="/folds-list" element={<ProtectedRoute />}>
