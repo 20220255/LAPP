@@ -13,7 +13,7 @@ import 'react-calendar/dist/Calendar.css';
 import dayjs from 'dayjs'
 import { Autocomplete, TextField } from '@mui/material';
 import { getAllUsers } from '../features/users/userSlice';
-import { ExpenseType, getExpenseList, initialExpenseState } from '../features/expenses/expenseSlice';
+import { ExpenseType, getExpenseList } from '../features/expenses/expenseSlice';
 
 const columns: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 125 },
