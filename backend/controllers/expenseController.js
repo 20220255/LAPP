@@ -12,18 +12,18 @@ const inputExpense = asyncHandler(async (req, res) => {
       throw new Error('"You must be logged in first');
     }
 
-    if (amount <= 0) {
-      throw new Error("Sales cannot be 0");
+    /** Added in order to be able to enter 0 expense since the chart expense cannot be null */
+    if (amount < 0) {
+      throw new Error("Sales cannot be less than 0");
     }
 
     function addHours(date, hours) {
-        const hoursToAdd = hours * 60 * 60 * 1000;
-        date.setTime(date.getTime() + hoursToAdd);
-        return date;
-      }
-      /** add 8 hrs */
-      const datePlus8Utc = await addHours(new Date(), 8);
-
+      const hoursToAdd = hours * 60 * 60 * 1000;
+      date.setTime(date.getTime() + hoursToAdd);
+      return date;
+    }
+    /** add 8 hrs */
+    const datePlus8Utc = await addHours(new Date(), 8);
 
     const expense = await Expense.create({
       ...req.body,
@@ -58,30 +58,29 @@ const updateExpense = asyncHandler(async (req, res) => {
 });
 
 const deleteExpense = asyncHandler(async (req, res) => {
-    try {
-      const { _id } = req.body;
-      const resp = await Expense.findByIdAndDelete(_id);
-      res.status(200).json(resp);
-    } catch (error) {
-      res.status(400);
-      throw new Error(error.message);
-    }
-  });
-
+  try {
+    const { _id } = req.body;
+    const resp = await Expense.findByIdAndDelete(_id);
+    res.status(200).json(resp);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
 
 // Get the expense list
 const getExpenseList = asyncHandler(async (req, res) => {
-    try {
-      const expenseList = await Expense.find({}).populate('userId', 'firstName');
-  
-      if (expenseList) {
-        res.status(200).json(expenseList);
-      }
-    } catch (error) {
-      res.status(400);
-      throw new Error(error.message);
+  try {
+    const expenseList = await Expense.find({}).populate("userId", "firstName");
+
+    if (expenseList) {
+      res.status(200).json(expenseList);
     }
-  });
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
 
 module.exports = {
   inputExpense,
