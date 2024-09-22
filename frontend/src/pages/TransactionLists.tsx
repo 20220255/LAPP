@@ -48,10 +48,8 @@ const TransactionLists = () => {
     const { expenseList } = useSelector((state: RootState) => state.expense)
 
     const [totlSalesList, setTotalSalesList] = useState() as [number, (p: number) => void]
-    const [totalExpenseList, setTotalExpenseList] = useState() as [number, (p: number) => void] 
+    const [totalExpenseList, setTotalExpenseList] = useState() as [number, (p: number) => void]
     const [mySalesList, setMySalesList] = useState(initialState.salesList) as [SalesListType[], (p: object) => void]
-    const [, setMyExpenseList] = useState(initialExpenseState.expenseList) as [ExpenseType[], (p: object) => void]
-
     const [userValue, setUserValue] = useState<string | null>('');
 
     type ValuePiece = Date | null | string;
@@ -147,7 +145,7 @@ const TransactionLists = () => {
         })
 
         setMySalesList(myFilteredDateSalesList)
-        setMyExpenseList(myFilteredDateExpenseList)
+        // setMyExpenseList(myFilteredDateExpenseList)
 
         /** Get total sales computation */
         const totalSales = getTotalSales(myFilteredDateSalesList)
@@ -158,17 +156,10 @@ const TransactionLists = () => {
         setTotalExpenseList(totalExpense)
     }
 
-
-
-
-
-
-
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         const { _id } = params.row
         navigate(`/transaction-maintenance/${_id}`)
     }
-
 
     const CustomToolbar = () => {
         return (
@@ -223,7 +214,7 @@ const TransactionLists = () => {
                             Total Sales: <span style={{ paddingLeft: '0.25rem' }}>&#8369; {`${totlSalesList}.00`}</span>
                         </div>
                         <div style={{ margin: 'auto', color: 'navy', marginBottom: '0.25rem', textAlign: 'center', fontSize: '1.5rem' }}>
-                            Net Sales: <span style={{ paddingLeft: '0.25rem' }}>&#8369; {`${totlSalesList -  totalExpenseList}.00`}</span>
+                            Net Sales: <span style={{ paddingLeft: '0.25rem' }}>&#8369; {`${totlSalesList - totalExpenseList}.00`}</span>
                         </div>
                     </div>
 
