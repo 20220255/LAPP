@@ -4,6 +4,7 @@ import salesReducer from '../features/sales/salesSlice';
 import userReducer from '../features/users/userSlice';
 import expenseReducer from '../features/expenses/expenseSlice';
 import cashFundReducer from '../features/cashFund/cashFundSlice'
+import supplyReducer from '../features/supplies/supplySlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     user: userReducer,
     expense: expenseReducer,
     cashFund: cashFundReducer,
+    supply: supplyReducer,
   },
 });
 

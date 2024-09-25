@@ -17,6 +17,7 @@ import { ImEnter } from "react-icons/im";
 import { IoMdSend } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
+import { deductSupply, getAllSupplies } from '../features/supplies/supplySlice';
 
 type ProductType = {
     id: number;
@@ -141,7 +142,7 @@ export default function SalesAccordion() {
             const arielPrice = filterItem(products, 'Surf Detergent', 'name')
             const smartPrice = filterItem(products, 'Smart Detergent', 'name')
             const surfPrice = filterItem(products, 'Surf Detergent', 'name')
-            const genericPrice = filterItem(products, 'Generic Bottled Detergent', 'name')
+            const genericPrice = filterItem(products, 'Generic Detergent', 'name')
 
             let detergentPrice = 0
             switch (detergent.name) {
@@ -157,7 +158,7 @@ export default function SalesAccordion() {
                 case 'Smart Detergent':
                     detergentPrice = smartPrice * detergent.count
                     break;
-                case 'Generic Bottled Detergent':
+                case 'Generic Detergent':
                     detergentPrice = genericPrice * detergent.count
                     break;
                 default:
@@ -200,7 +201,11 @@ export default function SalesAccordion() {
         }
 
         getTotalSales(formData)
-    }, [d1, d2, d3, d4, d5, detergent.count, detergent.name, extraDry, fabCon.count, fabCon.name, folds, formData, spinDry, w1, w2, w3, w4, w5])
+
+        /** Retrieves all supplies */
+        dispatch(getAllSupplies())
+        
+    }, [d1, d2, d3, d4, d5, detergent.count, detergent.name, dispatch, extraDry, fabCon.count, fabCon.name, folds, formData, spinDry, w1, w2, w3, w4, w5])
 
 
     // Accordion
@@ -219,8 +224,6 @@ export default function SalesAccordion() {
 
     const onChangeProdDetName = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-        // split the name until period and get the next
-        // or just create another function for number
         setFormData((prevState) => {
             return { ...prevState, [name]: { ...prevState.detergent, 'name': value } }
         })
@@ -228,8 +231,6 @@ export default function SalesAccordion() {
 
     const onChangeProdFabconName = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-        // split the name until period and get the next
-        // or just create another function for number
         setFormData((prevState) => {
             return { ...prevState, [name]: { ...prevState.fabCon, 'name': value } }
         })
@@ -255,13 +256,34 @@ export default function SalesAccordion() {
 
     useSelector((state: RootState) => state.sales)
 
+    /** Get the supply list from the redux state */
+    const { supplyList } =  useSelector((state: RootState) => state.supply)
+
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
+
+        /** Added the supply list together with the count name and customer name */
+        /** This will allow to filter the display list based o the detergent name */
+        const supplyListDetegentCount = {
+            supplyList: supplyList,
+            count: formData.detergent.count,
+            name: formData.detergent.name,
+            customerName: formData.firstName
+        }
+        /** Deduct supplies if supplies are selected */
+        if (formData.detergent.count > 0) {
+            dispatch(deductSupply(supplyListDetegentCount))
+        }
+
+        /** Input sales into database */
         const salesInput = { ...formData, foldsShare: foldsSharePrice }
         dispatch(inputSales(salesInput))
+
         handleClose()
+
         /** resets the sale state to blank */
         dispatch(resetSales())
+
         /** Initializes the transaction form to blank afte entry */
         setFormData(initializeData)
     }

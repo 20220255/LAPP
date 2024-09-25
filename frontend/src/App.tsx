@@ -18,6 +18,7 @@ import BasicBars from './pages/chart';
 import AddCashFund from './pages/AddCashFund';
 import DeductCashFund from './pages/DeductCashFund';
 import CashFundLists from './pages/CashFundLists';
+import SupplyDetergent from './pages/SupplyDetergent';
 
 
 
@@ -77,6 +78,10 @@ const App = () => {
 
             <Route path='/addCashFund' element={<ProtectedRoute />} >
               <Route path='/addCashFund' element={<AddCashFund />} />
+            </Route>
+
+            <Route path='/supplies-detergent' element={<ProtectedRoute />} >
+              <Route path='/supplies-detergent' element={<SupplyDetergent />} />
             </Route>
 
 

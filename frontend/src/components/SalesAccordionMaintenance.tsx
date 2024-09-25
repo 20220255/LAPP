@@ -138,7 +138,7 @@ export const SalesAccordionsMaintenance = ({ salesId }: { salesId: string | unde
             const arielPrice = filterItem(products, 'Surf Detergent', 'name')
             const smartPrice = filterItem(products, 'Smart Detergent', 'name')
             const surfPrice = filterItem(products, 'Surf Detergent', 'name')
-            const genericPrice = filterItem(products, 'Generic Bottled Detergent', 'name')
+            const genericPrice = filterItem(products, 'Generic Detergent', 'name')
 
             let detergentPrice = 0
             switch (detergent.name) {
@@ -154,7 +154,7 @@ export const SalesAccordionsMaintenance = ({ salesId }: { salesId: string | unde
                 case 'Smart Detergent':
                     detergentPrice = smartPrice * detergent.count
                     break;
-                case 'Generic Bottled Detergent':
+                case 'Generic Detergent':
                     detergentPrice = genericPrice * detergent.count
                     break;
                 default:

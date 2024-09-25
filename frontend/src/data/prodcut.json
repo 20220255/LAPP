@@ -1,19 +1,121 @@
 [
-  { "id": 1, "name": "Breeze Detergent", "price": 18.00, "type": "detergent" },
-  { "id": 2, "name": "Ariel Detergent", "price": 18.00, "type": "detergent" },
-  { "id": 3, "name": "Surf Detergent", "price": 18.00, "type": "detergent" },
-  { "id": 4, "name": "Smart Detergent", "price": 18.00, "type": "detergent" },
-  { "id": 5, "name": "Generic Bottled Detergent", "price": 10.00, "type": "detergent" },
-  { "id": 6, "name": "No Detergent", "price": 0.00, "type": "detergent" },
-  { "id": 7, "name": "Small Downy Fabcon", "price": 8.00, "type": "fabcon" },
-  { "id": 8, "name": "Big Downy Fabcon", "price": 12.00, "type": "fabcon" },
-  { "id": 9, "name": "Small Surf Fabcon", "price": 8.00, "type": "fabcon" },
-  { "id": 10, "name": "Big Surf Fabcon", "price": 12.00, "type": "fabcon" },
-  { "id": 11, "name": "Generic Bottled Fabcon", "price": 5.00, "type": "fabcon" },
-  { "id": 12, "name": "No Fabcon", "price": 0.00, "type": "fabcon" },
-  { "id": 13, "name": "Wash", "price": 75.00, "type": "wash" },
-  { "id": 14, "name": "Dry", "price": 75.00, "type": "dry" },
-  { "id": 15, "name": "Spin Dry", "price": 15.00, "type": "additional" },
-  { "id": 16, "name": "Extra Dry", "price": 15.00, "type": "additional" },
-  { "id": 17, "name": "Folds", "price": 30.00, "type": "additional" }
+  {
+    "id": 1,
+    "name": "Breeze Detergent",
+    "price": 18.0,
+    "type": "detergent",
+    "image": "breeze-detergent.jpeg"
+  },
+  {
+    "id": 2,
+    "name": "Ariel Detergent",
+    "price": 18.0,
+    "type": "detergent",
+    "image": "ariel-detergent.jpeg"
+  },
+  {
+    "id": 3,
+    "name": "Surf Detergent",
+    "price": 18.0,
+    "type": "detergent",
+    "image": "surf-detergent.jpeg"
+  },
+  {
+    "id": 4,
+    "name": "Smart Detergent",
+    "price": 18.0,
+    "type": "detergent",
+    "image": "smart-detergent.jpeg"
+  },
+  {
+    "id": 5,
+    "name": "Generic Detergent",
+    "price": 10.0,
+    "type": "detergent",
+    "image": "generic-detergent.jpeg"
+  },
+  {
+    "id": 6,
+    "name": "No Detergent",
+    "price": 0.0,
+    "type": "detergent",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 7,
+    "name": "Small Downy Fabcon",
+    "price": 8.0,
+    "type": "fabcon",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 8,
+    "name": "Big Downy Fabcon",
+    "price": 12.0,
+    "type": "fabcon",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 9,
+    "name": "Small Surf Fabcon",
+    "price": 8.0,
+    "type": "fabcon",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 10,
+    "name": "Big Surf Fabcon",
+    "price": 12.0,
+    "type": "fabcon",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 11,
+    "name": "Generic Bottled Fabcon",
+    "price": 5.0,
+    "type": "fabcon",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 12,
+    "name": "No Fabcon",
+    "price": 0.0,
+    "type": "fabcon",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 13,
+    "name": "Wash",
+    "price": 75.0,
+    "type": "wash",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 14,
+    "name": "Dry",
+    "price": 75.0,
+    "type": "dry",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 15,
+    "name": "Spin Dry",
+    "price": 15.0,
+    "type": "additional",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 16,
+    "name": "Extra Dry",
+    "price": 15.0,
+    "type": "additional",
+    "image": "surf-small-fab-con.jpeg"
+  },
+  {
+    "id": 17,
+    "name": "Folds",
+    "price": 30.0,
+    "type": "additional",
+    "image": "surf-small-fab-con.jpeg"
+  }
 ]

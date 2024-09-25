@@ -215,7 +215,7 @@ export const ExpenseAccordionsMaintenance = ({ expenseId }: { expenseId: string 
                             onClose={handleCloseDelete}
                             aria-describedby="alert-dialog-slide-description"
                         >
-                            <DialogTitle color='red'> <div>Customer: {name} </div> <div>Expense Amount: {amount}</div>  </DialogTitle>
+                            <DialogTitle color='red'> <div>Expense: {name} </div> <div>Expense Amount: {amount}</div>  </DialogTitle>
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-slide-description">
                                     This sales transaction item will be deleted. Are your sure?

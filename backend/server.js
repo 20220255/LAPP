@@ -19,6 +19,7 @@ app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/sales", require("./routes/salesRoutes"));
 app.use("/api/expense", require("./routes/expenseRoutes"));
 app.use("/api/cashFund", require("./routes/cashFundRoutes"));
+app.use("/api/supply", require("./routes/supplyRoutes"));
 
 //Serve frontend
 if (process.env.NODE_ENV === "production") {

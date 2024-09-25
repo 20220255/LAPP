@@ -60,6 +60,10 @@ const Header = () => {
         navigate('/cashfund-list')
     }
 
+    const handleSuppliesDetergent = () => {
+        setAnchorEl(null);
+        navigate('/supplies-detergent')
+    }
 
     return (
         <header className="header">
@@ -85,17 +89,29 @@ const Header = () => {
                     <MenuItem onClick={handleClickExpenseList}>Expense List</MenuItem>
                     <MenuItem onClick={handleClickChart}>Chart</MenuItem>
                     <NestedMenuItem
+                        label="Supplies"
+                        parentMenuOpen={open}
+                    >
+                        <MenuItem onClick={handleSuppliesDetergent} >
+                            Detergent
+                        </MenuItem>
+                        <MenuItem>
+                            Fab Con
+                        </MenuItem>
+
+                    </NestedMenuItem>
+                    <NestedMenuItem
                         label="Cash Fund"
                         parentMenuOpen={open}
                     >
-                        <MenuItem onClick={handleAddToCashFund}                       >
+                        <MenuItem onClick={handleAddToCashFund}>
                             Add Cash Fund
                         </MenuItem>
                         <MenuItem onClick={handleDeductFromCashFund} >
                             Deduct Cash Fund
                         </MenuItem>
                         <MenuItem onClick={handleViewCashFund} >
-                            View Cash Fund Transactions 
+                            View Cash Fund Transactions
                         </MenuItem>
                     </NestedMenuItem>
                 </Menu>
