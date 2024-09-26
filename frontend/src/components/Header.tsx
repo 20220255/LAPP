@@ -9,12 +9,18 @@ import { Menu, MenuItem } from "@mui/material"
 import { resetSales } from "../features/sales/salesSlice"
 import { resetUsers } from "../features/users/userSlice"
 import { NestedMenuItem } from 'mui-nested-menu'
+import { resetExpense } from "../features/expenses/expenseSlice"
+import { resetSupply } from "../features/supplies/supplySlice"
+import { resetCashFund } from "../features/cashFund/cashFundSlice"
 
 const Header = () => {
     const dispatch = useDispatch()
     const { user } = useSelector((state: RootState) => state.auth)
     const onLogout = () => {
         dispatch(resetSales())
+        dispatch(resetExpense())
+        dispatch(resetSupply())
+        dispatch(resetCashFund())
         dispatch(logout())
         /** Resets the users state after logging out */
         dispatch(resetUsers())

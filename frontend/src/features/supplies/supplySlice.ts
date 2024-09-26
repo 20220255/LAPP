@@ -115,7 +115,16 @@ export const getAllSupplies = createAsyncThunk('supply/getAllSupplies', async(_,
 export const supplySlice = createSlice({
     name: 'supply',
     initialState: initialSupplyState,
-    reducers: { },
+    reducers: {
+        resetSupply: (state: SupplySliceType) => {
+            state.isErrorSupply = false
+            state.isSuccessSupply = false
+            state.isLoadingSupply = false
+            state.messageSupply = ''
+            state.supplyList = []
+            state.supply = initialSupply
+        }
+     },
     extraReducers: (builder) => {
         builder
             .addCase(addSupply.pending, (state: SupplySliceType) => {
@@ -150,5 +159,5 @@ export const supplySlice = createSlice({
 })
 
 
-// export const {resetCashFund} = cashFundSlice.actions
+export const {resetSupply} = supplySlice.actions
 export default supplySlice.reducer

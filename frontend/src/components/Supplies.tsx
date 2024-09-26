@@ -24,6 +24,7 @@ const columns: GridColDef[] = [
     { field: 'dateEntered', headerName: 'Date', width: 125 },
     { field: 'customerName', headerName: 'Customer', width: 200 },
     { field: 'userId', headerName: 'Entered by', valueFormatter: (value: SupplyType) => value.firstName, width: 250 },
+    { field: 'comment', headerName: 'Comment', width: 200 },
 ];
 
 

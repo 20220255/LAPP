@@ -8,7 +8,7 @@ const supplySchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["detergent", "fab con"],
+      enum: ["detergent", "fabcon"],
       required: false,
     },
     count: {
