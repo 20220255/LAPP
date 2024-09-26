@@ -71,6 +71,11 @@ const Header = () => {
         navigate('/supplies-detergent')
     }
 
+    const handleSuppliesFabcon = () => {
+        setAnchorEl(null);
+        navigate('/supplies-fabcon')
+    }
+
     return (
         <header className="header">
             <div className="logo">
@@ -101,7 +106,7 @@ const Header = () => {
                         <MenuItem onClick={handleSuppliesDetergent} >
                             Detergent
                         </MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={handleSuppliesFabcon}>
                             Fab Con
                         </MenuItem>
 

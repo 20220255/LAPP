@@ -102,8 +102,8 @@ export const deductSupply = createAsyncThunk('supply/deductSupply', async(supply
 /** Get all supplies trasanction */
 export const getAllSupplies = createAsyncThunk('supply/getAllSupplies', async(_, thunkAPI) => {
     try {
-        const last20DocSupply =  await supplyService.getAllSupplies()
-        return last20DocSupply
+        const allSupplies =  await supplyService.getAllSupplies()
+        return allSupplies
     } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         const thunkMessage = thunkAPI.rejectWithValue(message)

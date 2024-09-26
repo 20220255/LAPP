@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { SupplyType } from '../features/supplies/supplyTypes';
 import Spinner from './Spinner';
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import { getAllSupplies } from '../features/supplies/supplySlice';
 
 export type LaundrySupplies = {
@@ -28,37 +28,40 @@ const columns: GridColDef[] = [
 ];
 
 
-export default function Supplies() {
+export default function SuppliesFabcon() {
     const dispatch = useDispatch<AppDispatch>()
-    useMemo(() => dispatch(getAllSupplies()), [dispatch])
 
-    const laundrySupplies = products.filter(product => product.type === 'detergent' && product.name !== 'No Detergent').map((product) => {
+    useEffect(() => {
+        dispatch(getAllSupplies())
+    }, [dispatch])
+
+    /** Filter the laundry Supplies with type detergent */
+    const fabconSupplies = products.filter(product => product.type === 'fabcon' && product.name !== 'No Fabcon').map((product) => {
         return { supplyName: product.name, id: product.id, count: 0, image: product.image }
     })
 
     /** Gets the all the supplies transactions */
     const { supplyList, isLoadingSupply, isSuccessSupply } = useSelector((state: RootState) => state.supply)
 
-    let copyLaundrySupplies: SupplyType[] = [];
+    let copyFabconSupplies: SupplyType[] = [];
 
-    laundrySupplies.forEach(async (supply) => {
+    fabconSupplies.forEach(async (supply) => {
         supplyList.forEach(async (item) => {
             if (item.supplyName === supply.supplyName) {
                 /** Creates a copy of the supplies from the supplies list from the database and adds the image coming from the laundry supplies */
-                copyLaundrySupplies = [...copyLaundrySupplies, { ...item, image: supply.image }];
+                copyFabconSupplies = [...copyFabconSupplies, { ...item, image: supply.image }];
             }
         })
     });
 
     /** Gets the unique supplies from the list of supplies and takes latest transaction date from each unique supplies  */
     const supplyResult = Object.values(
-        copyLaundrySupplies.reduce(function (r: any, e: SupplyType) {
+        copyFabconSupplies.reduce(function (r: any, e: SupplyType) {
             if (!r[e.supplyName]) r[e.supplyName] = e;
             else if (e.createdAt > r[e.supplyName].createdAt) r[e.supplyName] = e;
             return r;
         }, {})
     ) as SupplyType[];
-
 
     const CustomToolbar = () => {
         return (

@@ -8,7 +8,7 @@ const {
   deductSupplies,
 } = require("../controllers/supplyController");
 
-router.post("/add", protect, addSupplies);
+router.post("/add", addSupplies);
 router.post("/deduct", protect, deductSupplies);
 router.get("/getAllSupplies", protect, getAllSupplies);
 

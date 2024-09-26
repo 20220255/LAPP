@@ -263,16 +263,28 @@ export default function SalesAccordion() {
         e.preventDefault()
 
         /** Added the supply list together with the count name and customer name */
-        /** This will allow to filter the display list based o the detergent name */
+        /** This will allow to filter the display list based o the detergent and fabcon name */
         const supplyListDetegentCount = {
             supplyList: supplyList,
             count: formData.detergent.count,
             name: formData.detergent.name,
             customerName: formData.firstName
         }
-        /** Deduct supplies if supplies are selected */
+        const supplyListFabconCount = {
+            supplyList: supplyList,
+            count: formData.fabCon.count,
+            name: formData.fabCon.name,
+            customerName: formData.firstName
+        }
+
+        /** Deduct detergent supplies if supplies are selected */
         if (formData.detergent.count > 0) {
             dispatch(deductSupply(supplyListDetegentCount))
+        }
+
+        /** Deduct fabcon supplies if supplies are selected */
+        if (formData.fabCon.count > 0) {
+            dispatch(deductSupply(supplyListFabconCount))
         }
 
         /** Input sales into database */

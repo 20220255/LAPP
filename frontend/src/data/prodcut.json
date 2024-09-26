@@ -46,35 +46,35 @@
     "name": "Small Downy Fabcon",
     "price": 8.0,
     "type": "fabcon",
-    "image": "surf-small-fab-con.jpeg"
+    "image": "downy-small-fabcon.jpeg"
   },
   {
     "id": 8,
     "name": "Big Downy Fabcon",
     "price": 12.0,
     "type": "fabcon",
-    "image": "surf-small-fab-con.jpeg"
+    "image": "downy-big-fabcon.jpeg"
   },
   {
     "id": 9,
     "name": "Small Surf Fabcon",
     "price": 8.0,
     "type": "fabcon",
-    "image": "surf-small-fab-con.jpeg"
+    "image": "surf-small-fabcon.jpeg"
   },
   {
     "id": 10,
     "name": "Big Surf Fabcon",
     "price": 12.0,
     "type": "fabcon",
-    "image": "surf-small-fab-con.jpeg"
+    "image": "surf-big-fabcon.jpeg"
   },
   {
     "id": 11,
     "name": "Generic Bottled Fabcon",
     "price": 5.0,
     "type": "fabcon",
-    "image": "surf-small-fab-con.jpeg"
+    "image": "generic-fabcon.jpeg"
   },
   {
     "id": 12,

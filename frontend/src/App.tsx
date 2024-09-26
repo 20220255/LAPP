@@ -19,6 +19,7 @@ import AddCashFund from './pages/AddCashFund';
 import DeductCashFund from './pages/DeductCashFund';
 import CashFundLists from './pages/CashFundLists';
 import SupplyDetergent from './pages/SupplyDetergent';
+import SupplyFabcon from './pages/SupplyFabcon';
 
 
 
@@ -82,6 +83,10 @@ const App = () => {
 
             <Route path='/supplies-detergent' element={<ProtectedRoute />} >
               <Route path='/supplies-detergent' element={<SupplyDetergent />} />
+            </Route>
+
+            <Route path='/supplies-fabcon' element={<ProtectedRoute />} >
+              <Route path='/supplies-fabcon' element={<SupplyFabcon />} />
             </Route>
 
 

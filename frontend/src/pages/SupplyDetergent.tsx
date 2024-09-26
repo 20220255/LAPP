@@ -1,9 +1,10 @@
-import Supplies from "../components/Supplies"
+import SuppliesDetergent from "../components/SuppliesDetergent"
+
 
 function SupplyDetergent() {
     return (
         <>
-            <Supplies />
+            <SuppliesDetergent />
         </>
     )
 }
