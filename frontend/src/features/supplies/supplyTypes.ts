@@ -6,7 +6,7 @@ export type SupplyType = {
     type: string;
     count: number;
     countAdded?: number;
-    countDeducted?: number;
+    countDeducted?: number | null;
     customerName?: string;
     comment?: string;
     userId?: {

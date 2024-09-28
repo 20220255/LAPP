@@ -17,18 +17,27 @@ require("mongoose");
 /** Add supplies */
 const addSupplies = asyncHandler(async (req, res) => {
   try {
-    // const { supplyName, count, countAdded, customerName, comment, userId } = req.body;
+    const { supplyName, count, countAdded, customerName, comment, userId } = req.body;
+
+    const addedSupplies = {
+      supplyName,
+      count,
+      countAdded,
+      customerName,
+      comment,
+      userId,
+    };
 
     /** add 8 hrs */
     const datePlus8Utc = await addHours(new Date(), 8);
 
-    const cashFund = await Supply.create({
-      ...req.body,
+    const supply = await Supply.create({
+      ...addedSupplies,
       dateEntered: datePlus8Utc.toLocaleDateString(),
       timeEntered: new Date().toLocaleTimeString(),
     });
 
-    res.status(200).json(cashFund);
+    res.status(200).json(supply);
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
@@ -38,9 +47,9 @@ const addSupplies = asyncHandler(async (req, res) => {
 /** Deduct supplies */
 const deductSupplies = asyncHandler(async (req, res) => {
   try {
-
-    const { supplyName, count, countDeducted, customerName, comment } = req.body
-    const userId = req.body.userId._id
+    const { supplyName, count, countDeducted, customerName, comment } =
+      req.body;
+    const userId = req.body.userId._id;
     // return
     /** add 8 hrs */
     const datePlus8Utc = await addHours(new Date(), 8);

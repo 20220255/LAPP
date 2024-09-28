@@ -42,8 +42,13 @@ const initialSupply = {
 /** Add Supplies */
 export const addSupply = createAsyncThunk('supply/addSupply', async(supply: SupplyType, thunkAPI )  => {
     try {
+
+        supply = {...supply, createdAt: '', _id: '', countDeducted: null, dateEntered: '', image: ''}
+        
         const user = await JSON.parse(localStorage.getItem('user') || '{}')
+        
         supply.userId = user._id
+        
         return await supplyService.addSupplies(supply)
     } catch (error: any) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
@@ -124,6 +129,7 @@ export const supplySlice = createSlice({
             state.supplyList = []
             state.supply = initialSupply
         }
+
      },
     extraReducers: (builder) => {
         builder
