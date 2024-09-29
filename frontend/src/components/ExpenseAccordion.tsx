@@ -112,7 +112,7 @@ export default function ExpenseAccordion() {
                                     sx={{ mb: '0.75rem', mr: '0.5rem' }}
                                     required
                                 >
-                                    {expense.map((item) => (
+                                    {expense.sort((a, b) => a.name > b.name ? 1 : -1).map((item) => (
                                         <MenuItem key={item.id} value={item.name}>
                                             {item.name}
                                         </MenuItem>
