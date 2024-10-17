@@ -11,7 +11,7 @@ import { getLast20CF } from '../features/cashFund/cashFundSlice';
 interface UserId {
     firstName: string;
     _id: string;
-  }
+}
 
 const columns: GridColDef[] = [
     { field: 'amount', headerName: 'Amount', width: 125 },
@@ -19,7 +19,7 @@ const columns: GridColDef[] = [
     { field: 'amountDeducted', headerName: 'Amount Deducted', valueFormatter: (amountDeducted: number) => amountDeducted ? amountDeducted + '.00' : '', width: 175 },
     { field: 'expenseName', headerName: 'Expense', width: 250 },
     { field: 'dateEntered', headerName: 'Date Entered', width: 175 },
-    { field: 'userId', headerName: 'Entered by', valueFormatter: (value: UserId) => value.firstName,  width: 200 },
+    { field: 'userId', headerName: 'Entered by', valueFormatter: (value: UserId) => value.firstName, width: 200 },
     { field: 'comment', headerName: 'Comment/Description', width: 250 },
 
 ];
@@ -35,13 +35,10 @@ const CashFundLists = () => {
     const { isLoadingCf, cashFundList, isSuccessCf } = useSelector((state: RootState) => state.cashFund)
 
     useEffect(() => {
-
         const getCashFundList = async () => {
             await dispatch(getLast20CF())
         }
-
         getCashFundList()
-
     }, [dispatch])
 
     const CustomToolbar = () => {
@@ -68,11 +65,9 @@ const CashFundLists = () => {
                         <div style={{ margin: 'auto', marginBottom: '0.25rem', textAlign: 'center', fontSize: '1.5rem' }}>
                             Cash Fund Last 20 Transactions
                         </div>
-
                     </div>
 
                     <div style={{ marginTop: '0.15rem' }}>
-
                         <StripedDataGridExpense
                             rows={cashFundList}
                             columns={columns}
@@ -94,9 +89,7 @@ const CashFundLists = () => {
                         />
                     </div>
                 </DataGridStyle>
-
             </>
-
         )
     };
 

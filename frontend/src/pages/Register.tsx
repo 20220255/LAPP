@@ -27,7 +27,6 @@ const Register = () => {
 
   const { firstName, lastName, email, password, password2 } = formData
 
-  // const dispatch = useAppDispatch()
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const { isError, isLoading, isSuccess, message, user } = useSelector((state: RootState) => state.auth)
@@ -46,8 +45,8 @@ const Register = () => {
   }, [dispatch, isError, isSuccess, message, navigate, user])
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevState) => {
-      return { ...prevState, [e.target.name]: e.target.value }
+    setFormData((formData) => {
+      return { ...formData, [e.target.name]: e.target.value }
     })
   }
 
