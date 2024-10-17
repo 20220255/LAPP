@@ -1,26 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Header from './components/Header';
 import { ToastContainer } from 'react-toastify'
-import BottomNavigaton from './components/BottomNavigaton';
-import Transaction from './pages/Transaction';
-import TransactionLists from './pages/TransactionLists';
-import TransactionMaintenance from './pages/TransactionMaintenance';
-import ProtectedRoute from './components/ProtectedRoute';
-import Error from './pages/Error';
-import FoldsList from './pages/FoldsList';
-import ExpenseTransaction from './pages/ExpenseTransaction';
-import ExpenseMaintenance from './pages/ExpenseMaintenance';
-import ExpenseLists from './pages/ExpenseLists';
-import BasicBars from './pages/chart';
-import AddCashFund from './pages/AddCashFund';
-import DeductCashFund from './pages/DeductCashFund';
-import CashFundLists from './pages/CashFundLists';
-import SupplyDetergent from './pages/SupplyDetergent';
-import SupplyFabcon from './pages/SupplyFabcon';
-
+import { Home, Login, Register, ExpenseTransaction, ExpenseMaintenance, ExpenseLists, CashFundLists, BasicBars, DeductCashFund, AddCashFund, SupplyDetergent, SupplyFabcon, FoldsList, Error, Transaction, TransactionLists, TransactionMaintenance } from './pages/'
+import { BottomNavigaton, Header, ProtectedRoute } from './components/'
 
 
 const App = () => {
