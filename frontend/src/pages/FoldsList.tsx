@@ -3,12 +3,12 @@ import { AppDispatch, RootState } from "../app/store";
 import Spinner from "../components/Spinner";
 import { DataGridStyle, StripedDataGrid } from "./TransactionList.style";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { getSalesList, initialState, SalesListType, SalesType } from "../features/sales/salesSlice";
 import { GridColDef, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
-import dayjs from "dayjs";
 import { Autocomplete, TextField } from "@mui/material";
 import { getAllUsers } from "../features/users/userSlice";
+import useDatagrid from "../hooks/useDatagrid";
 
 const columns: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 100 },
@@ -32,7 +32,7 @@ const FoldsList = () => {
     const [mySalesList, setMySalesList] = useState(initialState.salesList) as [SalesListType[], (p: object) => void]
     const [totalFoldsNum, setTotalFoldsNum] = useState() as [number, (p: number) => void]
 
-    const [userValue, setUserValue] = useState<string | null>('');
+    // const [userValue, setUserValue] = useState<string | null>('');
 
     /** Gets the current user logged in with the auth state */
     const { user } = useSelector((state: RootState) => state.auth)
@@ -43,45 +43,44 @@ const FoldsList = () => {
     /** Gets all the sales list from sales state */
     const { isLoading, salesList, isSuccess } = useSelector((state: RootState) => state.sales)
 
-    type ValuePiece = Date | null | string;
-    type Value = ValuePiece | [ValuePiece, ValuePiece];
+    // type ValuePiece = Date | null | string;
+    // type Value = ValuePiece | [ValuePiece, ValuePiece];
 
     //* new Date() - currrent
-    const [dateValue, onChange] = useState<Value>([new Date(), new Date()]);
+    // const [dateValue, onChange] = useState<Value>([new Date(), new Date()]);
 
     const dispatch = useDispatch<AppDispatch>()
 
+    // useEffect(() => {
+    //     /** This will trigger if the dates for the date picker has changed - dateValue */
+    //     /* Get the start date for filtering the sales list for the data grid */
+    //     const startDate = dateValue?.toString().split(',')[0]
+    //     const endDate = dateValue?.toString().split(',')[1]
 
-    useEffect(() => {
-        /** This will trigger if the dates for the date picker has changed - dateValue */
-        /* Get the start date for filtering the sales list for the data grid */
-        const startDate = dateValue?.toString().split(',')[0]
-        const endDate = dateValue?.toString().split(',')[1]
+    //     if (endDate && startDate) {
+    //         /** Get the start date from the date picker and subtract 1. This will correctly display the sales on the data grid */
+    //         const minus1StartDate = new Date(startDate)
+    //         minus1StartDate.setDate(minus1StartDate.getDate() - 1)
 
-        if (endDate && startDate) {
-            /** Get the start date from the date picker and subtract 1. This will correctly display the sales on the data grid */
-            const minus1StartDate = new Date(startDate)
-            minus1StartDate.setDate(minus1StartDate.getDate() - 1)
+    //         /** Get the end date from the date picker */
+    //         const plus1EndDate = new Date(endDate);
+    //         plus1EndDate.setDate(plus1EndDate.getDate());
 
-            /** Get the end date from the date picker */
-            const plus1EndDate = new Date(endDate);
-            plus1EndDate.setDate(plus1EndDate.getDate());
+    //         /** Due to typescript, needed to validate start and end date first */
+    //         if (minus1StartDate && plus1EndDate) {
+    //             const dayjsStartDate = dayjs(minus1StartDate).format('YYYY-MM-DD')
+    //             const dayjsEndDate = dayjs(plus1EndDate).format('YYYY-MM-DD')
 
-            /** Due to typescript, needed to validate start and end date first */
-            if (minus1StartDate && plus1EndDate) {
-                const dayjsStartDate = dayjs(minus1StartDate).format('YYYY-MM-DD')
-                const dayjsEndDate = dayjs(plus1EndDate).format('YYYY-MM-DD')
+    //             /** If user is admin, all sales will be displayed otherwise, Only the sales entered by the user will be displayed hence the isAdmin parameter*/
+    //             const getUser = async () => {
+    //                 await getMyFoldsList(user._id, dayjsStartDate, dayjsEndDate, user.isAdmin)
+    //             }
+    //             getUser()
+    //         }
+    //     }
 
-                /** If user is admin, all sales will be displayed otherwise, Only the sales entered by the user will be displayed hence the isAdmin parameter*/
-                const getUser = async () => {
-                    await getMyFoldsList(user._id, dayjsStartDate, dayjsEndDate, user.isAdmin)
-                }
-                getUser()
-            }
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dateValue, userValue, salesList])
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [dateValue, userValue, salesList])
 
 
 
@@ -116,7 +115,6 @@ const FoldsList = () => {
             }
         }
 
-
         /** Filter sales based on the start and end date entered on the date picker */
         /** Parse date value into string as is in UTC format and convert it into locale date */
         const myFilteredFoldsSalesList = myFoldsList.filter((sales: SalesListType) => {
@@ -133,7 +131,7 @@ const FoldsList = () => {
         setTotalFoldsNum(totalFolds)
     }
 
-
+    const { dateValue, onChange, setUserValue, userValue } = useDatagrid(salesList, getMyFoldsList, user)
 
     const CustomToolbar = () => {
         return (

@@ -2,7 +2,7 @@ import { GridColDef, GridEventListener, GridToolbarColumnsButton, GridToolbarCon
 import { DataGridStyle, StripedDataGrid } from './TransactionList.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getSalesList, SalesListType, SalesType } from '../features/sales/salesSlice';
 import Spinner from '../components/Spinner';
 import { useNavigate } from 'react-router-dom';
@@ -10,10 +10,10 @@ import { initialState } from '../features/sales/salesSlice'
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';
 import 'react-calendar/dist/Calendar.css';
-import dayjs from 'dayjs'
 import { Autocomplete, TextField } from '@mui/material';
 import { getAllUsers } from '../features/users/userSlice';
 import { ExpenseType, getExpenseList } from '../features/expenses/expenseSlice';
+import useDatagrid from '../hooks/useDatagrid';
 
 const columns: GridColDef[] = [
     { field: 'firstName', headerName: 'Customer', width: 125 },
@@ -28,7 +28,6 @@ const columnsAdmin: GridColDef[] = [
     { field: 'dateEntered', headerName: 'Date Entered', width: 200 },
     { field: 'userId', headerName: 'Entered by', valueFormatter: (value: SalesType) => value.firstName, width: 200 },
 ];
-
 
 const TransactionLists = () => {
 
@@ -50,45 +49,6 @@ const TransactionLists = () => {
     const [totlSalesList, setTotalSalesList] = useState() as [number, (p: number) => void]
     const [totalExpenseList, setTotalExpenseList] = useState() as [number, (p: number) => void]
     const [mySalesList, setMySalesList] = useState(initialState.salesList) as [SalesListType[], (p: object) => void]
-    const [userValue, setUserValue] = useState<string | null>('');
-
-    type ValuePiece = Date | null | string;
-    type Value = ValuePiece | [ValuePiece, ValuePiece];
-
-    //* new Date() - currrent
-    const [dateValue, onChange] = useState<Value>([new Date(), new Date()]);
-
-    useEffect(() => {
-        /** This will trigger if the dates for the date picker has changed - dateValue */
-        /* Get the start date for filtering the sales list for the data grid */
-        const startDate = dateValue?.toString().split(',')[0]
-        const endDate = dateValue?.toString().split(',')[1]
-
-        if (endDate && startDate) {
-            /** Get the start date from the date picker and subtract 1. This will correctly display the sales on the data grid */
-            const minus1StartDate = new Date(startDate)
-            minus1StartDate.setDate(minus1StartDate.getDate() - 1)
-
-            /** Get the end date from the date picker */
-            const plus1EndDate = new Date(endDate);
-            plus1EndDate.setDate(plus1EndDate.getDate());
-
-            /** Due to typescript, needed to validate start and end date first */
-            if (minus1StartDate && plus1EndDate) {
-                const dayjsStartDate = dayjs(minus1StartDate).format('YYYY-MM-DD')
-                const dayjsEndDate = dayjs(plus1EndDate).format('YYYY-MM-DD')
-
-                /** If user is admin, all sales will be displayed otherwise, Only the sales entered by the user will be displayed hence the isAdmin parameter*/
-                const getUser = async () => {
-                    await getMySalesList(user._id, dayjsStartDate, dayjsEndDate, user.isAdmin)
-                }
-                getUser()
-            }
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dateValue, userValue, salesList])
-
 
     /** Get the Total Sales computation function */
     const getTotalSales = (salesList: SalesListType[]): number => {
@@ -156,6 +116,9 @@ const TransactionLists = () => {
         setTotalExpenseList(totalExpense)
     }
 
+    /** Custom hook to retrieve data onto the Datagrid using useEffect */
+    const { dateValue, onChange, setUserValue, userValue } = useDatagrid(salesList, getMySalesList, user)
+
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         const { _id } = params.row
         navigate(`/transaction-maintenance/${_id}`)
@@ -165,7 +128,6 @@ const TransactionLists = () => {
         return (
             <GridToolbarContainer style={{ marginTop: '0.5rem' }}>
                 <div style={{ marginRight: 'auto', justifySelf: 'end', flexDirection: 'row', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', flexShrink: 'inherit' }}>
-
                     {user.isAdmin ? (
                         <>
                             <Autocomplete
@@ -241,12 +203,9 @@ const TransactionLists = () => {
                         />
                     </div>
                 </DataGridStyle>
-
             </>
-
         )
     };
-
 }
 
 export default TransactionLists
