@@ -3,7 +3,7 @@ import { AppDispatch, RootState } from "../app/store";
 import Spinner from "../components/Spinner";
 import { DataGridStyle, StripedDataGrid } from "./TransactionList.style";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { getSalesList, initialState, SalesListType, SalesType } from "../features/sales/salesSlice";
 import { GridColDef, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
 import { Autocomplete, TextField } from "@mui/material";
@@ -43,6 +43,8 @@ const FoldsList = () => {
     /** Gets all the sales list from sales state */
     const { isLoading, salesList, isSuccess } = useSelector((state: RootState) => state.sales)
 
+    const [userValue, setUserValue] = useState<string | null>('');
+
     const dispatch = useDispatch<AppDispatch>()
 
     /** Get the Total Folds computation function */
@@ -58,14 +60,13 @@ const FoldsList = () => {
     useMemo(() => dispatch(getAllUsers()), [dispatch])
     useMemo(() => dispatch(getSalesList()), [dispatch])
 
-    const getMyFoldsList = async (userId: any, startDate: string, endDate: string, isAdmin: boolean) => {
+    /** useCallback to prevent re-rendering and is used outside of useEffect */
+    const getMyFoldsList = useCallback(async (userId: any, startDate: string, endDate: string, isAdmin: boolean) => {
 
         let myFoldsList = []
 
         /** Filter sales list based on user id and if user is not admin*/
         if (!isAdmin) {
-            // const allSalesList =   await (await dispatch(getSalesList())).payload
-            // mySalesList = allSalesList.filter((sales: SalesType) => sales.userId._id === user) as SalesListType[]
             myFoldsList = salesList.filter((sales: SalesType) => sales.userId._id === userId) as SalesListType[]
         } else {
             /** If no user was entered in ther filter box, all sales will be displayed */
@@ -90,9 +91,10 @@ const FoldsList = () => {
         /** Get total folds share computation */
         const totalFolds = getTotalFolds(filterWithFoldsOnly)
         setTotalFoldsNum(totalFolds)
-    }
+    }, [salesList, userValue])
 
-    const { dateValue, onChange, setUserValue, userValue } = useDatagrid(getMyFoldsList, user)
+    /** Custom hook to set the user and current date after mounting the datagrid component */
+    const { dateValue, onChange } = useDatagrid(getMyFoldsList, user)
 
     const CustomToolbar = () => {
         return (

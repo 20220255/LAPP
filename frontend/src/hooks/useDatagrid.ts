@@ -6,7 +6,6 @@ const useDatagrid = ( getList: any, user: any) => {
     type ValuePiece = Date | null | string;
     type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-    const [userValue, setUserValue] = useState<string | null>('');
     const [dateValue, onChange] = useState<Value>([new Date(), new Date()]);
 
     useEffect(() => {
@@ -37,11 +36,10 @@ const useDatagrid = ( getList: any, user: any) => {
             }
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dateValue, userValue])
+    }, [dateValue, getList, user._id, user.isAdmin])
 
 
-    return { dateValue, onChange, userValue, setUserValue }
+    return { dateValue, onChange }
 };
 
 export default useDatagrid;

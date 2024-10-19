@@ -2,7 +2,7 @@ import { GridColDef, GridEventListener, GridToolbarColumnsButton, GridToolbarCon
 import { DataGridStyle, StripedDataGridExpense } from './TransactionList.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { SalesType } from '../features/sales/salesSlice';
 import Spinner from '../components/Spinner';
 import { useNavigate } from 'react-router-dom';
@@ -48,7 +48,9 @@ const ExpenseLists = () => {
     const [totalAmountList, setTotalAmountList] = useState() as [number, (p: number) => void]
     const [myExpenseList, setMyExpenseList] = useState(initialExpenseState.expenseList) as [ExpenseType[], (p: object) => void]
 
-        /** Get the Total Sales computation function */
+    const [userValue, setUserValue] = useState<string | null>('');
+
+    /** Get the Total Sales computation function */
     const getTotalExepense = (expenseList: ExpenseType[]): number => {
         return expenseList.reduce((accumulator, currentValue) => accumulator + currentValue.amount, 0)
     }
@@ -61,7 +63,8 @@ const ExpenseLists = () => {
     useMemo(() => dispatch(getExpenseList()), [dispatch])
 
     /** Get sales transaction based on user id that's logged in and date filtered from the date picker  as well filter users from Autocomplete component*/
-    const getMyExpenseList = async (user: any, startDate: string, endDate: string, isAdmin: boolean) => {
+    /** useCallback to prevent re-rendering and is used outside of useEffect */
+    const getMyExpenseList = useCallback(async (user: any, startDate: string, endDate: string, isAdmin: boolean) => {
         let myExpenseList = []
 
         /** Filter sales list based on user id and if user is not admin*/
@@ -89,10 +92,10 @@ const ExpenseLists = () => {
         /** Get total sales computation */
         const totalExpense = getTotalExepense(myFilteredDateExepenseList)
         setTotalAmountList(totalExpense)
-    }
+    }, [expenseList, userValue])
 
-    /** Retrieves expense list onto the custom hook useDatagrid, using useEffect */
-    const {dateValue, onChange, setUserValue, userValue} = useDatagrid(getMyExpenseList, user)
+    /** Custom hook to set the user and current date after mounting the datagrid component */
+    const { dateValue, onChange } = useDatagrid(getMyExpenseList, user)
 
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         const { _id } = params.row

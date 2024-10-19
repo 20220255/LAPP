@@ -18,30 +18,7 @@ import { IoMdSend } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { deductSupply, getAllSupplies } from '../features/supplies/supplySlice';
-
-type ProductType = {
-    id: number;
-    name: string;
-    price: number;
-    type: string;
-}
-
-function filterItems(arr: ProductType[], query: string): ProductType[] {
-    return arr.filter((el) => el.type === query);
-}
-
-const field = [
-    'id',
-    'name',
-    'price',
-    'type'
-] as const
-type Field = typeof field[number];
-
-const filterItem = (arr: ProductType[], query: string, field1: Field, count?: number): number => {
-    const record = arr.filter((el: ProductType) => el[field1] === query);
-    return record[0]['price']
-}
+import { filterItem, filterItems, ProductType } from '../utils/filterItems';
 
 export default function SalesAccordion() {
 
