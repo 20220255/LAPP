@@ -91,8 +91,8 @@ const ExpenseLists = () => {
         setTotalAmountList(totalExpense)
     }
 
-    /** Retrieves expense list onto tje custom hook useDatagrid, using useEffect */
-    const {dateValue, onChange, setUserValue, userValue} = useDatagrid(expenseList, getMyExpenseList, user)
+    /** Retrieves expense list onto the custom hook useDatagrid, using useEffect */
+    const {dateValue, onChange, setUserValue, userValue} = useDatagrid(getMyExpenseList, user)
 
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         const { _id } = params.row

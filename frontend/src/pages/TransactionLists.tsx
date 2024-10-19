@@ -117,7 +117,7 @@ const TransactionLists = () => {
     }
 
     /** Custom hook to retrieve data onto the Datagrid using useEffect */
-    const { dateValue, onChange, setUserValue, userValue } = useDatagrid(salesList, getMySalesList, user)
+    const { dateValue, onChange, setUserValue, userValue } = useDatagrid(getMySalesList, user)
 
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         const { _id } = params.row

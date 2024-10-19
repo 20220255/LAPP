@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
-const useDatagrid = (list: any, getList: any, user: any) => {
+const useDatagrid = ( getList: any, user: any) => {
 
     type ValuePiece = Date | null | string;
     type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -38,7 +38,7 @@ const useDatagrid = (list: any, getList: any, user: any) => {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dateValue, userValue, list])
+    }, [dateValue, userValue])
 
 
     return { dateValue, onChange, userValue, setUserValue }

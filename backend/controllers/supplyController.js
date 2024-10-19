@@ -3,17 +3,6 @@ const Supply = require("../models/supplyModel");
 const { addHours } = require("./utilControllers/addHours");
 require("mongoose");
 
-// /** Get the last document of the Cash Fund */
-// const getLastCF = asyncHandler(async (req, res) => {
-//   try {
-//     const lastDocCF = await CashFund.findOne().sort({ createdAt: -1 }).limit(1);
-//     res.status(200).json(lastDocCF);
-//   } catch (error) {
-//     res.status(400);
-//     throw new Error(error.message);
-//   }
-// });
-
 /** Add supplies */
 const addSupplies = asyncHandler(async (req, res) => {
   try {

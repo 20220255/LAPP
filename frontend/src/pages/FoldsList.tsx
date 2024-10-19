@@ -92,7 +92,7 @@ const FoldsList = () => {
         setTotalFoldsNum(totalFolds)
     }
 
-    const { dateValue, onChange, setUserValue, userValue } = useDatagrid(salesList, getMyFoldsList, user)
+    const { dateValue, onChange, setUserValue, userValue } = useDatagrid(getMyFoldsList, user)
 
     const CustomToolbar = () => {
         return (
