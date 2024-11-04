@@ -3,41 +3,8 @@ import salesService from "./salesService";
 import { toast } from "react-toastify";
 
 export type SalesType = {
-    _id?: string | undefined | '',
-    firstName: string | undefined,
-    lastName?: string,
-    w1: boolean | undefined;
-    w2: boolean | undefined;
-    w3: boolean | undefined;
-    w4: boolean | undefined;
-    w5: boolean | undefined;
-    d1: boolean | undefined;
-    d2: boolean | undefined;
-    d3: boolean | undefined;
-    d4: boolean | undefined;
-    d5: boolean | undefined;
-    detergent: {
-        name: string | undefined;
-        count: number | 0;
-    };
-    fabCon: {
-        name: string | undefined;
-        count: number | 0;
-    }
-    extraDry: number | 0;
-    folds: number | 0;
-    foldsShare?: number | 0;
-    spinDry: number | 0;
-    totalSales: number | undefined | null;
-    userId: {
-        _id: string;
-        firstName: string;
-    };
-    comment: string;
-}    
-export type SalesListType = {
-    _id?: string;
-    firstName: string;
+    _id?: string,
+    firstName: string,
     lastName?: string,
     w1: boolean;
     w2: boolean;
@@ -70,22 +37,58 @@ export type SalesListType = {
     dateEntered?: string;
     comment: string;
 }    
+// export type SalesListType = {
+//     _id?: string;
+//     firstName: string;
+//     lastName?: string,
+//     w1: boolean;
+//     w2: boolean;
+//     w3: boolean;
+//     w4: boolean;
+//     w5: boolean;
+//     d1: boolean;
+//     d2: boolean;
+//     d3: boolean;
+//     d4: boolean;
+//     d5: boolean;
+//     detergent: {
+//         name: string;
+//         count: number;
+//     };
+//     fabCon: {
+//         name: string;
+//         count: number;
+//     }
+//     extraDry: number;
+//     folds: number;
+//     foldsShare: number;
+//     spinDry: number;
+//     totalSales: number;
+//     userId: {
+//         _id: string;
+//         firstName: string;
+//     };
+//     createdAt?: string;
+//     dateEntered?: string;
+//     comment: string;
+// }    
 
 export type SalesSliceType = {
     sales: SalesType;
     isError: boolean;
     isSuccess: boolean;
     isLoading: boolean;
-    message: string
+    message: string;
+    salesList: SalesType[]
 } 
 
-export type SalesListSliceType = {
-    salesList: SalesType[];
-    isError: boolean;
-    isSuccess: boolean;
-    isLoading: boolean;
-    message: string
-} 
+// export type SalesListSliceType = {
+//     salesList: SalesType[];
+//     isError: boolean;
+//     isSuccess: boolean;
+//     isLoading: boolean;
+//     message: string
+// } 
 
 
 
@@ -93,7 +96,7 @@ export const initialState = {
     salesList: [{
         _id: '',
         firstName: '',
-        lastName: '' || undefined,
+        lastName: '',
         w1: false,
         w2: false,
         w3: false,
@@ -123,7 +126,7 @@ export const initialState = {
         createdAt: '',
         dateEntered: '',
         comment: '',
-    }] as SalesListType[],
+    }] as SalesType[],
     sales: {} as SalesType,
     isError: false,
     isSuccess: false,
@@ -132,7 +135,7 @@ export const initialState = {
 }
 
 // Sales input
-export const inputSales = createAsyncThunk('sales/inputSales', async(sales: SalesListType, thunkAPI )  => {
+export const inputSales = createAsyncThunk('sales/inputSales', async(sales: SalesType, thunkAPI )  => {
     try {
         const user = await JSON.parse(localStorage.getItem('user') || '{}')
         sales.userId = user._id
@@ -184,7 +187,7 @@ export const salesSlice = createSlice({
     name: 'sales',
     initialState,
     reducers: {
-        resetSales: (state) => {
+        resetSales: (state: SalesSliceType) => {
             state.isError = false
             state.isLoading = false
             state.isSuccess = false

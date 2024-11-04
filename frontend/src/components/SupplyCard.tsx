@@ -13,23 +13,24 @@ import { useDispatch } from "react-redux";
 function SupplyCard({ supply }: { supply: SupplyType }) {
 
     const dispatch = useDispatch<AppDispatch>()
-    
+
     /** Gets the latet doc record from supply item */
-    const { supplyName, count, image } = supply
+    const { supplyName, count, image, customerName } = supply
 
 
     const [formData, setFormData] = useState({
         supplyName,
         formCount: 0,
         formComment: '',
+        formCustomerName: ''
     })
 
     /** Sets the card count */
     const [countCard, setCountCard] = useState(count)
 
     /** Sets the form data */
-    const { formCount, formComment } = formData
-    
+    const { formCount, formComment, formCustomerName } = formData
+
     /** Dialog */
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -43,21 +44,21 @@ function SupplyCard({ supply }: { supply: SupplyType }) {
 
     const onSubmit = async () => {
         let supplyCountTotal = 0
-        
+
         /** Added + to convert string to number */
         supplyCountTotal = +count + +formCount
-        
+
         /** Sets supply count total */
         setCountCard(supplyCountTotal)
 
         /** Input supplies into database */
-        await dispatch(addSupply({ ...supply, count: supplyCountTotal, comment: formComment, countAdded: formCount, }))
-        
+        await dispatch(addSupply({ ...supply, count: supplyCountTotal, comment: formComment, countAdded: formCount, customerName: formCustomerName }))
+
         /** Gets all the supplies */
         await dispatch(getAllSupplies())
-        
+
         /** Clears the form */
-        setFormData({ ...formData, formCount: 0, formComment: '' })
+        setFormData({ ...formData, formCount: 0, formComment: '', formCustomerName: '' })
 
         /** Closes the dialog */
         handleClose()
@@ -113,16 +114,6 @@ function SupplyCard({ supply }: { supply: SupplyType }) {
                                         <section className="form">
                                             <form onSubmit={onSubmit}>
                                                 <div className="form-group">
-                                                    {/* <Input
-                                                        type="text"
-                                                        required
-                                                        // className="form-control"
-                                                        id="formCount"
-                                                        value={formCount}
-                                                        name="formCount"
-                                                        onChange={onChange}
-                                                        placeholder="Count"
-                                                    /> */}
                                                     <Box sx={{ mb: '1rem' }}>
                                                         <TextField
                                                             type='number'
@@ -137,9 +128,21 @@ function SupplyCard({ supply }: { supply: SupplyType }) {
                                                 </div>
                                                 <div className="form-group">
                                                     <Box sx={{ mb: '1rem' }}>
+                                                        <TextField
+                                                            type='text'
+                                                            id="formCustomerName"
+                                                            label="Add Customer Name"
+                                                            value={formCustomerName}
+                                                            name='formCustomerName'
+                                                            onChange={onChange}
+                                                            sx={{ width: '9rem', }}
+                                                        />
+                                                    </Box>
+                                                </div>
+                                                <div className="form-group">
+                                                    <Box sx={{ mb: '1rem' }}>
                                                         <Textarea
                                                             required
-                                                            // className="form-control"
                                                             id="formComment"
                                                             value={formComment}
                                                             name="formComment"

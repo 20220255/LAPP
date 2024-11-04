@@ -181,7 +181,7 @@ export default function SalesAccordion() {
 
         /** Retrieves all supplies */
         dispatch(getAllSupplies())
-        
+
     }, [d1, d2, d3, d4, d5, detergent.count, detergent.name, dispatch, extraDry, fabCon.count, fabCon.name, folds, formData, spinDry, w1, w2, w3, w4, w5])
 
 
@@ -192,12 +192,13 @@ export default function SalesAccordion() {
         };
 
     // Form    
-    const onChange = (e: ChangeEvent<any>) => {
-        const { type, name, checked, value } = e.target
+    const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, checked?: boolean) => {
+        const { type, name, value } = e.target
         setFormData((prevState) => {
             return { ...prevState, [name]: type === 'checkbox' ? checked : name === 'firstName' || name === 'lastName' || 'comment' ? value : parseInt(value) }
         })
     }
+
 
     const onChangeProdDetName = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -234,7 +235,7 @@ export default function SalesAccordion() {
     useSelector((state: RootState) => state.sales)
 
     /** Get the supply list from the redux state */
-    const { supplyList } =  useSelector((state: RootState) => state.supply)
+    const { supplyList } = useSelector((state: RootState) => state.supply)
 
     const onSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
@@ -277,6 +278,10 @@ export default function SalesAccordion() {
         setFormData(initializeData)
     }
 
+    // TODO: Add field for Delivery
+    // TODO: Add field for Late Pick up
+    // TODO: Add field for Late Payment
+    // TODO: Create a list for not paid customer
     return (
         <div >
             <h2 style={{ color: 'green' }}> &#8369; {totalSales}.00 </h2>

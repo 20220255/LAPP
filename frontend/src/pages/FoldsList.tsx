@@ -4,7 +4,7 @@ import Spinner from "../components/Spinner";
 import { DataGridStyle, StripedDataGrid } from "./TransactionList.style";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import { useCallback, useMemo, useState } from "react";
-import { getSalesList, initialState, SalesListType, SalesType } from "../features/sales/salesSlice";
+import { getSalesList, initialState, SalesType } from "../features/sales/salesSlice";
 import { GridColDef, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
 import { Autocomplete, TextField } from "@mui/material";
 import { getAllUsers } from "../features/users/userSlice";
@@ -29,7 +29,7 @@ const columnsAdmin: GridColDef[] = [
 
 const FoldsList = () => {
 
-    const [mySalesList, setMySalesList] = useState(initialState.salesList) as [SalesListType[], (p: object) => void]
+    const [mySalesList, setMySalesList] = useState(initialState.salesList) as [SalesType[], (p: object) => void]
     const [totalFoldsNum, setTotalFoldsNum] = useState() as [number, (p: number) => void]
 
     // const [userValue, setUserValue] = useState<string | null>('');
@@ -48,7 +48,7 @@ const FoldsList = () => {
     const dispatch = useDispatch<AppDispatch>()
 
     /** Get the Total Folds computation function */
-    const getTotalFolds = (salesList: SalesListType[]): number => {
+    const getTotalFolds = (salesList: SalesType[]): number => {
         return salesList.reduce((accumulator, currentValue) => accumulator + currentValue.foldsShare, 0)
     }
 
@@ -67,7 +67,7 @@ const FoldsList = () => {
 
         /** Filter sales list based on user id and if user is not admin*/
         if (!isAdmin) {
-            myFoldsList = salesList.filter((sales: SalesType) => sales.userId._id === userId) as SalesListType[]
+            myFoldsList = salesList.filter((sales: SalesType) => sales.userId._id === userId) as SalesType[]
         } else {
             /** If no user was entered in ther filter box, all sales will be displayed */
             if (!userValue || userValue === '') {
@@ -79,12 +79,12 @@ const FoldsList = () => {
 
         /** Filter sales based on the start and end date entered on the date picker */
         /** Parse date value into string as is in UTC format and convert it into locale date */
-        const myFilteredFoldsSalesList = myFoldsList.filter((sales: SalesListType) => {
+        const myFilteredFoldsSalesList = myFoldsList.filter((sales: SalesType) => {
             return new Date(sales.dateEntered!) > new Date(startDate) && new Date(sales.dateEntered!) < new Date(endDate)
         })
 
         /** Filter sales that has folds only */
-        const filterWithFoldsOnly = myFilteredFoldsSalesList.filter((sales: SalesListType) => sales.folds > 0)
+        const filterWithFoldsOnly = myFilteredFoldsSalesList.filter((sales: SalesType) => sales.folds > 0)
 
         setMySalesList(filterWithFoldsOnly)
 

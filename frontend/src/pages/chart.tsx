@@ -6,6 +6,9 @@ import { useEffect } from 'react';
 import { getSalesList } from '../features/sales/salesSlice';
 import Spinner from '../components/Spinner';
 
+// TODO: Add pie chart for Exepnse
+// TODO: Filter month and year for chart
+// TODO: Add pie chart for delivery vs non-delivery
 export default function BasicBars() {
 
     const { isLoading, salesList } = useSelector((state: RootState) => state.sales)
