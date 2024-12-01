@@ -66,10 +66,12 @@ export default function SalesAccordion() {
     const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, totalSales, comment } = formData
 
     const [detergentProducts, setDetergentProducts] = useState<ProductType[]>(products)
+
     const [fabconProducts, setFabconProducts] = useState<ProductType[]>(products)
 
     const [foldsSharePrice, setFoldsSharePrice] = useState(0)
 
+    // TODO: Create a hook to get the total sales for Sales and Maintenance
     useEffect(() => {
         // filter all detergent products from product.json from mounting
         const detergentProducts = filterItems(products, "detergent")
@@ -282,6 +284,7 @@ export default function SalesAccordion() {
     // TODO: Add field for Late Pick up
     // TODO: Add field for Late Payment
     // TODO: Create a list for not paid customer
+    // TOTO: Add comma for the numbers. Use the function in udemy store Addcommas
     return (
         <div >
             <h2 style={{ color: 'green' }}> &#8369; {totalSales}.00 </h2>

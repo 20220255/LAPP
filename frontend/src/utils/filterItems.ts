@@ -22,5 +22,3 @@ export const filterItem = (arr: ProductType[], query: string, field1: Field, cou
     const record = arr.filter((el: ProductType) => el[field1] === query);
     return record[0]['price']
 }
-
-// export default filterItems

@@ -10,7 +10,6 @@ const Home = () => {
                 <Title>Suds</Title>
                 <Paragraph>Your Laudromat Sales Application</Paragraph>
                 <Image src={LassapImage} alt="Lasapp" />
-
             </section>
         </>
     )
