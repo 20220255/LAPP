@@ -44,28 +44,28 @@
   {
     "id": 7,
     "name": "Small Downy Fabcon",
-    "price": 10.0,
+    "price": 12.0,
     "type": "fabcon",
     "image": "downy-small-fabcon.jpeg"
   },
   {
     "id": 8,
     "name": "Big Downy Fabcon",
-    "price": 12.0,
+    "price": 15.0,
     "type": "fabcon",
     "image": "downy-big-fabcon.jpeg"
   },
   {
     "id": 9,
     "name": "Small Surf Fabcon",
-    "price": 10.0,
+    "price": 12.0,
     "type": "fabcon",
     "image": "surf-small-fabcon.jpeg"
   },
   {
     "id": 10,
     "name": "Big Surf Fabcon",
-    "price": 12.0,
+    "price": 15.0,
     "type": "fabcon",
     "image": "surf-big-fabcon.jpeg"
   },
