@@ -63,6 +63,7 @@ const updateSales = asyncHandler(async (req, res) => {
       folds,
       foldsShare,
       spinDry,
+      otherSales,
       totalSales,
       comment,
     } = req.body;
@@ -90,6 +91,7 @@ const updateSales = asyncHandler(async (req, res) => {
         folds,
         foldsShare,
         spinDry,
+        otherSales,
         totalSales,
         comment,
       },

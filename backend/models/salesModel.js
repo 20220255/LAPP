@@ -56,6 +56,7 @@ const salesSchema = new mongoose.Schema(
     folds: Number,
     foldsShare: Number,
     spinDry: Number,
+    otherSales: Number,
     totalSales: Number,
     userId: {
       type: mongoose.Schema.Types.ObjectId,

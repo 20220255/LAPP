@@ -77,6 +77,7 @@ export const SalesAccordionsMaintenance = ({ salesId }: { salesId: string | unde
         folds: salesRecord?.folds ?? 0,
         foldsShare: salesRecord?.foldsShare ?? 0,
         spinDry: salesRecord?.spinDry ?? 0,
+        otherSales: salesRecord?.otherSales ?? 0,
         totalSales: 0,
         userId: {
             _id: salesRecord?._id ?? '',
@@ -88,7 +89,7 @@ export const SalesAccordionsMaintenance = ({ salesId }: { salesId: string | unde
 
     const [formData, setFormData] = useState<SalesType>(initializeData)
 
-    const { _id, firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, totalSales, comment } = formData
+    const { _id, firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, otherSales, totalSales, comment } = formData
 
     const [detergentProducts, setDetergentProducts] = useState<ProductType[]>(products)
     const [fabconProducts, setFabconProducts] = useState<ProductType[]>(products)
@@ -191,13 +192,16 @@ export const SalesAccordionsMaintenance = ({ salesId }: { salesId: string | unde
                     break;
             }
 
+            // Other Sales
+            const otherSalesPrice = otherSales * 1
+
             data.totalSales = w1Price + w2Price + w3Price + w4Price + w5Price +
-                d1Price + d2Price + d3Price + d4Price + d5Price + detergentPrice + FabconPrice + extraDryPriceSales + foldsPriceSales + spinDryPriceSales
+                d1Price + d2Price + d3Price + d4Price + d5Price + detergentPrice + FabconPrice + extraDryPriceSales + foldsPriceSales + otherSalesPrice + spinDryPriceSales
             setFormData(data)
         }
 
         getTotalSales(formData)
-    }, [d1, d2, d3, d4, d5, detergent.count, detergent.name, extraDry, fabCon.count, fabCon.name, folds, formData, spinDry, w1, w2, w3, w4, w5])
+    }, [d1, d2, d3, d4, d5, detergent.count, detergent.name, extraDry, fabCon.count, fabCon.name, folds, formData, otherSales, spinDry, w1, w2, w3, w4, w5])
 
 
     // Accordion
@@ -573,13 +577,25 @@ export const SalesAccordionsMaintenance = ({ salesId }: { salesId: string | unde
                                 />
                             </Box>
 
-                            <Box>
+                            <Box sx={{ mb: '1rem' }}>
                                 <TextField
                                     type='number'
                                     id="spinDry"
                                     label="Spin Dry Count"
                                     value={spinDry}
                                     name='spinDry'
+                                    onChange={onChange}
+                                    sx={{ width: '12rem' }}
+                                />
+                            </Box>
+
+                            <Box>
+                                <TextField
+                                    type='number'
+                                    id="otherSales"
+                                    label="Other Sales"
+                                    value={otherSales * 1}
+                                    name='otherSales'
                                     onChange={onChange}
                                     sx={{ width: '12rem' }}
                                 />

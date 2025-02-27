@@ -28,6 +28,7 @@ export type SalesType = {
     folds: number;
     foldsShare: number;
     spinDry: number;
+    otherSales: number;
     totalSales: number;
     userId: {
         _id: string;
@@ -37,41 +38,6 @@ export type SalesType = {
     dateEntered?: string;
     comment: string;
 }    
-// export type SalesListType = {
-//     _id?: string;
-//     firstName: string;
-//     lastName?: string,
-//     w1: boolean;
-//     w2: boolean;
-//     w3: boolean;
-//     w4: boolean;
-//     w5: boolean;
-//     d1: boolean;
-//     d2: boolean;
-//     d3: boolean;
-//     d4: boolean;
-//     d5: boolean;
-//     detergent: {
-//         name: string;
-//         count: number;
-//     };
-//     fabCon: {
-//         name: string;
-//         count: number;
-//     }
-//     extraDry: number;
-//     folds: number;
-//     foldsShare: number;
-//     spinDry: number;
-//     totalSales: number;
-//     userId: {
-//         _id: string;
-//         firstName: string;
-//     };
-//     createdAt?: string;
-//     dateEntered?: string;
-//     comment: string;
-// }    
 
 export type SalesSliceType = {
     sales: SalesType;
@@ -81,15 +47,6 @@ export type SalesSliceType = {
     message: string;
     salesList: SalesType[]
 } 
-
-// export type SalesListSliceType = {
-//     salesList: SalesType[];
-//     isError: boolean;
-//     isSuccess: boolean;
-//     isLoading: boolean;
-//     message: string
-// } 
-
 
 
 export const initialState = {
@@ -118,6 +75,7 @@ export const initialState = {
         extraDry: 0,
         folds: 0,
         spinDry: 0,
+        otherSales: 0,
         totalSales: 0,
         userId: {
             _id: '',

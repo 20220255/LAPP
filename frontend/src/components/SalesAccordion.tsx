@@ -51,6 +51,7 @@ export default function SalesAccordion() {
         folds: 0,
         foldsShare: 0,
         spinDry: 0,
+        otherSales: 0,
         totalSales: 0,
         userId: {
             _id: '',
@@ -63,7 +64,7 @@ export default function SalesAccordion() {
 
     const [formData, setFormData] = useState(initializeData)
 
-    const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, totalSales, comment } = formData
+    const { firstName, lastName, w1, w2, w3, w4, w5, d1, d2, d3, d4, d5, detergent, fabCon, extraDry, folds, spinDry, otherSales, totalSales, comment } = formData
 
     const [detergentProducts, setDetergentProducts] = useState<ProductType[]>(products)
 
@@ -174,17 +175,20 @@ export default function SalesAccordion() {
                     break;
             }
 
+            // Other Sales
+            const otherSalesPrice = otherSales * 1
+
             data.totalSales = w1Price + w2Price + w3Price + w4Price + w5Price +
-                d1Price + d2Price + d3Price + d4Price + d5Price + detergentPrice + FabconPrice + extraDryPriceSales + foldsPriceSales + spinDryPriceSales
+                d1Price + d2Price + d3Price + d4Price + d5Price + detergentPrice + FabconPrice + extraDryPriceSales + foldsPriceSales + spinDryPriceSales + otherSalesPrice
             setFormData(data)
-        }
+        } 
 
         getTotalSales(formData)
 
         /** Retrieves all supplies */
         dispatch(getAllSupplies())
 
-    }, [d1, d2, d3, d4, d5, detergent.count, detergent.name, dispatch, extraDry, fabCon.count, fabCon.name, folds, formData, spinDry, w1, w2, w3, w4, w5])
+    }, [d1, d2, d3, d4, d5, detergent.count, detergent.name, dispatch, extraDry, fabCon.count, fabCon.name, folds, formData, spinDry, w1, w2, w3, w4, w5, otherSales])
 
 
     // Accordion
@@ -561,13 +565,25 @@ export default function SalesAccordion() {
                                 />
                             </Box>
 
-                            <Box>
+                            <Box sx={{ mb: '1rem' }}>
                                 <TextField
                                     type='number'
                                     id="spinDry"
                                     label="Spin Dry Count"
                                     value={spinDry}
                                     name='spinDry'
+                                    onChange={onChange}
+                                    sx={{ width: '12rem' }}
+                                />
+                            </Box>
+
+                            <Box>
+                                <TextField
+                                    type='number'
+                                    id="otherSales"
+                                    label="Other Sales"
+                                    value={otherSales * 1}
+                                    name='otherSales'
                                     onChange={onChange}
                                     sx={{ width: '12rem' }}
                                 />
